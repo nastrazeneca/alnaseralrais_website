@@ -4,11 +4,9 @@ const Navigation = () => {
   const location = useLocation();
   
   const links = [
-    { path: "/cv", label: "CV" },
-    { path: "/blog", label: "Blog" },
-    { path: "/publications", label: "Publications" },
-    { path: "/github", label: "Github" },
-  ];
+  { path: "/cv", label: "CV" },
+  { path: "/blog", label: "Blog" },
+];
 
   return (
     <nav className="w-full py-8">
