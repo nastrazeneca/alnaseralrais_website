@@ -23,7 +23,7 @@ const Index = () => {
                 University of Cambridge
               </a>
               , taking biochemistry, pharmacology and computational biology. I'm also a research assistant in the{" "}
-              <a href="https://www.ch.cam.ac.uk/group/knowles" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">
+              <a href="https://www-knowles.ch.cam.ac.uk/" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">
                 Knowles Lab
               </a>
               , where I'm supporting platform-validation for a drug delivery startup in stealth.
@@ -31,7 +31,7 @@ const Index = () => {
 
             <p className="text-base text-muted-foreground leading-relaxed">
               I have research experience at the{" "}
-              <a href="https://lu.hms.harvard.edu/" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">
+              <a href="https://www.yinglu.hms.harvard.edu/" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">
                 Lu Lab, Harvard Medical School
               </a>
               , where we developed a genetically encoded model system to study the toxicity and clearance of protein aggregates.
