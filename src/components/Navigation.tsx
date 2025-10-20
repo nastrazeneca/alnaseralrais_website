@@ -41,18 +41,3 @@ const Navigation = () => {
             <li>
               
                 href="https://linkedin.com/in/alnaseralrais"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-accent transition-colors"
-              >
-                <Linkedin size={20} />
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-  );
-};
-
-export default Navigation;
