@@ -44,9 +44,13 @@ const Navigation = () => {
                 href="https://linkedin.com/in/alnaseralrais"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="transition-opacity hover:opacity-70"
+                className="block transition-all"
               >
-                <img src={linkedinIcon} alt="LinkedIn" className="w-5 h-5" />
+                <img 
+                  src={linkedinIcon} 
+                  alt="LinkedIn" 
+                  className="w-5 h-5 opacity-60 grayscale hover:opacity-100 hover:grayscale-0 transition-all" 
+                />
               </a>
             </li>
           </ul>
