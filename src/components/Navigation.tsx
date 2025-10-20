@@ -49,7 +49,7 @@ const Navigation = () => {
                 <img 
                   src={linkedinIcon} 
                   alt="LinkedIn" 
-                  className="w-5 h-5 opacity-60 grayscale hover:opacity-100 hover:grayscale-0 transition-all" 
+                  className="w-5 h-5 brightness-0 invert opacity-70 hover:brightness-100 hover:invert-0 hover:opacity-100 transition-all"
                 />
               </a>
             </li>
