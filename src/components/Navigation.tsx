@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { Home } from "lucide-react";
-import linkedinIcon from "./linkedin-icon.png"; // Adjust path to where the file is
+import linkedinIcon from "../assets/linkedin-icon.png";
 
 const Navigation = () => {
   const location = useLocation();
@@ -49,7 +49,7 @@ const Navigation = () => {
                 <img 
                   src={linkedinIcon} 
                   alt="LinkedIn" 
-                  className="w-5 h-5 opacity-60 hover:opacity-100"
+                  className="w-5 h-5 opacity-60 hover:opacity-100 transition-opacity"
                 />
               </a>
             </li>
