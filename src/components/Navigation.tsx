@@ -15,14 +15,13 @@ const Navigation = () => {
         <div className="flex justify-between items-center">
           <Link
             to="/"
-            className={`flex items-center gap-2 text-lg transition-colors hover:text-accent ${
+            className={`text-lg transition-colors hover:text-accent ${
               location.pathname === "/"
                 ? "text-accent"
                 : "text-muted-foreground"
             }`}
           >
             <Home size={20} />
-            Home
           </Link>
           <ul className="flex gap-12">
             {links.map((link) => (
