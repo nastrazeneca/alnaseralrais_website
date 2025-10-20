@@ -1,5 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
-import { Home, Linkedin } from "lucide-react";
+import { Home } from "lucide-react";
+import linkedinIcon from "./linkedin-icon.png"; // Adjust path to where the file is
 
 const Navigation = () => {
   const location = useLocation();
@@ -39,13 +40,17 @@ const Navigation = () => {
               </li>
             ))}
             <li>
-              <a
+              
                 href="https://linkedin.com/in/alnaseralrais"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-muted-foreground transition-colors hover:text-accent"
+                className="inline-block"
               >
-                <Linkedin size={20} strokeWidth={1.5} />
+                <img 
+                  src={linkedinIcon} 
+                  alt="LinkedIn" 
+                  className="w-5 h-5 opacity-60 hover:opacity-100"
+                />
               </a>
             </li>
           </ul>
