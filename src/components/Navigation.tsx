@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { Home } from "lucide-react";
+import { Home, Linkedin } from "lucide-react";
 
 const Navigation = () => {
   const location = useLocation();
@@ -23,7 +23,7 @@ const Navigation = () => {
           >
             <Home size={20} />
           </Link>
-          <ul className="flex gap-12">
+          <ul className="flex gap-12 items-center">
             {links.map((link) => (
               <li key={link.path}>
                 <Link
@@ -38,6 +38,16 @@ const Navigation = () => {
                 </Link>
               </li>
             ))}
+            <li>
+              <a
+                href="https://linkedin.com/in/alnaseralrais"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-muted-foreground transition-colors hover:text-accent"
+              >
+                <Linkedin size={20} />
+              </a>
+            </li>
           </ul>
         </div>
       </div>
