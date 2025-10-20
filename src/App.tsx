@@ -12,19 +12,22 @@ import NotFound from "./pages/NotFound";
 const queryClient = new QueryClient();
 
 const NavigationHandler = ({ children }: { children: React.ReactNode }) => {
-  const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
-    const handlePopState = () => {
-      if (location.pathname !== "/") {
-        navigate("/", { replace: true });
-      }
-    };
-
-    window.addEventListener("popstate", handlePopState);
-    return () => window.removeEventListener("popstate", handlePopState);
-  }, [navigate, location.pathname]);
+    // When not on home page, push home state to ensure back button goes there
+    if (location.pathname !== "/") {
+      window.history.pushState(null, "", window.location.href);
+      
+      const handlePopState = (e: PopStateEvent) => {
+        e.preventDefault();
+        window.location.href = "/";
+      };
+      
+      window.addEventListener("popstate", handlePopState);
+      return () => window.removeEventListener("popstate", handlePopState);
+    }
+  }, [location.pathname]);
 
   return <>{children}</>;
 };
