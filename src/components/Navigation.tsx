@@ -44,12 +44,12 @@ const Navigation = () => {
                 href="https://linkedin.com/in/alnaseralrais"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block transition-all"
+                className="block transition-all hover:opacity-100"
               >
                 <img 
                   src={linkedinIcon} 
                   alt="LinkedIn" 
-                  className="w-5 h-5 brightness-0 invert opacity-70 hover:brightness-100 hover:invert-0 hover:opacity-100 transition-all"
+                  className="w-5 h-5 brightness-0 invert opacity-70 hover:brightness-[0.6] hover:sepia hover:saturate-[3] hover:hue-rotate-[10deg] transition-all"
                 />
               </a>
             </li>
