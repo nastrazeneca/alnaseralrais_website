@@ -11,22 +11,34 @@ const Navigation = () => {
   return (
     <nav className="w-full py-8">
       <div className="max-w-4xl mx-auto px-6">
-        <ul className="flex justify-center gap-12">
-          {links.map((link) => (
-            <li key={link.path}>
-              <Link
-                to={link.path}
-                className={`text-lg transition-colors hover:text-accent ${
-                  location.pathname === link.path
-                    ? "text-accent"
-                    : "text-muted-foreground"
-                }`}
-              >
-                {link.label}
-              </Link>
-            </li>
-          ))}
-        </ul>
+        <div className="flex justify-between items-center">
+          <Link
+            to="/"
+            className={`text-lg transition-colors hover:text-accent ${
+              location.pathname === "/"
+                ? "text-accent"
+                : "text-muted-foreground"
+            }`}
+          >
+            Home
+          </Link>
+          <ul className="flex gap-12">
+            {links.map((link) => (
+              <li key={link.path}>
+                <Link
+                  to={link.path}
+                  className={`text-lg transition-colors hover:text-accent ${
+                    location.pathname === link.path
+                      ? "text-accent"
+                      : "text-muted-foreground"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </nav>
   );
