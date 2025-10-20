@@ -18,48 +18,23 @@ const Index = () => {
             <p className="text-base text-muted-foreground leading-relaxed">I am interested in the molecular biology of neurodegenerative diseases and aging via protein quality control pathways!</p>
 
             <p className="text-base text-muted-foreground leading-relaxed">
-              Currently, I'm a PhD student in{" "}
-              <a href="http://csbi.mit.edu/" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">
-                Computational Systems Biology
-              </a>{" "}
-              at MIT advised by{" "}
-              <a href="https://heiman.mit.edu/" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">
-                Myriam Heiman
+              Currently, I'm an undergrad at the{" "}
+              <a href="https://www.cam.ac.uk/" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">
+                University of Cambridge
               </a>
-              ,{" "}
-              <a href="https://biology.mit.edu/profile/jonathan-weissman/" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">
-                Jonathan Weissman
+              , taking biochemistry, pharmacology and computational biology. I'm also a research assistant in the{" "}
+              <a href="https://www.ch.cam.ac.uk/group/knowles" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">
+                Knowles Lab
               </a>
-              ,{" "}
-              <a href="http://web.mit.edu/manoli/" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">
-                Manolis Kellis
-              </a>
-              , and{" "}
-              <a href="https://chrisrackauckas.com/" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">
-                Chris Rackauckas
-              </a>
-              .
+              , where I'm supporting platform-validation for a drug delivery startup in stealth.
             </p>
 
             <p className="text-base text-muted-foreground leading-relaxed">
-              I have been a researcher at{" "}
-              <a href="https://research.google/teams/health/" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">
-                Google Brain Genomics
+              I have research experience at the{" "}
+              <a href="https://lu.hms.harvard.edu/" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">
+                Lu Lab, Harvard Medical School
               </a>
-              , and prior to that in the{" "}
-              <a href="http://fraenkel.mit.edu/" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">
-                Fraenkel lab
-              </a>{" "}
-              at MIT developing visualization and machine learning tools to study
-              neurodegenerative diseases such as{" "}
-              <a href="https://en.wikipedia.org/wiki/Amyotrophic_lateral_sclerosis" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">
-                ALS
-              </a>{" "}
-              and{" "}
-              <a href="https://en.wikipedia.org/wiki/Adrenoleukodystrophy" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">
-                ALD
-              </a>
-              .
+              , where we developed a genetically encoded model system to study the toxicity and clearance of protein aggregates.
             </p>
           </div>
         </div>
