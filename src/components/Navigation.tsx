@@ -1,4 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
+import { Home } from "lucide-react";
 
 const Navigation = () => {
   const location = useLocation();
@@ -14,12 +15,13 @@ const Navigation = () => {
         <div className="flex justify-between items-center">
           <Link
             to="/"
-            className={`text-lg transition-colors hover:text-accent ${
+            className={`flex items-center gap-2 text-lg transition-colors hover:text-accent ${
               location.pathname === "/"
                 ? "text-accent"
                 : "text-muted-foreground"
             }`}
           >
+            <Home size={20} />
             Home
           </Link>
           <ul className="flex gap-12">
