@@ -6,8 +6,6 @@ const Navigation = () => {
   const links = [
     { path: "/cv", label: "CV" },
     { path: "/blog", label: "Blog" },
-    { path: "/publications", label: "Publications" },
-    { path: "/github", label: "Github" },
   ];
 
   return (
