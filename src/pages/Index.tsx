@@ -32,9 +32,9 @@ const Index = () => {
             <p className="text-base text-muted-foreground leading-relaxed">
               I have research experience at the{" "}
               <a href="https://www.yinglu.hms.harvard.edu/" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">
-                Lu Lab, Harvard Medical School
+                Lu Lab
               </a>
-              , where we developed a genetically encoded model system to study the toxicity and clearance of protein aggregates.
+              , Harvard Medical School, where we developed a genetically encoded model system to study the toxicity and clearance of protein aggregates.
             </p>
           </div>
         </div>

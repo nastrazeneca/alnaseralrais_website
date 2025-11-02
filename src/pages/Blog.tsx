@@ -1,13 +1,37 @@
 import Navigation from "@/components/Navigation";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 
 const Blog = () => {
+  const posts = [
+    {
+      id: 1,
+      title: "Post Coming Soon...",
+      date: new Date().toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      }),
+      excerpt: "Stay tuned for my first blog post!",
+    },
+  ];
+
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
       <main className="max-w-4xl mx-auto px-6 py-12">
         <h1 className="text-4xl font-bold mb-8 text-foreground">Blog</h1>
-        <div className="prose prose-lg max-w-none text-foreground">
-          <p className="text-muted-foreground">Blog posts coming soon.</p>
+        <div className="space-y-6">
+          {posts.map((post) => (
+            <Card key={post.id} className="hover:shadow-lg transition-shadow">
+              <CardHeader>
+                <CardTitle>{post.title}</CardTitle>
+                <CardDescription>{post.date}</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">{post.excerpt}</p>
+              </CardContent>
+            </Card>
+          ))}
         </div>
       </main>
     </div>
