@@ -1,7 +1,10 @@
 import Navigation from "@/components/Navigation";
 import profileImage from "@/assets/profile.jpg";
 const Index = () => {
-  return <div className="min-h-screen bg-background">
+  return <div className="min-h-screen bg-background relative overflow-hidden">
+      {/* Diagonal Orange Streak */}
+      <div className="absolute bottom-0 right-0 w-[120%] h-[50vh] bg-accent origin-bottom-right -rotate-12 translate-x-[20%] translate-y-[50%] opacity-10 pointer-events-none" />
+      
       <Navigation />
       
       <main className="max-w-4xl mx-auto px-6 py-12">

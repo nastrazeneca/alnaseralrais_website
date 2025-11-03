@@ -8,8 +8,8 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Light mode - white background with orange accent */
-    --background: 0 0% 100%;
+    /* Light mode - off-white background with orange accent */
+    --background: 40 20% 97%;
     --foreground: 0 0% 10%;
 
     --card: 0 0% 98%;
