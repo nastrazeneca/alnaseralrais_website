@@ -3,7 +3,7 @@ import profileImage from "@/assets/profile.jpg";
 const Index = () => {
   return <div className="min-h-screen bg-background relative overflow-hidden">
       {/* Diagonal Orange Streak */}
-      <div className="absolute bottom-0 right-0 w-[120%] h-[50vh] bg-accent origin-bottom-right -rotate-12 translate-x-[20%] translate-y-[50%] opacity-10 pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w-[200%] h-[80vh] bg-accent origin-bottom-right -rotate-12 translate-x-[30%] translate-y-[40%] opacity-20 blur-3xl pointer-events-none" />
       
       <Navigation />
       
