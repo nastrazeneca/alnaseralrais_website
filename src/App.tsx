@@ -44,13 +44,18 @@ const App = () => {
         <Sonner />
         <BrowserRouter>
           <NavigationHandler>
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/cv" element={<CV />} />
-              <Route path="/blog" element={<Blog />} />
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
+            <div className="relative min-h-screen overflow-hidden">
+              {/* Diagonal Orange Streak - appears on all pages */}
+              <div className="absolute bottom-0 right-0 w-[200%] h-[80vh] bg-accent origin-bottom-right -rotate-12 translate-x-[30%] translate-y-[40%] opacity-20 blur-3xl pointer-events-none" />
+              
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="/cv" element={<CV />} />
+                <Route path="/blog" element={<Blog />} />
+                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </div>
           </NavigationHandler>
         </BrowserRouter>
       </TooltipProvider>
