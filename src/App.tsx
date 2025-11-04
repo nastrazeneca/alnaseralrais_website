@@ -47,10 +47,12 @@ const App = () => {
             <div className="relative min-h-screen overflow-hidden">
               {/* Flowing Orange Streak - appears on all pages */}
               <div className="absolute bottom-0 right-0 w-[200%] h-[85vh] origin-bottom-right -rotate-[12deg] translate-x-[38%] translate-y-[28%] pointer-events-none">
-                {/* Main flowing streak with organic shape */}
-                <div className="absolute inset-0 bg-gradient-to-br from-accent via-accent/90 to-accent/70 opacity-[0.12] blur-[120px] rounded-[60%_40%_70%_30%/40%_60%_40%_60%]" />
-                {/* Secondary layer for depth and flow */}
-                <div className="absolute inset-0 bg-accent/80 opacity-[0.08] blur-[80px] rounded-[40%_60%_30%_70%/60%_40%_60%_40%] translate-x-[-5%] translate-y-[8%]" />
+                {/* Primary organic blob - deepest layer with maximum blur for ethereal effect */}
+                <div className="absolute inset-0 bg-gradient-to-br from-accent via-accent/85 to-accent/60 opacity-[0.15] blur-[140px] rounded-[65%_35%_72%_28%/38%_62%_42%_58%]" />
+                {/* Secondary flowing layer - mid-depth with organic asymmetry */}
+                <div className="absolute inset-0 bg-gradient-to-tl from-accent/75 via-accent/60 to-accent/40 opacity-[0.10] blur-[100px] rounded-[42%_58%_33%_67%/61%_39%_64%_36%] translate-x-[-6%] translate-y-[10%]" />
+                {/* Tertiary accent layer - softest highlights for dimensional depth */}
+                <div className="absolute inset-0 bg-gradient-to-br from-accent/50 to-accent/20 opacity-[0.06] blur-[160px] rounded-[55%_45%_68%_32%/44%_56%_38%_62%] translate-x-[8%] translate-y-[-5%]" />
               </div>
 
               <Routes>
