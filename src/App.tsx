@@ -46,7 +46,7 @@ const App = () => {
           <NavigationHandler>
             <div className="relative min-h-screen overflow-hidden">
               {/* Diagonal Orange Streak - appears on all pages */}
-              <div className="absolute bottom-0 right-0 w-[250%] h-[90vh] bg-accent origin-bottom-right -rotate-[15deg] translate-x-[35%] translate-y-[25%] opacity-[0.15] blur-[100px] pointer-events-none" />
+              <div className="absolute bottom-0 right-0 w-[300%] h-[110vh] bg-accent origin-bottom-right -rotate-[15deg] translate-x-[25%] translate-y-[15%] opacity-[0.15] blur-[100px] pointer-events-none" />
               
               <Routes>
                 <Route path="/" element={<Index />} />
