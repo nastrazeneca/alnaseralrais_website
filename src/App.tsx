@@ -45,9 +45,14 @@ const App = () => {
         <BrowserRouter>
           <NavigationHandler>
             <div className="relative min-h-screen overflow-hidden">
-              {/* Diagonal Orange Streak - appears on all pages */}
-              <div className="absolute bottom-0 right-0 w-[250%] h-[90vh] bg-accent origin-bottom-right -rotate-[15deg] translate-x-[35%] translate-y-[25%] opacity-[0.15] blur-[100px] pointer-events-none" />
-              
+              {/* Flowing Orange Streak - appears on all pages */}
+              <div className="absolute bottom-0 right-0 w-[200%] h-[85vh] origin-bottom-right -rotate-[12deg] translate-x-[38%] translate-y-[28%] pointer-events-none">
+                {/* Main flowing streak with organic shape */}
+                <div className="absolute inset-0 bg-gradient-to-br from-accent via-accent/90 to-accent/70 opacity-[0.12] blur-[120px] rounded-[60%_40%_70%_30%/40%_60%_40%_60%]" />
+                {/* Secondary layer for depth and flow */}
+                <div className="absolute inset-0 bg-accent/80 opacity-[0.08] blur-[80px] rounded-[40%_60%_30%_70%/60%_40%_60%_40%] translate-x-[-5%] translate-y-[8%]" />
+              </div>
+
               <Routes>
                 <Route path="/" element={<Index />} />
                 <Route path="/cv" element={<CV />} />
