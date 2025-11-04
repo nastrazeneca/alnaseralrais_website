@@ -6,12 +6,12 @@ const Blog = () => {
     {
       id: 1,
       title: "Post Coming Soon...",
-      date: new Date().toLocaleDateString("en-US", {
+      date: new Date("2025-11-30").toLocaleDateString("en-US", {
         year: "numeric",
         month: "long",
         day: "numeric",
       }),
-      excerpt: "Stay tuned for my first blog post!",
+      excerpt: "Check back in soon!",
     },
   ];
 
@@ -22,7 +22,7 @@ const Blog = () => {
         <h1 className="text-4xl font-bold mb-8 text-foreground">Blog</h1>
         <div className="space-y-6">
           {posts.map((post) => (
-            <Card key={post.id} className="hover:shadow-lg transition-shadow">
+            <Card key={post.id} className="hover:shadow-lg hover:border-accent transition-all">
               <CardHeader>
                 <CardTitle>{post.title}</CardTitle>
                 <CardDescription>{post.date}</CardDescription>
