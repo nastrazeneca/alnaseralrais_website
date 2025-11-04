@@ -80,10 +80,25 @@ export default {
             height: "0",
           },
         },
+        flow: {
+          "0%, 100%": {
+            borderRadius: "60% 40% 70% 30% / 40% 60% 40% 60%",
+            transform: "scale(1) rotate(0deg)",
+          },
+          "33%": {
+            borderRadius: "40% 60% 50% 50% / 60% 30% 70% 40%",
+            transform: "scale(1.05) rotate(1deg)",
+          },
+          "66%": {
+            borderRadius: "50% 50% 30% 70% / 50% 60% 30% 70%",
+            transform: "scale(0.98) rotate(-1deg)",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "flow": "flow 20s ease-in-out infinite",
       },
     },
   },
