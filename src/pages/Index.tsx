@@ -8,7 +8,7 @@ const Index = () => {
         <div className="grid md:grid-cols-[280px,1fr] gap-12 items-start">
           {/* Profile Image */}
           <div className="w-full max-w-[280px] mx-auto md:mx-0">
-            <img src={profileImage} alt="Naser Al-Rais" className="w-full h-auto rounded-sm shadow-lg" />
+            <img src={profileImage} alt="Naser Al-Rais" className="w-full h-auto rounded-sm" />
           </div>
 
           {/* Bio Content */}
