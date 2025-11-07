@@ -7,8 +7,8 @@ const Index = () => {
       <main className="max-w-4xl mx-auto px-6 py-12">
         <div className="grid md:grid-cols-[280px,1fr] gap-12 items-start">
           {/* Profile Image */}
-          <div className="w-full max-w-[280px] mx-auto md:mx-0 overflow-hidden rounded-sm">
-            <img src={profileImage} alt="Naser Al-Rais" className="w-full h-auto scale-[1.03] transition-all duration-[3500ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)] hover:scale-100 hover:shadow-2xl cursor-pointer" />
+          <div className="w-full max-w-[280px] mx-auto md:mx-0">
+            <img src={profileImage} alt="Naser Al-Rais" className="w-full h-auto rounded-sm" />
           </div>
 
           {/* Bio Content */}
