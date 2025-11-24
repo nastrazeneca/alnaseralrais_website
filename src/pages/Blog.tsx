@@ -1,12 +1,13 @@
 import Navigation from "@/components/Navigation";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import santaHat from "@/assets/santa-hat.png";
 
 const Blog = () => {
   const posts = [
     {
       id: 1,
       title: "Post Coming Soon...",
-      date: new Date("2025-11-30").toLocaleDateString("en-US", {
+      date: new Date("2025-12-25").toLocaleDateString("en-US", {
         year: "numeric",
         month: "long",
         day: "numeric",
@@ -22,7 +23,12 @@ const Blog = () => {
         <h1 className="text-4xl font-bold mb-8 text-foreground">Blog</h1>
         <div className="space-y-6">
           {posts.map((post) => (
-            <Card key={post.id} className="hover:shadow-lg hover:border-accent transition-all">
+            <Card key={post.id} className="hover:shadow-lg hover:border-accent transition-all relative overflow-hidden">
+              <img 
+                src={santaHat} 
+                alt="Santa hat decoration" 
+                className="absolute top-0 right-0 w-16 h-16 z-10 rotate-12"
+              />
               <CardHeader>
                 <CardTitle>{post.title}</CardTitle>
                 <CardDescription>{post.date}</CardDescription>
