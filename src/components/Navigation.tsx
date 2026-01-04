@@ -25,7 +25,7 @@ const Navigation = () => {
           <ul className="flex gap-12 items-center">
             <li>
               <a
-                href="/Resume181225.pdf"
+                href="/Nas_Resume.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-lg transition-colors hover:text-accent text-muted-foreground"
