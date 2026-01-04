@@ -5,9 +5,9 @@ const Index = () => {
       <Navigation />
       
       <main className="max-w-4xl mx-auto px-6 py-12">
-        <div className="grid md:grid-cols-[280px,1fr] gap-12 items-start">
+        <div className="grid md:grid-cols-[200px,1fr] gap-12 items-start">
           {/* Profile Image */}
-          <div className="w-full max-w-[280px] mx-auto md:mx-0">
+          <div className="w-full max-w-[200px] mx-auto md:mx-0 md:-mt-2">
             <img src={profileImage} alt="Naser Al-Rais" className="w-full h-auto rounded-sm" />
           </div>
 
@@ -15,7 +15,7 @@ const Index = () => {
           <div className="space-y-6">
             <h1 className="text-4xl font-bold text-foreground mb-6">Naser Al-Rais</h1>
 
-            <p className="text-base text-muted-foreground leading-relaxed">I am interested in the molecular biology of neurodegenerative diseases and aging via protein quality control pathways!</p>
+            <p className="text-base text-muted-foreground leading-relaxed">Hi, I'm Nas! I'm learning about the molecular biology of aging and how epigenetic changes drive neurodegeneration. I'm interested in researching how we can reverse aging to reduce the risk of age-related diseases.</p>
 
             <p className="text-base text-muted-foreground leading-relaxed">
               Currently, I'm an undergrad at the{" "}
@@ -26,7 +26,7 @@ const Index = () => {
               <a href="https://www-knowles.ch.cam.ac.uk/" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">
                 Knowles Lab
               </a>
-              , where I'm supporting platform-validation for a drug delivery startup in stealth.
+              , where I'm investigating phase transitions in ALS/FTD using droplet microfluidics.
             </p>
 
             <p className="text-base text-muted-foreground leading-relaxed">
@@ -34,7 +34,7 @@ const Index = () => {
               <a href="https://www.yinglu.hms.harvard.edu/" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">
                 Lu Lab
               </a>
-              , Harvard Medical School, where we developed a genetically encoded model system to study the toxicity and clearance of protein aggregates.
+              , Harvard Medical School, where I engineered a model system to study the toxicity and clearance of protein aggregates.
             </p>
           </div>
         </div>
