@@ -5,10 +5,10 @@ const Index = () => {
       <Navigation />
       
       <main className="max-w-4xl mx-auto px-6 py-12">
-        <div className="grid md:grid-cols-[200px,1fr] gap-12 items-start">
+        <div className="grid md:grid-cols-[auto,1fr] gap-12 items-start">
           {/* Profile Image */}
-          <div className="w-full max-w-[200px] mx-auto md:mx-0 md:-mt-2">
-            <img src={profileImage} alt="Naser Al-Rais" className="w-full h-auto rounded-sm" />
+          <div className="mx-auto md:mx-0 md:-mt-2">
+            <img src={profileImage} alt="Naser Al-Rais" className="h-auto rounded-lg" />
           </div>
 
           {/* Bio Content */}
