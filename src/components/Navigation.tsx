@@ -5,7 +5,6 @@ const Navigation = () => {
   const location = useLocation();
   
   const links = [
-    { path: "/cv", label: "CV" },
     { path: "/blog", label: "Blog" },
   ];
 
@@ -24,6 +23,16 @@ const Navigation = () => {
             <Home size={20} />
           </Link>
           <ul className="flex gap-12 items-center">
+            <li>
+              <a
+                href="/Resume181225.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-lg transition-colors hover:text-accent text-muted-foreground"
+              >
+                CV
+              </a>
+            </li>
             {links.map((link) => (
               <li key={link.path}>
                 <Link
