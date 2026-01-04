@@ -1,6 +1,5 @@
 import Navigation from "@/components/Navigation";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import santaHat from "@/assets/santa-hat.png";
 
 const Blog = () => {
   const posts = [
@@ -18,12 +17,7 @@ const Blog = () => {
         <h1 className="text-4xl font-bold mb-8 text-foreground">Blog</h1>
         <div className="space-y-6">
           {posts.map((post) => (
-            <Card key={post.id} className="hover:shadow-lg hover:border-accent transition-all relative overflow-visible">
-              <img 
-                src={santaHat} 
-                alt="Santa hat decoration" 
-                className="absolute -top-6 -right-6 w-20 h-20 z-10 rotate-[25deg]"
-              />
+            <Card key={post.id} className="hover:shadow-lg hover:border-accent transition-all">
               <CardHeader>
                 <CardTitle>{post.title}</CardTitle>
               </CardHeader>
