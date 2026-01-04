@@ -7,11 +7,6 @@ const Blog = () => {
     {
       id: 1,
       title: "Post Coming Soon...",
-      date: new Date("2025-12-25").toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      }),
       excerpt: "Check back in soon!",
     },
   ];
@@ -31,7 +26,6 @@ const Blog = () => {
               />
               <CardHeader>
                 <CardTitle>{post.title}</CardTitle>
-                <CardDescription>{post.date}</CardDescription>
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">{post.excerpt}</p>
