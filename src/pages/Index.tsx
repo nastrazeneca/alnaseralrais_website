@@ -4,11 +4,11 @@ const Index = () => {
   return <div className="min-h-screen bg-background">
       <Navigation />
       
-      <main className="max-w-4xl mx-auto px-6 py-12">
+      <main className="max-w-4xl mx-auto px-6 py-12 animate-fade-in">
         <div className="grid md:grid-cols-[280px,1fr] gap-12 items-start">
           {/* Profile Image */}
           <div className="w-full max-w-[280px] mx-auto md:mx-0">
-            <img src={profileImage} alt="Naser Al-Rais" className="w-full h-auto rounded-lg" />
+            <img src={profileImage} alt="Naser Al-Rais" className="w-full h-auto rounded-lg transition-transform duration-300 hover:scale-[1.02]" />
           </div>
 
           {/* Bio Content */}
