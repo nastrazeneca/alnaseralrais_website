@@ -1,9 +1,10 @@
 import { Link, useLocation } from "react-router-dom";
 import { Home, Mail, Moon, Sun } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 const Navigation = () => {
   const location = useLocation();
+  const toggleRef = useRef<HTMLButtonElement>(null);
   const [dark, setDark] = useState(() => {
     if (typeof window !== "undefined") {
       const stored = localStorage.getItem("theme");
@@ -22,6 +23,47 @@ const Navigation = () => {
       localStorage.setItem("theme", "light");
     }
   }, [dark]);
+
+  const handleToggle = () => {
+    const btn = toggleRef.current;
+
+    // If View Transitions API is not supported, just toggle
+    if (!document.startViewTransition || !btn) {
+      setDark(!dark);
+      return;
+    }
+
+    // Get the button's center position for the wipe origin
+    const rect = btn.getBoundingClientRect();
+    const x = rect.left + rect.width / 2;
+    const y = rect.top + rect.height / 2;
+
+    // Calculate the max radius needed to cover the entire page
+    const maxRadius = Math.hypot(
+      Math.max(x, window.innerWidth - x),
+      Math.max(y, window.innerHeight - y)
+    );
+
+    const transition = document.startViewTransition(() => {
+      setDark(!dark);
+    });
+
+    transition.ready.then(() => {
+      document.documentElement.animate(
+        {
+          clipPath: [
+            `circle(0px at ${x}px ${y}px)`,
+            `circle(${maxRadius}px at ${x}px ${y}px)`,
+          ],
+        },
+        {
+          duration: 500,
+          easing: "ease-in-out",
+          pseudoElement: "::view-transition-new(root)",
+        }
+      );
+    });
+  };
 
   const links = [
     { path: "/blog", label: "Blog" },
@@ -93,7 +135,8 @@ const Navigation = () => {
                 </svg>
               </a>
               <button
-                onClick={() => setDark(!dark)}
+                ref={toggleRef}
+                onClick={handleToggle}
                 className="text-muted-foreground transition-colors hover:text-accent"
                 aria-label="Toggle dark mode"
               >
