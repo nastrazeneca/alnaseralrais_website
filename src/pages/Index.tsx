@@ -15,26 +15,30 @@ const Index = () => {
           <div className="space-y-6">
             <h1 className="text-4xl font-bold text-foreground mb-6">Naser Al-Rais</h1>
 
-            <p className="text-base text-muted-foreground leading-relaxed">Hi, I'm Nas! I'm learning about the molecular biology of aging and how epigenetic changes drive neurodegeneration. I'm interested in researching how we can reverse aging to reduce the risk of age-related diseases.</p>
+            <p className="text-base text-muted-foreground leading-relaxed">Hi, I'm Nas.</p>
 
             <p className="text-base text-muted-foreground leading-relaxed">
-              Currently, I'm an undergrad at the{" "}
+              I'm a second-year undergraduate at the{" "}
               <a href="https://www.cam.ac.uk/" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">
                 University of Cambridge
               </a>
-              , taking biochemistry, pharmacology and computational biology. I'm also a research assistant in the{" "}
-              <a href="https://www-knowles.ch.cam.ac.uk/" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">
-                Knowles Lab
-              </a>
-              , where I'm investigating phase transitions in ALS/FTD using droplet microfluidics.
+              {" "}studying biochemistry, computational biology, and pharmacology. I'm interested in the molecular biology of ageing: how the epigenetic landscape "ages" and how proteostatic failure drives neurodegeneration, and whether we can reverse these changes to meaningfully reduce disease risk.
             </p>
 
             <p className="text-base text-muted-foreground leading-relaxed">
-              I have research experience at the{" "}
+              I'm currently a research assistant in the{" "}
+              <a href="https://www-knowles.ch.cam.ac.uk/" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">
+                Knowles Lab
+              </a>
+              {" "}(Department of Chemistry), where I'm investigating disordered proteins and how small molecules tune liquid–liquid phase separation, using microfluidic devices we build in-house.
+            </p>
+
+            <p className="text-base text-muted-foreground leading-relaxed">
+              Previously, I interned at the{" "}
               <a href="https://www.yinglu.hms.harvard.edu/" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">
                 Lu Lab
               </a>
-              , Harvard Medical School, where I engineered a model system to study the toxicity and clearance of protein aggregates.
+              , Harvard Medical School, where I engineered a novel inducible protein aggregation model to study the toxicity and clearance of protein aggregates, complementing existing model systems in the field.
             </p>
           </div>
         </div>
