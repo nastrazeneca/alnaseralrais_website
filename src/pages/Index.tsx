@@ -7,9 +7,9 @@ const Index = () => {
       <Navigation />
 
       <main className="max-w-4xl mx-auto px-6 py-12 animate-fade-in">
-        <div className="grid md:grid-cols-[280px,1fr] gap-12 items-center">
-          {/* Profile Image */}
-          <div className="w-full max-w-[280px] mx-auto md:mx-0">
+        <div className="grid md:grid-cols-[280px,1fr] gap-12 items-start">
+          {/* Profile Image - aligned with "Hi, I'm Nas" by offsetting past the heading */}
+          <div className="w-full max-w-[280px] mx-auto md:mx-0 md:mt-[4.25rem]">
             <img src={profileImage} alt="Naser Al-Rais" className="w-full h-auto rounded-lg transition-transform duration-300 hover:scale-[1.02]" />
           </div>
 
@@ -40,7 +40,7 @@ const Index = () => {
               <a href="https://www.yinglu.hms.harvard.edu/" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">
                 Lu Lab
               </a>
-              , Harvard Medical School, where I engineered a novel inducible protein aggregation model to study the toxicity and clearance of protein aggregates, complementing existing model systems in the field.
+              , Harvard Medical School, where I engineered a novel inducible protein aggregation model to study the toxicity and clearance of aggregates, complementing existing model systems in the field.
             </p>
           </div>
         </div>
