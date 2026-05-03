@@ -120,17 +120,6 @@ const BlogPostNPLB = () => {
               I'm an undergraduate at the University of Cambridge, with research experience in neurodegeneration at Cambridge and Harvard Medical School. This piece was inspired by my fellowship with No Patient Left Behind. With thanks to Harrison Bergeron, Elena Solopova and Peter Kolchinsky for their support and guidance.
             </p>
 
-            <p className="text-sm mt-4">
-              <a
-                href="/NPLB_blog.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-accent hover:underline"
-              >
-                Download PDF
-              </a>
-            </p>
-
           </div>
         </article>
       </main>
