@@ -9,7 +9,7 @@ const Blog = () => {
         <h1 className="text-4xl font-bold mb-8 text-foreground">Blog</h1>
         <Link to="/blog/nplb" className="block w-full">
           <div className="overflow-hidden rounded-lg border border-border bg-card transition-transform duration-300 hover:scale-[1.02]">
-            <div className="overflow-hidden h-28">
+            <div className="overflow-hidden h-40">
               <img
                 src="/brain_scans.jpeg"
                 alt="Brain scans"
