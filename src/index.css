@@ -98,6 +98,15 @@ All colors MUST be HSL.
   animation: fade-in 0.4s ease-out both;
 }
 
+/* Blog body text — slightly more contrast than muted-foreground for readability */
+.blog-body {
+  color: hsl(0 0% 28%);
+}
+
+.dark .blog-body {
+  color: hsl(220 10% 72%);
+}
+
 /* Respect users who prefer reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .animate-fade-in {
