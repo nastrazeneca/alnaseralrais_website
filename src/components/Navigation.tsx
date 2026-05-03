@@ -78,7 +78,7 @@ const Navigation = () => {
             className={`text-lg transition-colors hover:text-accent ${
               location.pathname === "/"
                 ? "text-accent"
-                : "text-muted-foreground"
+                : "blog-body"
             }`}
           >
             <Home size={20} />
@@ -89,7 +89,7 @@ const Navigation = () => {
                 href="/Nas_Resume.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-lg transition-colors hover:text-accent text-muted-foreground"
+                className="text-lg transition-colors hover:text-accent blog-body"
               >
                 CV
               </a>
@@ -101,7 +101,7 @@ const Navigation = () => {
                   className={`text-lg transition-colors hover:text-accent ${
                     location.pathname === link.path
                       ? "text-accent"
-                      : "text-muted-foreground"
+                      : "blog-body"
                   }`}
                 >
                   {link.label}
@@ -111,7 +111,7 @@ const Navigation = () => {
             <li className="flex items-center gap-4">
               <a
                 href="mailto:ana43@cam.ac.uk"
-                className="text-muted-foreground transition-colors hover:text-accent"
+                className="blog-body transition-colors hover:text-accent"
                 aria-label="Email"
               >
                 <Mail size={20} strokeWidth={1.5} />
@@ -120,7 +120,7 @@ const Navigation = () => {
                 href="https://linkedin.com/in/alnaseralrais"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-muted-foreground transition-colors hover:text-accent"
+                className="blog-body transition-colors hover:text-accent"
                 aria-label="LinkedIn"
               >
                 <svg
@@ -137,7 +137,7 @@ const Navigation = () => {
               <button
                 ref={toggleRef}
                 onClick={handleToggle}
-                className="text-muted-foreground transition-colors hover:text-accent"
+                className="blog-body transition-colors hover:text-accent"
                 aria-label="Toggle dark mode"
               >
                 {dark ? <Sun size={20} strokeWidth={1.5} /> : <Moon size={20} strokeWidth={1.5} />}
