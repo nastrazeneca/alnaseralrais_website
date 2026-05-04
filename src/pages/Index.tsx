@@ -6,9 +6,9 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       <Navigation />
 
-      <main className="max-w-4xl mx-auto px-6 py-12 animate-fade-in">
+      <main className="max-w-4xl mx-auto px-6 pt-6 pb-12 md:pt-12 animate-fade-in">
         <div className="grid md:grid-cols-[280px,1fr] gap-12 items-start">
-          {/* Profile Image - aligned with "Hi, I'm Nas" by offsetting past the heading */}
+          {/* Profile Image - offset to align with first body paragraph, past the heading */}
           <div className="w-full max-w-[280px] mx-auto md:mx-0 md:mt-[4.25rem]">
             <img src={profileImage} alt="Naser Al-Rais" className="w-full h-auto rounded-lg transition-transform duration-300 hover:scale-[1.02]" />
           </div>
@@ -16,8 +16,6 @@ const Index = () => {
           {/* Bio Content */}
           <div className="space-y-6">
             <h1 className="text-4xl font-bold text-foreground mb-6">Naser Al-Rais</h1>
-
-            <p className="text-base blog-body leading-relaxed">Hi, I'm Nas.</p>
 
             <p className="text-base blog-body leading-relaxed">
               I'm a second-year undergraduate at the{" "}
