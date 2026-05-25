@@ -915,8 +915,7 @@
             width: 100%;
             overflow-y: scroll;
             overflow-x: hidden;
-            scroll-snap-type: y mandatory;
-            -webkit-overflow-scrolling: touch;
+            /* No CSS snap — JS controls exactly one card per swipe */
             scrollbar-width: none;
         }
 
@@ -926,7 +925,6 @@
             width: 100%;
             height: 100%;
             flex-shrink: 0;
-            scroll-snap-align: start;
             overflow-y: auto;
             overflow-x: hidden;
             padding: 12px 24px 36px;
@@ -1645,13 +1643,33 @@
                 track.appendChild(card);
             });
 
-            // Update dots indicator based on vertical scroll position
-            track.addEventListener("scroll", () => {
-                const cardHeight = track.clientHeight;
-                if (cardHeight === 0) return;
-                const idx = Math.round(track.scrollTop / cardHeight);
-                mobileCardIndex = idx;
-                dots.forEach((d, i) => d.classList.toggle("is-active", i === idx));
+            // JS-controlled one-card-at-a-time navigation
+            // Block native scroll on the track so the browser can't skip cards
+            let cardTouchStartY = 0;
+            let cardNavigating = false;
+
+            track.addEventListener("touchstart", e => {
+                cardTouchStartY = e.touches[0].clientY;
+            }, { passive: true });
+
+            track.addEventListener("touchmove", e => {
+                // Prevent native scroll — we drive it manually in touchend
+                e.preventDefault();
+            }, { passive: false });
+
+            track.addEventListener("touchend", e => {
+                if (cardNavigating) return;
+                const dy = cardTouchStartY - e.changedTouches[0].clientY;
+                if (Math.abs(dy) < 40) return; // ignore taps / tiny drags
+                const direction = dy > 0 ? 1 : -1;
+                const newIdx = Math.max(0, Math.min(CARD_ORDER.length - 1, mobileCardIndex + direction));
+                if (newIdx === mobileCardIndex) return;
+                cardNavigating = true;
+                mobileCardIndex = newIdx;
+                track.scrollTo({ top: newIdx * track.clientHeight, behavior: "smooth" });
+                dots.forEach((d, i) => d.classList.toggle("is-active", i === newIdx));
+                // Re-enable after smooth scroll completes (~350 ms)
+                setTimeout(() => { cardNavigating = false; }, 400);
             }, { passive: true });
 
             // Tap anywhere on canvas → pulse animation then open drawer
@@ -1696,10 +1714,7 @@
                 mobileCardIndex = 0;
                 const track = document.getElementById("mobile-cards-track");
                 if (track) {
-                    // Disable scroll-snap momentarily so the reset is instant
-                    track.style.scrollSnapType = "none";
                     track.scrollTop = 0;
-                    requestAnimationFrame(() => { track.style.scrollSnapType = ""; });
                 }
                 document.querySelectorAll(".mobile-dot").forEach((d, i) => {
                     d.classList.toggle("is-active", i === 0);
