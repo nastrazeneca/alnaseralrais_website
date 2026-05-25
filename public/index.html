@@ -955,6 +955,12 @@
             .mobile-card .callout-subtitle { font-size: 1rem; }
             .mobile-card .callout-body    { font-size: 1.06rem; line-height: 1.52; }
             .mobile-card .callout-list    { font-size: 1.04rem; line-height: 1.48; }
+
+            /* These decorative elements are fixed px sizes (600px / 520px) that
+               overflow a phone viewport and break horizontal scroll containment.
+               Cap them to the viewport width on mobile. */
+            body::before { width: 100vw; height: 100vw; }
+            #backlight   { width: 100vw; height: 100vw; }
         }
 
         @media (max-width: 640px) {
