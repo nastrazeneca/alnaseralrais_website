@@ -828,8 +828,57 @@
             padding: 10px;
         }
 
+        /* ── Mobile callout back button ────────────────────────────────────── */
+        .callout-back-btn {
+            display: none;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 16px;
+            padding: 0;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-family: var(--font-display);
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        /* ── Mobile callout backdrop ────────────────────────────────────────── */
+        #mobile-callout-backdrop {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 19;
+        }
+
         @media (max-width: 768px) {
             #hover-hint { display: none; }
+            #callout-lines { display: none; }
+
+            #mobile-callout-backdrop.is-active {
+                display: block;
+            }
+
+            .callout-box.is-mobile-active {
+                position: fixed !important;
+                top: 50% !important;
+                left: 50% !important;
+                right: auto !important;
+                bottom: auto !important;
+                width: min(88vw, 420px) !important;
+                min-height: unset;
+                max-height: 78vh;
+                overflow-y: auto;
+                opacity: 1 !important;
+                pointer-events: auto !important;
+                transform: translate(-50%, -50%) !important;
+                z-index: 20;
+            }
+
+            .callout-back-btn {
+                display: flex;
+            }
         }
 
         @media (max-width: 640px) {
@@ -926,6 +975,7 @@
             <p class="callout-body">I'm a final year undergraduate at the <a class="callout-link" href="https://www.cam.ac.uk" target="_blank" rel="noopener">University of Cambridge</a> studying genetics, computational biology and neuroscience.</p>
         </div>
     </div>
+    <div id="mobile-callout-backdrop"></div>
     <div id="canvas-loader">
         <div class="spinner"></div>
         <div class="loader-text" id="loader-status">Loading Cas9 Ribbons...</div>
@@ -1462,6 +1512,54 @@
             document.querySelectorAll(".callout-node").forEach(node => {
                 calloutNodes[node.dataset.domain] = node;
             });
+
+            if (isMobile) {
+                // Inject a back button at the top of every callout box
+                document.querySelectorAll(".callout-box").forEach(box => {
+                    const btn = document.createElement("button");
+                    btn.className = "callout-back-btn";
+                    btn.textContent = "← Back";
+                    btn.addEventListener("click", hideMobileCallout);
+                    box.insertBefore(btn, box.firstChild);
+                });
+
+                // Touch on canvas opens the matching callout
+                document.getElementById("canvas-3d").addEventListener("touchend", e => {
+                    const touch = e.changedTouches[0];
+                    const tx = touch.clientX;
+                    const ty = touch.clientY;
+                    for (const key of HOVER_DOMAINS) {
+                        const hull = domainHull2D[key];
+                        if (hull && pointInPolygon2D(tx, ty, hull)) {
+                            showMobileCallout(key);
+                            return;
+                        }
+                    }
+                }, { passive: true });
+
+                // Tap on backdrop closes the callout
+                document.getElementById("mobile-callout-backdrop").addEventListener("touchend", () => {
+                    hideMobileCallout();
+                }, { passive: true });
+            }
+        }
+
+        function showMobileCallout(key) {
+            HOVER_DOMAINS.forEach(k => {
+                if (calloutBoxes[k]) calloutBoxes[k].classList.remove("is-mobile-active");
+            });
+            if (calloutBoxes[key]) {
+                calloutBoxes[key].classList.add("is-mobile-active");
+                restartSpawnAnimation(calloutBoxes[key]);
+            }
+            document.getElementById("mobile-callout-backdrop").classList.add("is-active");
+        }
+
+        function hideMobileCallout() {
+            HOVER_DOMAINS.forEach(k => {
+                if (calloutBoxes[k]) calloutBoxes[k].classList.remove("is-mobile-active");
+            });
+            document.getElementById("mobile-callout-backdrop").classList.remove("is-active");
         }
 
         function updateCalloutVisual(key, color, hoverStep, dimStep) {
