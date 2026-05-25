@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRISPR-Cas9 3D Molecular Assembly (Mol*)</title>
+    
+    <!-- Premium Typography: Google Fonts Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Mol* CSS from jsDelivr CDN -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/molstar@4.2.0/build/viewer/molstar.css" />
+    
+    <!-- Custom styling matching our beautiful light-blue radial gradient and minimalist layout -->
+    <style>
+        :root {
+            --bg-gradient: radial-gradient(circle at 50% 50%, #ffffff 0%, #eef6ff 35%, #d2e7ff 70%, #a5cfff 100%);
+            --font-display: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-user-drag: none;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: var(--bg-gradient);
+            font-family: var(--font-display);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Pulsing Holographic Cosmic Aura Behind Molecule */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.08) 0%, rgba(244, 63, 94, 0.04) 45%, rgba(255, 255, 255, 0) 70%);
+            filter: blur(40px);
+            z-index: 0;
+            pointer-events: none;
+            animation: auraPulse 6s ease-in-out infinite alternate;
+        }
+
+        @keyframes auraPulse {
+            0% { transform: translate(-50%, -50%) scale(0.95); opacity: 0.8; }
+            100% { transform: translate(-50%, -50%) scale(1.15); opacity: 1.3; }
+        }
+
+        /* Cinematic Backlight Spotlight Behind the Molecule */
+        #backlight {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 520px;
+            height: 520px;
+            border-radius: 50%;
+            background: radial-gradient(circle, 
+                rgba(0, 210, 255, 0.22) 0%, 
+                rgba(0, 82, 245, 0.15) 30%, 
+                rgba(240, 8, 57, 0.07) 55%, 
+                rgba(255, 255, 255, 0) 75%
+            );
+            filter: blur(55px);
+            z-index: 1;
+            pointer-events: none;
+            animation: backlightPulse 8s ease-in-out infinite alternate;
+        }
+
+        @keyframes backlightPulse {
+            0% {
+                transform: translate(-50%, -50%) scale(0.92);
+                opacity: 0.75;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1.08);
+                opacity: 1.0;
+            }
+        }
+
+        /* Full screen Mol* container */
+        #viewer-container {
+            width: 100vw;
+            height: 100vh;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 2;
+        }
+
+        /* Custom styling override to hide Mol* UI borders and force absolute transparency */
+        .msp-plugin {
+            background: transparent !important;
+        }
+        .msp-plugin-content {
+            background: transparent !important;
+        }
+        .msp-viewport {
+            background: transparent !important;
+        }
+        .msp-viewport-background {
+            background: transparent !important;
+        }
+
+        /* Minimalist Loader Layer matching our previous beautiful loader */
+        #canvas-loader {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: var(--bg-gradient);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(59, 130, 246, 0.1);
+            border-top: 3px solid #2563eb;
+            border-radius: 50%;
+            animation: spin 1s cubic-bezier(0.55, 0.085, 0.68, 0.53) infinite;
+        }
+
+        .loader-text {
+            font-size: 1rem;
+            font-weight: 500;
+            color: #475569;
+            letter-spacing: -0.01em;
+            animation: pulse 1.5s ease-in-out infinite;
+            white-space: pre-wrap;
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        /* Premium glassmorphic HUD overlay instruction indicator */
+        #assembly-status {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 0.85rem 1.75rem;
+            border-radius: 24px;
+            box-shadow: 0 4px 24px rgba(0, 82, 245, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #1e3a8a;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.25rem;
+            pointer-events: none;
+            letter-spacing: -0.01em;
+            transition: opacity 0.4s ease;
+            text-align: center;
+            min-width: 320px;
+        }
+
+        .status-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            width: 100%;
+            justify-content: center;
+        }
+        
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #f00839;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        .status-detail {
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #64748b;
+            letter-spacing: 0.01em;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Cinematic Backlight Spotlight Behind the Molecule -->
+    <div id="backlight"></div>
+
+    <!-- Container for Mol* -->
+    <div id="viewer-container"></div>
+
+    <!-- Active Assembly Status overlay -->
+    <div id="assembly-status">
+        <div class="status-header">
+            <div class="pulse-dot"></div>
+            <span id="status-label">Loading CRISPR Complex...</span>
+        </div>
+        <span id="status-detail" class="status-detail">Initializing Coordinate Arrays...</span>
+    </div>
+
+    <!-- Minimalist Loader Layer -->
+    <div id="canvas-loader">
+        <div class="spinner"></div>
+        <div class="loader-text" id="loader-status">Initializing Mol* Engine...</div>
+    </div>
+
+    <!-- Local Compiled Mol* JS Bundle -->
+    <script type="text/javascript" src="./molstar-custom.js"></script>
+
+    <!-- Executable Mol* Animation Script -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            initializeMolstarViewer();
+        });
+
+        // Cas9 Lobe/Domain mapping colors matching index.html
+        const DOMAINS = {
+            ruvc: {
+                color: 0x08148f, // Saturated Navy-Cobalt
+                ranges: [[1, 59], [718, 775], [909, 1098]]
+            },
+            bh: {
+                color: 0x00e5ff, // Bright Electric Neon Cyan
+                ranges: [[60, 93]]
+            },
+            rec1: {
+                color: 0x0052f5, // Pure Vivid Cobalt Blue
+                ranges: [[94, 179], [308, 507]]
+            },
+            rec2: {
+                color: 0x3ea2ff, // Saturated Bright Sky Blue
+                ranges: [[180, 307]]
+            },
+            rec3: {
+                color: 0x00d3b4, // Vibrant Neon Teal-Cyan
+                ranges: [[508, 717]]
+            },
+            hnh: {
+                color: 0x582df5, // Intense Periwinkle Violet-Indigo
+                ranges: [[776, 908]]
+            },
+            pi: {
+                color: 0x0621d9, // Saturated Tech Indigo-Blue
+                ranges: [[1099, 1368]]
+            }
+        };
+
+        // Static catalytic site residues of Cas9 (Chain B)
+        const CATALYTIC_RESIDUES = [10, 762, 839, 840, 863, 983, 986];
+
+        async function initializeMolstarViewer() {
+            const container = document.getElementById("viewer-container");
+            const statusLabel = document.getElementById("status-label");
+            const statusDetail = document.getElementById("status-detail");
+            
+            showLoader(true, "Launching Mol* Core Viewer...");
+            
+            try {
+                console.log("CONSOLE_LOG: Initializing Mol* core viewer...");
+                // Initialize the Mol* Viewer with custom minimalist layout configs (zero HUD panels)
+                const viewer = await molstar.Viewer.create(container, {
+                    layoutIsExpanded: false,
+                    layoutShowControls: false,
+                    layoutShowRemoteState: false,
+                    layoutShowSequence: false,
+                    layoutShowLog: false,
+                    viewportShowExpand: false,
+                    viewportShowSelectionMode: false,
+                    viewportShowSettings: false,
+                    viewportShowControls: false,
+                    viewportShowNavigationHint: false
+                });
+
+                const plugin = viewer.plugin;
+                window.viewer = viewer;
+                window.plugin = plugin;
+
+                // Force transparent background context so our beautiful radial gradient shines through
+                plugin.canvas3d.setProps({
+                    renderer: {
+                        backgroundColor: 0xffffff,
+                        backgroundOpacity: 0
+                    }
+                });
+
+                showLoader(true, "Fetching Cas9 & DNA Structural Coordinates (4UN3)...");
+
+                // Fetch our local coordinate file
+                console.log("CONSOLE_LOG: Fetching PDB coordinates from ./data/4UN3.pdb...");
+                const response = await fetch("./data/4UN3.pdb?v=" + new Date().getTime());
+                if (!response.ok) throw new Error("Local PDB file fetch failed");
+                const pdbText = await response.text();
+                console.log("CONSOLE_LOG: PDB coordinate fetch completed successfully. Length: " + pdbText.length + " characters.");
+
+                showLoader(true, "Analyzing Biopolymer Component Classifications...");
+
+                // DYNAMIC BIOPOLYMER COMPONENT CLASSIFIER
+                // Parse PDB text to dynamically identify chain IDs by polymer type
+                const lines = pdbText.split("\n");
+                const chainResidues = {};
+                for (const line of lines) {
+                    if (line.startsWith("ATOM") || line.startsWith("HETATM")) {
+                        const chainId = line.substring(21, 22).trim();
+                        const resName = line.substring(17, 20).trim();
+                        if (chainId && resName) {
+                            if (!chainResidues[chainId]) {
+                                chainResidues[chainId] = new Set();
+                            }
+                            chainResidues[chainId].add(resName);
+                        }
+                    }
+                }
+
+                const proteinChains = [];
+                const dnaChains = [];
+                const rnaChains = [];
+
+                for (const chainId in chainResidues) {
+                    const residues = chainResidues[chainId];
+                    let isProtein = false;
+                    let isDNA = false;
+                    let isRNA = false;
+                    
+                    for (const resName of residues) {
+                        if (['DA', 'DT', 'DG', 'DC', 'DI'].includes(resName)) {
+                            isDNA = true;
+                        } else if (['A', 'U', 'G', 'C', 'I'].includes(resName)) {
+                            isRNA = true;
+                        } else if (['ALA', 'ARG', 'ASN', 'ASP', 'CYS', 'GLN', 'GLU', 'GLY', 'HIS', 'ILE', 'LEU', 'LYS', 'MET', 'PHE', 'PRO', 'SER', 'THR', 'TRP', 'TYR', 'VAL'].includes(resName)) {
+                            isProtein = true;
+                        }
+                    }
+                    
+                    if (isDNA) dnaChains.push(chainId);
+                    else if (isRNA) rnaChains.push(chainId);
+                    else if (isProtein) proteinChains.push(chainId);
+                }
+
+                console.log("CONSOLE_LOG: Chain classification completed. Protein Chains: " + JSON.stringify(proteinChains) + ", DNA Chains: " + JSON.stringify(dnaChains) + ", RNA Chains: " + JSON.stringify(rnaChains));
+
+                // DYNAMIC CLOSE-CONTACT ACTIVE SITE SOLVER
+                // Locate the closest protein residue (Chain B) to the DNA backbone (Chains C & D) in the deposited conformation
+                showLoader(true, "Solving Ribonucleoprotein Active Site Close-Contacts...");
+                
+                const proteinAtoms = [];
+                const dnaAtoms = [];
+                const waveAtoms = []; // Backbone atom positions for the gloss-wave projection
+
+                for (const line of lines) {
+                    if (line.startsWith("ATOM")) {
+                        const atomName = line.substring(12, 16).trim();
+                        const chainId = line.substring(21, 22).trim();
+                        const resName = line.substring(17, 20).trim();
+                        const resSeq = parseInt(line.substring(22, 26).trim());
+                        const x = parseFloat(line.substring(30, 38).trim());
+                        const y = parseFloat(line.substring(38, 46).trim());
+                        const z = parseFloat(line.substring(46, 54).trim());
+
+                        if (proteinChains.includes(chainId) && atomName === 'CA') {
+                            proteinAtoms.push({ chainId, resName, resSeq, x, y, z });
+                            waveAtoms.push({ x, y, z });                 // Cα traces the protein ribbon
+                        } else if (dnaChains.includes(chainId) && atomName === 'P') {
+                            dnaAtoms.push({ chainId, resName, resSeq, atomName, x, y, z });
+                            waveAtoms.push({ x, y, z });                 // P traces the DNA backbone
+                        } else if (rnaChains.includes(chainId) &&
+                                   (atomName === "C4'" || atomName === 'C4*')) {
+                            waveAtoms.push({ x, y, z });                 // C4′ traces the RNA backbone
+                        }
+                    }
+                }
+                
+                let minDistance = Infinity;
+                let closestProteinResidue = null;
+                let closestDnaResidue = null;
+                
+                for (const pAtom of proteinAtoms) {
+                    for (const dAtom of dnaAtoms) {
+                        const dx = pAtom.x - dAtom.x;
+                        const dy = pAtom.y - dAtom.y;
+                        const dz = pAtom.z - dAtom.z;
+                        const dist = Math.sqrt(dx*dx + dy*dy + dz*dz);
+                        if (dist < minDistance) {
+                            minDistance = dist;
+                            closestProteinResidue = pAtom;
+                            closestDnaResidue = dAtom;
+                        }
+                    }
+                }
+                
+                console.log("CONSOLE_LOG: Active site solver completed. Closest protein residue: " + (closestProteinResidue ? closestProteinResidue.resName + closestProteinResidue.resSeq : "none") + " at distance " + minDistance.toFixed(3) + " Å");
+
+                // Display dynamic result in the HUD details
+                if (closestProteinResidue) {
+                    statusDetail.innerText = `Active Site Pocket: ${closestProteinResidue.resName}${closestProteinResidue.resSeq} • Contact Dist: ${minDistance.toFixed(1)}Å`;
+                }
+
+                // Load all chains into Mol*
+                console.log("CONSOLE_LOG: Loading coordinates into the Mol* state tree...");
+                const data = await plugin.builders.data.rawData({ data: pdbText, label: "CRISPR-Cas9-dsDNA Structure" });
+                const trajectory = await plugin.builders.structure.parseTrajectory(data, 'pdb');
+                const model = await plugin.builders.structure.createModel(trajectory);
+                const structure = await plugin.builders.structure.createStructure(model);
+                console.log("CONSOLE_LOG: Structure load completed successfully.");
+
+                // PURE JSON MOLQL AST EXPRESSION BUILDERS
+                // Generates highly compatible selection JSON AST objects directly supported by the Mol* core engine
+
+                function selectChains(chainIds) {
+                    if (chainIds.length === 0) {
+                        return { head: 'structure.generator.empty', args: {} };
+                    }
+                    if (chainIds.length === 1) {
+                        return {
+                            head: 'structure.generator.atom-groups',
+                            args: {
+                                'chain-test': {
+                                    head: 'core.rel.eq',
+                                    args: [
+                                        { head: 'structure.atom-property.macromolecular.auth_asym_id' },
+                                        chainIds[0]
+                                    ]
+                                }
+                            }
+                        };
+                    }
+                    const checks = chainIds.map(id => ({
+                        head: 'core.rel.eq',
+                        args: [
+                            { head: 'structure.atom-property.macromolecular.auth_asym_id' },
+                            id
+                        ]
+                    }));
+                    return {
+                        head: 'structure.generator.atom-groups',
+                        args: {
+                            'chain-test': {
+                                head: 'core.logic.or',
+                                args: checks
+                            }
+                        }
+                    };
+                }
+
+                function selectDomain(chainId, ranges) {
+                    const rangeChecks = ranges.map(range => ({
+                        head: 'core.logic.and',
+                        args: [
+                            {
+                                head: 'core.rel.gre',
+                                args: [
+                                    { head: 'structure.atom-property.macromolecular.auth_seq_id' },
+                                    range[0]
+                                ]
+                            },
+                            {
+                                head: 'core.rel.lte',
+                                args: [
+                                    { head: 'structure.atom-property.macromolecular.auth_seq_id' },
+                                    range[1]
+                                ]
+                            }
+                        ]
+                    }));
+                    
+                    const residueTest = rangeChecks.length === 1 ? rangeChecks[0] : {
+                        head: 'core.logic.or',
+                        args: rangeChecks
+                    };
+                    
+                    return {
+                        head: 'structure.generator.atom-groups',
+                        args: {
+                            'chain-test': {
+                                head: 'core.rel.eq',
+                                args: [
+                                    { head: 'structure.atom-property.macromolecular.auth_asym_id' },
+                                    chainId
+                                ]
+                            },
+                            'residue-test': residueTest
+                        }
+                    };
+                }
+
+                function selectActiveSite(chainId, resSeqs) {
+                    const activeSiteChecks = resSeqs.map(resSeq => ({
+                        head: 'core.rel.eq',
+                        args: [
+                            { head: 'structure.atom-property.macromolecular.auth_seq_id' },
+                            resSeq
+                        ]
+                    }));
+                    
+                    return {
+                        head: 'structure.generator.atom-groups',
+                        args: {
+                            'chain-test': {
+                                head: 'core.rel.eq',
+                                args: [
+                                    { head: 'structure.atom-property.macromolecular.auth_asym_id' },
+                                    chainId
+                                ]
+                            },
+                            'residue-test': {
+                                head: 'core.logic.or',
+                                args: activeSiteChecks
+                            }
+                        }
+                    };
+                }
+
+                showLoader(true, "Configuring High-Contrast Domain Style System...");
+
+                // 1. Build and Color Cas9 (Chain B) Domains
+                console.log("CONSOLE_LOG: Creating representation components for Cas9 domains...");
+                const primaryProteinChain = proteinChains[0] || 'B';
+                for (const domainKey in DOMAINS) {
+                    const domain = DOMAINS[domainKey];
+                    const domainSelection = selectDomain(primaryProteinChain, domain.ranges);
+
+                    const domainComponent = await plugin.builders.structure.tryCreateComponentFromSelection(
+                        structure, 
+                        domainSelection, 
+                        `domain-${domainKey}`
+                    );
+
+                    if (domainComponent) {
+                        await plugin.builders.structure.representation.addRepresentation(domainComponent, {
+                            type: 'cartoon',
+                            typeParams: { alpha: 1.0, sizeFactor: 0.25 },
+                            color: 'uniform',
+                            colorParams: { value: domain.color }
+                        });
+                    }
+                }
+
+                // 2. Build and Color sgRNA (Chain A) Component - Indigo
+                console.log("CONSOLE_LOG: Creating representation component for sgRNA (RNA)...");
+                const rnaSelection = selectChains(rnaChains);
+                const rnaComponent = await plugin.builders.structure.tryCreateComponentFromSelection(
+                    structure, 
+                    rnaSelection, 
+                    'rna'
+                );
+                if (rnaComponent) {
+                    await plugin.builders.structure.representation.addRepresentation(rnaComponent, {
+                        type: 'cartoon',
+                        typeParams: { alpha: 1.0, sizeFactor: 0.35 },
+                        color: 'uniform',
+                        colorParams: { value: 0x4f46e5 } // Gorgeous Indigo
+                    });
+                }
+
+                // 3. Build and Color dsDNA (Chains C & D) Component - Saturated Crimson Red
+                console.log("CONSOLE_LOG: Creating representation component for dsDNA...");
+                const dnaSelection = selectChains(dnaChains);
+                const dnaComponent = await plugin.builders.structure.tryCreateComponentFromSelection(
+                    structure, 
+                    dnaSelection, 
+                    'dna'
+                );
+                if (dnaComponent) {
+                    await plugin.builders.structure.representation.addRepresentation(dnaComponent, {
+                        type: 'cartoon',
+                        typeParams: { alpha: 1.0, sizeFactor: 0.45 },
+                        color: 'uniform',
+                        colorParams: { value: 0xf00839 } // Saturated Crimson Red
+                    });
+                }
+
+                // 4. Highlight Active Site residues in Neon Gold
+                console.log("CONSOLE_LOG: Creating representation component for Active Site residues...");
+                const highlightResSeqs = [...CATALYTIC_RESIDUES];
+                if (closestProteinResidue && !highlightResSeqs.includes(closestProteinResidue.resSeq)) {
+                    highlightResSeqs.push(closestProteinResidue.resSeq);
+                }
+                
+                const activeSiteSelection = selectActiveSite(primaryProteinChain, highlightResSeqs);
+                const activeSiteComponent = await plugin.builders.structure.tryCreateComponentFromSelection(
+                    structure, 
+                    activeSiteSelection, 
+                    'active-site'
+                );
+                if (activeSiteComponent) {
+                    await plugin.builders.structure.representation.addRepresentation(activeSiteComponent, {
+                        type: 'ball-and-stick',
+                        typeParams: { alpha: 1.0, sizeFactor: 1.3 },
+                        color: 'uniform',
+                        colorParams: { value: 0xffea00 } // Neon Gold
+                    });
+                }
+
+                // Create a full Cas9 protein component for camera centering and tracking
+                const proteinSelection = selectChains(proteinChains);
+                const proteinComponent = await plugin.builders.structure.tryCreateComponentFromSelection(
+                    structure,
+                    proteinSelection,
+                    'protein-full'
+                );
+
+                // STATIC CAMERAS CENTERING
+                // Focus the viewport camera strictly on the static Cas9 protein bounding sphere
+                console.log("CONSOLE_LOG: Centering camera precisely on Cas9 protein full component...");
+                if (proteinComponent && proteinComponent.obj && proteinComponent.obj.data) {
+                    const sphere = proteinComponent.obj.data.boundary.sphere;
+                    plugin.managers.camera.focusSphere(sphere);
+                } else {
+                    plugin.canvas3d.requestCameraReset();
+                }
+
+                // Lock mouse dragging/pinch rotations to keep camera 100% fixed
+                const canvas = container.querySelector("canvas");
+                if (canvas) {
+                    canvas.style.pointerEvents = "none";
+                }
+
+                showLoader(false);
+
+                // Start structural docking animation loop
+                console.log("CONSOLE_LOG: Launching structural docking animation loop...");
+                startAssemblyAnimation(plugin, dnaComponent, statusLabel, statusDetail, closestProteinResidue);
+
+                // Start gloss-wave animation (projects backbone atoms to screen each frame)
+                console.log("CONSOLE_LOG: Starting gloss wave animation. Wave atoms: " + waveAtoms.length);
+                startGlossWaveAnimation(plugin, waveAtoms);
+
+            } catch (err) {
+                console.error("CONSOLE_LOG: Error during initialization: " + err.message, err);
+                showLoader(true, "Error executing Mol* StateSnapshot: " + err.message);
+            }
+        }
+
+        // Programmatic Animation Loop: dsDNA translates into static Cas9 active site
+        async function startAssemblyAnimation(plugin, dnaComponent, statusLabel, statusDetail, closestResidue) {
+            // Retrieve TransformStructureConformation dynamically from internal modules
+            const TransformStructureConformation = 
+                (molstar.lib && molstar.lib.molPluginState && molstar.lib.molPluginState.Transforms && molstar.lib.molPluginState.Transforms.Model && molstar.lib.molPluginState.Transforms.Model.TransformStructureConformation) ||
+                (molstar.lib && molstar.lib.molPluginState && molstar.lib.molPluginState.transforms && molstar.lib.molPluginState.transforms.model && molstar.lib.molPluginState.transforms.model.TransformStructureConformation) ||
+                molstar.PluginState?.Transforms?.Model?.TransformStructureConformation;
+
+            if (!TransformStructureConformation) {
+                console.error("CONSOLE_LOG: Mol* TransformStructureConformation transform not found.");
+                statusLabel.innerText = "Active Complex: Stable State";
+                return;
+            }
+
+            console.log("CONSOLE_LOG: Creating initial matrix transform node on the DNA component...");
+            // Create initial identity translation node on the DNA component
+            // We assign a stable custom ref 'dna-transform' so we can update it in place
+            const setupTransform = plugin.build().to(dnaComponent).apply(TransformStructureConformation, {
+                transform: {
+                    name: 'matrix',
+                    params: {
+                        data: [1, 0, 0, 0,  0, 1, 0, 0,  0, 0, 1, 0,  0, 0, 0, 1],
+                        transpose: false
+                    }
+                }
+            }, { ref: 'dna-transform' });
+            
+            await setupTransform.commit();
+            console.log("CONSOLE_LOG: Matrix transform node registered and committed.");
+
+            // Define animation parameters (Translation in Angstroms)
+            // Starts far away at the top-right viewport edge: (90, 85, -45)
+            // Active site / deposited conformation is at (0, 0, 0)
+            const startTranslation = [90.0, 85.0, -45.0];
+            
+            const animateDuration = 4.0; // DNA translates for 4 seconds
+            const holdDuration = 2.0;    // Conformation is held for 2 seconds at the end
+            const totalDuration = animateDuration + holdDuration; // 6-second total loop
+            
+            const startTime = Date.now();
+            let frameCount = 0;
+
+            async function frame() {
+                requestAnimationFrame(frame);
+
+                const elapsed = ((Date.now() - startTime) % (totalDuration * 1000)) / 1000; // loop time in seconds
+                let pathProgress = 0; // Ranges from 0 (start) to 1 (active site)
+
+                if (elapsed <= animateDuration) {
+                    const timeProgress = elapsed / animateDuration; // linear time progress (0 to 1)
+
+                    if (timeProgress <= 0.6) {
+                        // Region 1: Linear interpolation for the first 80% of the path (up to path progress 0.8)
+                        // This corresponds to 0% to 60% of the duration
+                        pathProgress = (timeProgress / 0.6) * 0.8;
+                        statusLabel.innerText = `DNA Docking... ${Math.round(pathProgress * 100)}%`;
+                    } else {
+                        // Region 2: Quadratic ease-out deceleration over the final 20% of the path
+                        // Occurs over the final 40% of the duration (approaching catalytic site within ~15Å)
+                        const localProgress = (timeProgress - 0.6) / 0.4;
+                        const easeOutDecel = 1.0 - Math.pow(1.0 - localProgress, 2); // Quadratic ease-out curve
+                        pathProgress = 0.8 + 0.2 * easeOutDecel;
+                        statusLabel.innerText = `Docking Active Site... ${Math.round(pathProgress * 100)}%`;
+                    }
+                    
+                    if (closestResidue) {
+                        statusDetail.innerText = `Active Site Pocket: ${closestResidue.resName}${closestResidue.resSeq} • Entering Domain...`;
+                    }
+                } else {
+                    // Hold final deposited frame (100% path progress) for 2 seconds
+                    pathProgress = 1.0;
+                    statusLabel.innerText = "Conformation Stable: Active SpCas9 Complex";
+                    if (closestResidue) {
+                        statusDetail.innerText = `Active Site Pocket: ${closestResidue.resName}${closestResidue.resSeq} • Complete Assembly`;
+                    }
+                }
+
+                // Compute dynamic translation vector relative to the final deposited conformation
+                const tx = startTranslation[0] * (1.0 - pathProgress);
+                const ty = startTranslation[1] * (1.0 - pathProgress);
+                const tz = startTranslation[2] * (1.0 - pathProgress);
+
+                // Construct 4x4 column-major translation matrix
+                const matrix = [
+                    1, 0, 0, 0,
+                    0, 1, 0, 0,
+                    0, 0, 1, 0,
+                    tx, ty, tz, 1
+                ];
+
+                // Update the conformation transform node directly in the state tree via its stable ref ID
+                plugin.build().to('dna-transform').update({
+                    transform: {
+                        name: 'matrix',
+                        params: {
+                            data: matrix,
+                            transpose: false
+                        }
+                    }
+                }).commit();
+
+                // Log animation frame commits once every 60 frames (~1 second) to prevent console flooding
+                frameCount++;
+                if (frameCount % 60 === 0) {
+                    console.log("CONSOLE_LOG: Animation frame committed. Progress: " + (pathProgress * 100).toFixed(1) + "%, Elapsed: " + elapsed.toFixed(2) + "s, Matrix Translation: [" + tx.toFixed(1) + ", " + ty.toFixed(1) + ", " + tz.toFixed(1) + "]");
+                }
+            }
+
+            // Start the tick loop
+            console.log("CONSOLE_LOG: Animation frame tick loop started successfully.");
+            frame();
+        }
+
+        // ─── Gloss Wave Animation ───────────────────────────────────────────────
+        // Every 5 s a glossy wave sweeps from bottom-left → top-right in ~1 s.
+        // Each backbone atom is projected from 3-D world space into 2-D screen
+        // pixels every frame so the gloss spots ride exactly on the ribbons,
+        // correctly depth-ordered and perspective-scaled.
+        function startGlossWaveAnimation(plugin, backboneAtoms) {
+            if (!backboneAtoms || backboneAtoms.length === 0) {
+                console.warn('CONSOLE_LOG: Gloss wave skipped — no backbone atoms found.');
+                return;
+            }
+
+            const container = document.getElementById('viewer-container');
+
+            // 2-D canvas overlay that sits above the WebGL canvas.
+            // mix-blend-mode:screen brightens the ribbon colours beneath the
+            // gloss spots without fully masking them.
+            const overlay = document.createElement('canvas');
+            overlay.id = 'gloss-overlay';
+            overlay.style.cssText =
+                'position:absolute;top:0;left:0;width:100%;height:100%;' +
+                'pointer-events:none;z-index:5;mix-blend-mode:screen;';
+            container.appendChild(overlay);
+
+            const ctx = overlay.getContext('2d');
+
+            // Keep pixel dimensions in sync with Mol*'s WebGL canvas.
+            // Mol* scales its canvas by devicePixelRatio, so the camera's projection
+            // matrices map NDC → physical pixels (not CSS pixels).  The overlay must
+            // use the same physical dimensions so our NDC→pixel math agrees exactly.
+            function syncSize() {
+                const molCanvas = container.querySelector('canvas');
+                if (molCanvas && molCanvas.width > 0) {
+                    overlay.width  = molCanvas.width;
+                    overlay.height = molCanvas.height;
+                } else {
+                    const dpr = window.devicePixelRatio || 1;
+                    overlay.width  = Math.round(container.clientWidth  * dpr);
+                    overlay.height = Math.round(container.clientHeight * dpr);
+                }
+            }
+            syncSize();
+            window.addEventListener('resize', syncSize);
+
+            // ── Timing ──────────────────────────────────────────────────────────
+            const INTERVAL = 5000;   // ms between wave starts
+            const DURATION = 1200;   // ms for one full sweep (~20% slower)
+            let waveStart = null;
+            let nextWave  = Date.now() + INTERVAL;   // first wave after 5 s
+
+            // ── 3-D → 2-D projection ────────────────────────────────────────────
+            // Transforms a world-space point (Å) through Mol*'s live view +
+            // projection matrices (column-major Float32Array[16], same layout as
+            // gl.uniformMatrix4fv with transpose=false).
+            function project(wx, wy, wz, V, P, W, H) {
+                // View transform
+                const vx = V[0]*wx + V[4]*wy + V[8]*wz  + V[12];
+                const vy = V[1]*wx + V[5]*wy + V[9]*wz  + V[13];
+                const vz = V[2]*wx + V[6]*wy + V[10]*wz + V[14];
+                const vw = V[3]*wx + V[7]*wy + V[11]*wz + V[15];
+
+                // Projection transform → clip space
+                const cx = P[0]*vx + P[4]*vy + P[8]*vz  + P[12]*vw;
+                const cy = P[1]*vx + P[5]*vy + P[9]*vz  + P[13]*vw;
+                const cz = P[2]*vx + P[6]*vy + P[10]*vz + P[14]*vw;
+                const cw = P[3]*vx + P[7]*vy + P[11]*vz + P[15]*vw;
+
+                if (Math.abs(cw) < 1e-7) return null;
+
+                // Perspective divide → NDC [-1, 1]
+                const nx = cx / cw;
+                const ny = cy / cw;
+                const nz = cz / cw;
+
+                // Discard points outside the view frustum
+                if (nz < -1 || nz > 1) return null;
+
+                return {
+                    sx:    (nx + 1) * 0.5 * W,    // canvas X (pixels)
+                    sy:    (1 - ny) * 0.5 * H,    // canvas Y (Y flipped)
+                    depth: (nz + 1) * 0.5          // normalised [0=near … 1=far]
+                };
+            }
+
+            // ── Render one wave frame ────────────────────────────────────────────
+            function renderWave(tLinear) {
+                // Ease-in-out so the wave decelerates gracefully at the edges
+                const t = tLinear < 0.5
+                    ? 2 * tLinear * tLinear
+                    : 1 - Math.pow(-2 * tLinear + 2, 2) / 2;
+
+                const W = overlay.width;
+                const H = overlay.height;
+                ctx.clearRect(0, 0, W, H);
+
+                // ── Full-canvas diagonal shimmer band ──────────────────────────
+                // A luminous gradient band travels along the bottom-left→top-right
+                // axis using Canvas2D's linear gradient colour stops (fractions 0-1
+                // of the gradient axis).
+                {
+                    const band  = 0.065;                        // band width as fraction of diagonal (50% narrower)
+                    const tFront = t;
+                    const tPeak  = Math.max(0, t - band * 0.30);
+                    const tTrail = Math.max(0, t - band);
+
+                    // Gradient axis: (0, H) → (W, 0) = bottom-left to top-right
+                    const grd = ctx.createLinearGradient(0, H, W, 0);
+                    if (tTrail > 0.001) grd.addColorStop(Math.min(tTrail, 1), 'rgba(255,255,255,0)');
+                    grd.addColorStop(Math.min(tPeak,  1), 'rgba(255,255,255,0.08)');
+                    grd.addColorStop(Math.min(tFront, 1), 'rgba(255,255,255,0)');
+                    if (tFront < 0.999) grd.addColorStop(1, 'rgba(255,255,255,0)');
+
+                    ctx.fillStyle = grd;
+                    ctx.fillRect(0, 0, W, H);
+                }
+
+                // ── Per-atom gloss spots ───────────────────────────────────────
+                // Require live camera matrices from Mol*'s Canvas3D camera object
+                const camera = plugin.canvas3d && plugin.canvas3d.camera;
+                if (!camera || !camera.view || !camera.projection) return;
+
+                const V = camera.view;          // view matrix (column-major)
+                const P = camera.projection;    // projection matrix (column-major)
+
+                // Diagonal distance metric:
+                //   d(sx, sy) = sx + (H − sy)
+                //   = 0 at the bottom-left corner, W+H at the top-right corner
+                const maxD      = W + H;
+                const waveWidth = 0.09 * maxD;          // band depth in diagonal pixels (50% narrower)
+                const waveFront = t * maxD;             // leading edge position
+                const waveTrail = waveFront - waveWidth; // trailing edge position
+
+                for (const atom of backboneAtoms) {
+                    const p = project(atom.x, atom.y, atom.z, V, P, W, H);
+                    if (!p) continue;
+
+                    // Off-screen cull with a generous margin so edge ribbons
+                    // still get their gloss even when partially clipped
+                    if (p.sx < -80 || p.sx > W + 80 || p.sy < -80 || p.sy > H + 80) continue;
+
+                    // Diagonal position of this atom on screen
+                    const atomD = p.sx + (H - p.sy);
+
+                    // Skip atoms outside the currently active wave band
+                    if (atomD > waveFront || atomD < waveTrail) continue;
+
+                    // Normalised band position: 0 = leading edge, 1 = trailing edge
+                    const bandPos = (waveFront - atomD) / waveWidth;
+
+                    // Gloss envelope:
+                    //   – sin gives a smooth bell across the band
+                    //   – (1 − bandPos*0.4) biases the peak toward the leading edge
+                    //     (specular spike effect)
+                    const glossEnv   = Math.sin(bandPos * Math.PI) * (1 - bandPos * 0.4);
+
+                    // Depth factor: near atoms are larger and brighter
+                    const depthFactor = 1.0 - p.depth * 0.55;
+                    const intensity   = glossEnv * depthFactor;
+                    if (intensity < 0.02) continue;
+
+                    // Apparent ribbon half-width in screen pixels, perspective-scaled
+                    const r = Math.max(7, 34 * depthFactor);
+
+                    // Radial gloss gradient: hard white core → pale blue → transparent
+                    const g = ctx.createRadialGradient(p.sx, p.sy, 0, p.sx, p.sy, r);
+                    g.addColorStop(0,    `rgba(255,255,255,${(0.88 * intensity).toFixed(3)})`);
+                    g.addColorStop(0.20, `rgba(230,245,255,${(0.58 * intensity).toFixed(3)})`);
+                    g.addColorStop(0.55, `rgba(190,225,255,${(0.22 * intensity).toFixed(3)})`);
+                    g.addColorStop(1,    'rgba(255,255,255,0)');
+
+                    ctx.beginPath();
+                    ctx.arc(p.sx, p.sy, r, 0, Math.PI * 2);
+                    ctx.fillStyle = g;
+                    ctx.fill();
+                }
+            }
+
+            // ── Animation tick ───────────────────────────────────────────────────
+            function tick() {
+                requestAnimationFrame(tick);
+                const now = Date.now();
+
+                // Arm the next wave once the interval elapses
+                if (waveStart === null && now >= nextWave) {
+                    waveStart = now;
+                    nextWave  = now + INTERVAL;
+                }
+
+                if (waveStart !== null) {
+                    const elapsed = now - waveStart;
+                    if (elapsed < DURATION) {
+                        renderWave(elapsed / DURATION);
+                    } else {
+                        // Wave finished — clear overlay and wait for the next cycle
+                        ctx.clearRect(0, 0, overlay.width, overlay.height);
+                        waveStart = null;
+                    }
+                }
+            }
+
+            console.log('CONSOLE_LOG: Gloss wave animation ready. Tracking ' +
+                backboneAtoms.length + ' backbone atoms for 3-D→2-D projection.');
+            tick();
+        }
+        // ────────────────────────────────────────────────────────────────────────
+
+        // Toggle page loader overlay
+        function showLoader(show, text = "") {
+            const loader = document.getElementById("canvas-loader");
+            const status = document.getElementById("loader-status");
+            if (show) {
+                status.innerText = text;
+                loader.style.display = "flex";
+                loader.style.opacity = "1";
+            } else {
+                loader.style.opacity = "0";
+                setTimeout(() => {
+                    loader.style.display = "none";
+                }, 600);
+            }
+        }
+    </script>
+</body>
+</html>
