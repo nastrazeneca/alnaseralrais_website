@@ -828,6 +828,10 @@
             padding: 10px;
         }
 
+        @media (max-width: 768px) {
+            #hover-hint { display: none; }
+        }
+
         @media (max-width: 640px) {
             .nav-btn {
                 min-height: 36px;
@@ -997,6 +1001,8 @@
 
         const HOVER_DOMAINS = ["ruvc", "rec1", "rec2", "rec3", "pi"];
         const BREATH_FREQ = 0.28;
+
+        const isMobile = window.innerWidth <= 768;
 
         let viewer = null;
         let proteinModel = null;
@@ -1572,6 +1578,11 @@
         }
 
         function startAnimation() {
+            if (isMobile) {
+                viewer.render();
+                return;
+            }
+
             const MAX_FPS = 30;
             const MIN_FRAME_MS = 1000 / MAX_FPS;
             const BREATH_FRAME_MS = 100;
