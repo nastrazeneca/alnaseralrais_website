@@ -921,15 +921,18 @@
         }
 
         #mobile-cards-inner {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;         /* resolved against track (position:relative) — always definite */
             display: flex;
-            height: 100%;
+            align-items: stretch; /* all cards inherit this exact height */
             transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             will-change: transform;
         }
 
         .mobile-card {
             flex: 0 0 100vw;
-            height: 100%;
             overflow-y: auto;
             padding: 12px 24px 36px;
             box-sizing: border-box;
@@ -939,13 +942,19 @@
         .mobile-card::-webkit-scrollbar { display: none; }
 
         #mobile-drawer-backdrop {
-            display: none;
             position: fixed;
             inset: 0;
             z-index: 29;
+            background: rgba(0, 10, 60, 0.35);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.35s ease;
         }
 
-        #mobile-drawer-backdrop.is-active { display: block; }
+        #mobile-drawer-backdrop.is-active {
+            opacity: 1;
+            pointer-events: auto;
+        }
 
         @media (max-width: 768px) {
             #callout-lines { display: none; }
