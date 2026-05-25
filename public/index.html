@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CRISPR-Cas9 Ribbon Explorer</title>
+    <title>Naser Al-Rais</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -915,22 +915,25 @@
 
         #mobile-cards-track {
             flex: 1;
-            display: flex;
-            overflow-x: scroll;
-            scroll-snap-type: x mandatory;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
-            overscroll-behavior-x: contain;
+            min-height: 0;
+            overflow: hidden;
+            position: relative;
         }
 
-        #mobile-cards-track::-webkit-scrollbar { display: none; }
+        #mobile-cards-inner {
+            display: flex;
+            height: 100%;
+            transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            will-change: transform;
+        }
 
         .mobile-card {
             flex: 0 0 100vw;
-            scroll-snap-align: start;
+            height: 100%;
             overflow-y: auto;
-            padding: 8px 24px 32px;
+            padding: 12px 24px 36px;
             box-sizing: border-box;
+            scrollbar-width: none;
         }
 
         .mobile-card::-webkit-scrollbar { display: none; }
@@ -946,8 +949,12 @@
 
         @media (max-width: 768px) {
             #callout-lines { display: none; }
-            #callouts { display: none; }   /* boxes have fixed px widths that overflow small screens */
+            #callouts { display: none; }
             #mobile-drawer { display: flex; }
+            .mobile-card .callout-title   { font-size: 1.35rem; }
+            .mobile-card .callout-subtitle { font-size: 1rem; }
+            .mobile-card .callout-body    { font-size: 1.06rem; line-height: 1.52; }
+            .mobile-card .callout-list    { font-size: 1.04rem; line-height: 1.48; }
         }
 
         @media (max-width: 640px) {
@@ -1150,6 +1157,7 @@
         let projectionVector = null;
         let warmingUp = true;
         let currentView = "about";
+        let mobileCardIndex = 0;
 
         // Show hint; on mobile change copy and hide after 10 s
         const hintEl = document.getElementById("hover-hint");
@@ -1606,7 +1614,12 @@
         function initMobileDrawer() {
             const CARD_ORDER = ["pi", "ruvc", "rec1", "rec2", "rec3"];
             const track = document.getElementById("mobile-cards-track");
-            const dots = document.querySelectorAll(".mobile-dot");
+            const dots  = document.querySelectorAll(".mobile-dot");
+
+            // Build an inner flex strip that we'll slide with transform
+            const inner = document.createElement("div");
+            inner.id = "mobile-cards-inner";
+            track.appendChild(inner);
 
             // Clone content from each callout box into a card
             CARD_ORDER.forEach(key => {
@@ -1615,13 +1628,27 @@
                 Array.from(calloutBoxes[key].children).forEach(child => {
                     card.appendChild(child.cloneNode(true));
                 });
-                track.appendChild(card);
+                inner.appendChild(card);
             });
 
-            // Update active dot on horizontal scroll
-            track.addEventListener("scroll", () => {
-                const idx = Math.round(track.scrollLeft / track.clientWidth);
-                dots.forEach((d, i) => d.classList.toggle("is-active", i === idx));
+            function goToCard(idx) {
+                mobileCardIndex = Math.max(0, Math.min(CARD_ORDER.length - 1, idx));
+                inner.style.transform = `translateX(${-mobileCardIndex * 100}vw)`;
+                dots.forEach((d, i) => d.classList.toggle("is-active", i === mobileCardIndex));
+            }
+
+            // Horizontal swipe on the track — require 80 px and more horizontal than vertical
+            let swipeX = 0, swipeY = 0;
+            track.addEventListener("touchstart", e => {
+                swipeX = e.touches[0].clientX;
+                swipeY = e.touches[0].clientY;
+            }, { passive: true });
+            track.addEventListener("touchend", e => {
+                const dx = swipeX - e.changedTouches[0].clientX;
+                const dy = Math.abs(swipeY - e.changedTouches[0].clientY);
+                if (Math.abs(dx) > 80 && Math.abs(dx) > dy * 1.2) {
+                    goToCard(mobileCardIndex + (dx > 0 ? 1 : -1));
+                }
             }, { passive: true });
 
             // Tap anywhere on canvas → open drawer
@@ -1637,14 +1664,14 @@
             // Close button → close
             document.getElementById("mobile-drawer-close").addEventListener("click", closeDrawer);
 
-            // Swipe down on the header → close
+            // Swipe down on the header → close (only header, not card content)
             const header = document.getElementById("mobile-drawer-header");
-            let swipeStartY = 0;
+            let headerSwipeY = 0;
             header.addEventListener("touchstart", e => {
-                swipeStartY = e.touches[0].clientY;
+                headerSwipeY = e.touches[0].clientY;
             }, { passive: true });
             header.addEventListener("touchend", e => {
-                if (e.changedTouches[0].clientY - swipeStartY > 60) closeDrawer();
+                if (e.changedTouches[0].clientY - headerSwipeY > 60) closeDrawer();
             }, { passive: true });
         }
 
@@ -1656,10 +1683,15 @@
         function closeDrawer() {
             document.getElementById("mobile-drawer").classList.remove("is-open");
             document.getElementById("mobile-drawer-backdrop").classList.remove("is-active");
-            // After slide-down animation, reset to first card
+            // After slide-down animation, silently reset to card 1
             setTimeout(() => {
-                const track = document.getElementById("mobile-cards-track");
-                if (track) track.scrollLeft = 0;
+                mobileCardIndex = 0;
+                const inner = document.getElementById("mobile-cards-inner");
+                if (inner) {
+                    inner.style.transition = "none";
+                    inner.style.transform = "translateX(0)";
+                    requestAnimationFrame(() => { inner.style.transition = ""; });
+                }
                 document.querySelectorAll(".mobile-dot").forEach((d, i) => {
                     d.classList.toggle("is-active", i === 0);
                 });
