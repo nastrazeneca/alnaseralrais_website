@@ -828,56 +828,125 @@
             padding: 10px;
         }
 
-        /* ── Mobile callout back button ────────────────────────────────────── */
-        .callout-back-btn {
+        /* ── Mobile drawer ──────────────────────────────────────────────────── */
+        #mobile-drawer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 70vh;
+            background: var(--callout-bg);
+            backdrop-filter: blur(24px) saturate(1.8);
+            -webkit-backdrop-filter: blur(24px) saturate(1.8);
+            box-shadow: 0 -6px 40px rgba(0, 40, 180, 0.14);
+            border-radius: 20px 20px 0 0;
+            z-index: 30;
             display: none;
-            align-items: center;
-            gap: 5px;
-            margin-bottom: 16px;
-            padding: 0;
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-family: var(--font-display);
-            font-size: 0.95rem;
-            font-weight: 600;
-            color: var(--text-secondary);
+            flex-direction: column;
+            transform: translateY(110%);
+            transition: transform 0.38s cubic-bezier(0.32, 0.72, 0, 1);
         }
 
-        /* ── Mobile callout backdrop ────────────────────────────────────────── */
-        #mobile-callout-backdrop {
+        #mobile-drawer.is-open {
+            transform: translateY(0);
+        }
+
+        #mobile-drawer-header {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 20px 10px;
+            position: relative;
+        }
+
+        /* Pill drag-handle */
+        #mobile-drawer-header::before {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 36px;
+            height: 4px;
+            background: rgba(8, 20, 143, 0.18);
+            border-radius: 2px;
+        }
+
+        #mobile-drawer-dots {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .mobile-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: rgba(8, 20, 143, 0.18);
+            transition: background 0.2s ease, transform 0.2s ease;
+        }
+
+        .mobile-dot.is-active {
+            background: rgba(8, 20, 143, 0.72);
+            transform: scale(1.3);
+        }
+
+        #mobile-drawer-close {
+            width: 34px;
+            height: 34px;
+            padding: 0;
+            border: none;
+            border-radius: 50%;
+            background: rgba(8, 20, 143, 0.07);
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-display);
+            transition: background 0.15s ease;
+        }
+
+        #mobile-drawer-close:active {
+            background: rgba(8, 20, 143, 0.14);
+        }
+
+        #mobile-cards-track {
+            flex: 1;
+            display: flex;
+            overflow-x: scroll;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            overscroll-behavior-x: contain;
+        }
+
+        #mobile-cards-track::-webkit-scrollbar { display: none; }
+
+        .mobile-card {
+            flex: 0 0 100%;
+            scroll-snap-align: start;
+            overflow-y: auto;
+            padding: 8px 24px 32px;
+            box-sizing: border-box;
+        }
+
+        .mobile-card::-webkit-scrollbar { display: none; }
+
+        #mobile-drawer-backdrop {
             display: none;
             position: fixed;
             inset: 0;
-            z-index: 19;
+            z-index: 29;
         }
+
+        #mobile-drawer-backdrop.is-active { display: block; }
 
         @media (max-width: 768px) {
             #callout-lines { display: none; }
-
-            #mobile-callout-backdrop.is-active {
-                display: block;
-            }
-
-            .callout-box.is-mobile-active {
-                position: fixed !important;
-                top: 50% !important;
-                left: 50% !important;
-                right: auto !important;
-                bottom: auto !important;
-                width: min(88vw, 420px) !important;
-                min-height: unset;
-                max-height: 78vh;
-                overflow-y: auto;
-                opacity: 1 !important;
-                pointer-events: auto !important;
-                transform: translate(-50%, -50%) !important;
-                z-index: 20;
-            }
-
-            .callout-back-btn {
-                display: flex;
-            }
+            #mobile-drawer { display: flex; }
         }
 
         @media (max-width: 640px) {
@@ -974,7 +1043,20 @@
             <p class="callout-body">I'm a final year undergraduate at the <a class="callout-link" href="https://www.cam.ac.uk" target="_blank" rel="noopener">University of Cambridge</a> studying genetics, computational biology and neuroscience.</p>
         </div>
     </div>
-    <div id="mobile-callout-backdrop"></div>
+    <div id="mobile-drawer">
+        <div id="mobile-drawer-header">
+            <div id="mobile-drawer-dots">
+                <span class="mobile-dot is-active"></span>
+                <span class="mobile-dot"></span>
+                <span class="mobile-dot"></span>
+                <span class="mobile-dot"></span>
+                <span class="mobile-dot"></span>
+            </div>
+            <button id="mobile-drawer-close" aria-label="Close panel">↓</button>
+        </div>
+        <div id="mobile-cards-track"></div>
+    </div>
+    <div id="mobile-drawer-backdrop"></div>
     <div id="canvas-loader">
         <div class="spinner"></div>
         <div class="loader-text" id="loader-status">Loading Cas9 Ribbons...</div>
@@ -1516,51 +1598,71 @@
             });
 
             if (isMobile) {
-                // Inject a back button at the top of every callout box
-                document.querySelectorAll(".callout-box").forEach(box => {
-                    const btn = document.createElement("button");
-                    btn.className = "callout-back-btn";
-                    btn.textContent = "← Back";
-                    btn.addEventListener("click", hideMobileCallout);
-                    box.insertBefore(btn, box.firstChild);
+                initMobileDrawer();
+            }
+        }
+
+        function initMobileDrawer() {
+            const CARD_ORDER = ["pi", "ruvc", "rec1", "rec2", "rec3"];
+            const track = document.getElementById("mobile-cards-track");
+            const dots = document.querySelectorAll(".mobile-dot");
+
+            // Clone content from each callout box into a card
+            CARD_ORDER.forEach(key => {
+                const card = document.createElement("div");
+                card.className = "mobile-card";
+                Array.from(calloutBoxes[key].children).forEach(child => {
+                    card.appendChild(child.cloneNode(true));
                 });
+                track.appendChild(card);
+            });
 
-                // Touch on canvas opens the matching callout
-                document.getElementById("canvas-3d").addEventListener("touchend", e => {
-                    const touch = e.changedTouches[0];
-                    const tx = touch.clientX;
-                    const ty = touch.clientY;
-                    for (const key of HOVER_DOMAINS) {
-                        const hull = domainHull2D[key];
-                        if (hull && pointInPolygon2D(tx, ty, hull)) {
-                            showMobileCallout(key);
-                            return;
-                        }
-                    }
-                }, { passive: true });
+            // Update active dot on horizontal scroll
+            track.addEventListener("scroll", () => {
+                const idx = Math.round(track.scrollLeft / track.clientWidth);
+                dots.forEach((d, i) => d.classList.toggle("is-active", i === idx));
+            }, { passive: true });
 
-                // Tap on backdrop closes the callout
-                document.getElementById("mobile-callout-backdrop").addEventListener("touchend", () => {
-                    hideMobileCallout();
-                }, { passive: true });
-            }
+            // Tap anywhere on canvas → open drawer
+            document.getElementById("canvas-3d").addEventListener("touchend", () => {
+                openDrawer();
+            }, { passive: true });
+
+            // Backdrop tap → close
+            document.getElementById("mobile-drawer-backdrop").addEventListener("touchend", () => {
+                closeDrawer();
+            }, { passive: true });
+
+            // Close button → close
+            document.getElementById("mobile-drawer-close").addEventListener("click", closeDrawer);
+
+            // Swipe down on the header → close
+            const header = document.getElementById("mobile-drawer-header");
+            let swipeStartY = 0;
+            header.addEventListener("touchstart", e => {
+                swipeStartY = e.touches[0].clientY;
+            }, { passive: true });
+            header.addEventListener("touchend", e => {
+                if (e.changedTouches[0].clientY - swipeStartY > 60) closeDrawer();
+            }, { passive: true });
         }
 
-        function showMobileCallout(key) {
-            HOVER_DOMAINS.forEach(k => {
-                if (calloutBoxes[k]) calloutBoxes[k].classList.remove("is-mobile-active");
-            });
-            if (calloutBoxes[key]) {
-                calloutBoxes[key].classList.add("is-mobile-active");
-            }
-            document.getElementById("mobile-callout-backdrop").classList.add("is-active");
+        function openDrawer() {
+            document.getElementById("mobile-drawer").classList.add("is-open");
+            document.getElementById("mobile-drawer-backdrop").classList.add("is-active");
         }
 
-        function hideMobileCallout() {
-            HOVER_DOMAINS.forEach(k => {
-                if (calloutBoxes[k]) calloutBoxes[k].classList.remove("is-mobile-active");
-            });
-            document.getElementById("mobile-callout-backdrop").classList.remove("is-active");
+        function closeDrawer() {
+            document.getElementById("mobile-drawer").classList.remove("is-open");
+            document.getElementById("mobile-drawer-backdrop").classList.remove("is-active");
+            // After slide-down animation, reset to first card
+            setTimeout(() => {
+                const track = document.getElementById("mobile-cards-track");
+                if (track) track.scrollLeft = 0;
+                document.querySelectorAll(".mobile-dot").forEach((d, i) => {
+                    d.classList.toggle("is-active", i === 0);
+                });
+            }, 420);
         }
 
         function updateCalloutVisual(key, color, hoverStep, dimStep) {
