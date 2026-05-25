@@ -853,7 +853,6 @@
         }
 
         @media (max-width: 768px) {
-            #hover-hint { display: none; }
             #callout-lines { display: none; }
 
             #mobile-callout-backdrop.is-active {
@@ -1069,8 +1068,11 @@
         let warmingUp = true;
         let currentView = "about";
 
-        // Hide hint after 10 s
+        // Show hint; on mobile change copy and hide after 10 s
         const hintEl = document.getElementById("hover-hint");
+        if (isMobile) {
+            hintEl.textContent = "tap on the protein!";
+        }
         setTimeout(() => {
             hintEl.style.opacity = "0";
             setTimeout(() => { hintEl.style.display = "none"; }, 850);
@@ -1550,7 +1552,6 @@
             });
             if (calloutBoxes[key]) {
                 calloutBoxes[key].classList.add("is-mobile-active");
-                restartSpawnAnimation(calloutBoxes[key]);
             }
             document.getElementById("mobile-callout-backdrop").classList.add("is-active");
         }
