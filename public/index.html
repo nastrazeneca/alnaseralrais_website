@@ -87,8 +87,10 @@
 
         body, html {
             width: 100%;
+            max-width: 100%;
             height: 100%;
             overflow: hidden;
+            overflow-x: hidden;
             background: var(--bg-gradient);
             font-family: var(--font-display);
             -webkit-font-smoothing: antialiased;
@@ -137,8 +139,6 @@
         #canvas-3d {
             position: absolute;
             inset: 0;
-            width: 100vw;
-            height: 100vh;
             z-index: 1;
             transform-origin: 50% 50%;
             transition: opacity 220ms ease;
@@ -152,8 +152,6 @@
         #callouts {
             position: absolute;
             inset: 0;
-            width: 100vw;
-            height: 100vh;
         }
 
 
@@ -703,8 +701,6 @@
         #canvas-loader {
             position: absolute;
             inset: 0;
-            width: 100vw;
-            height: 100vh;
             background: var(--bg-gradient);
             z-index: 100;
             display: flex;
@@ -916,24 +912,23 @@
         #mobile-cards-track {
             flex: 1;
             min-height: 0;
-            overflow: hidden;
-            position: relative;
+            width: 100%;
+            overflow-y: scroll;
+            overflow-x: hidden;
+            scroll-snap-type: y mandatory;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
         }
 
-        #mobile-cards-inner {
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 100%;         /* resolved against track (position:relative) — always definite */
-            display: flex;
-            align-items: stretch; /* all cards inherit this exact height */
-            transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            will-change: transform;
-        }
+        #mobile-cards-track::-webkit-scrollbar { display: none; }
 
         .mobile-card {
-            flex: 0 0 100vw;
+            width: 100%;
+            height: 100%;
+            flex-shrink: 0;
+            scroll-snap-align: start;
             overflow-y: auto;
+            overflow-x: hidden;
             padding: 12px 24px 36px;
             box-sizing: border-box;
             scrollbar-width: none;
@@ -1640,39 +1635,23 @@
             const track = document.getElementById("mobile-cards-track");
             const dots  = document.querySelectorAll(".mobile-dot");
 
-            // Build an inner flex strip that we'll slide with transform
-            const inner = document.createElement("div");
-            inner.id = "mobile-cards-inner";
-            track.appendChild(inner);
-
-            // Clone content from each callout box into a card
+            // Clone content from each callout box directly into a card inside the track
             CARD_ORDER.forEach(key => {
                 const card = document.createElement("div");
                 card.className = "mobile-card";
                 Array.from(calloutBoxes[key].children).forEach(child => {
                     card.appendChild(child.cloneNode(true));
                 });
-                inner.appendChild(card);
+                track.appendChild(card);
             });
 
-            function goToCard(idx) {
-                mobileCardIndex = Math.max(0, Math.min(CARD_ORDER.length - 1, idx));
-                inner.style.transform = `translateX(${-mobileCardIndex * 100}vw)`;
-                dots.forEach((d, i) => d.classList.toggle("is-active", i === mobileCardIndex));
-            }
-
-            // Horizontal swipe on the track — require 80 px and more horizontal than vertical
-            let swipeX = 0, swipeY = 0;
-            track.addEventListener("touchstart", e => {
-                swipeX = e.touches[0].clientX;
-                swipeY = e.touches[0].clientY;
-            }, { passive: true });
-            track.addEventListener("touchend", e => {
-                const dx = swipeX - e.changedTouches[0].clientX;
-                const dy = Math.abs(swipeY - e.changedTouches[0].clientY);
-                if (Math.abs(dx) > 80 && Math.abs(dx) > dy * 1.2) {
-                    goToCard(mobileCardIndex + (dx > 0 ? 1 : -1));
-                }
+            // Update dots indicator based on vertical scroll position
+            track.addEventListener("scroll", () => {
+                const cardHeight = track.clientHeight;
+                if (cardHeight === 0) return;
+                const idx = Math.round(track.scrollTop / cardHeight);
+                mobileCardIndex = idx;
+                dots.forEach((d, i) => d.classList.toggle("is-active", i === idx));
             }, { passive: true });
 
             // Tap anywhere on canvas → pulse animation then open drawer
@@ -1712,14 +1691,15 @@
         function closeDrawer() {
             document.getElementById("mobile-drawer").classList.remove("is-open");
             document.getElementById("mobile-drawer-backdrop").classList.remove("is-active");
-            // After slide-down animation, silently reset to card 1
+            // After slide-down animation, silently reset to first card
             setTimeout(() => {
                 mobileCardIndex = 0;
-                const inner = document.getElementById("mobile-cards-inner");
-                if (inner) {
-                    inner.style.transition = "none";
-                    inner.style.transform = "translateX(0)";
-                    requestAnimationFrame(() => { inner.style.transition = ""; });
+                const track = document.getElementById("mobile-cards-track");
+                if (track) {
+                    // Disable scroll-snap momentarily so the reset is instant
+                    track.style.scrollSnapType = "none";
+                    track.scrollTop = 0;
+                    requestAnimationFrame(() => { track.style.scrollSnapType = ""; });
                 }
                 document.querySelectorAll(".mobile-dot").forEach((d, i) => {
                     d.classList.toggle("is-active", i === 0);
