@@ -956,10 +956,19 @@
             pointer-events: auto;
         }
 
+        @keyframes proteinTapPulse {
+            0%   { transform: scale(1);    }
+            35%  { transform: scale(1.05); }
+            100% { transform: scale(1);    }
+        }
+
         @media (max-width: 768px) {
             #callout-lines { display: none; }
             #callouts { display: none; }
             #mobile-drawer { display: flex; }
+            #canvas-3d.tap-pulse {
+                animation: proteinTapPulse 0.38s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+            }
             .mobile-card .callout-title   { font-size: 1.35rem; }
             .mobile-card .callout-subtitle { font-size: 1rem; }
             .mobile-card .callout-body    { font-size: 1.06rem; line-height: 1.52; }
@@ -1666,8 +1675,13 @@
                 }
             }, { passive: true });
 
-            // Tap anywhere on canvas → open drawer
+            // Tap anywhere on canvas → pulse animation then open drawer
             document.getElementById("canvas-3d").addEventListener("touchend", () => {
+                const canvas = document.getElementById("canvas-3d");
+                canvas.classList.remove("tap-pulse");
+                void canvas.offsetWidth; // force reflow so animation restarts if tapped rapidly
+                canvas.classList.add("tap-pulse");
+                canvas.addEventListener("animationend", () => canvas.classList.remove("tap-pulse"), { once: true });
                 openDrawer();
             }, { passive: true });
 
