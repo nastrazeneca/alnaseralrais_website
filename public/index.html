@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CRISPR-Cas9 Ribbon Explorer</title>
+    <title>Naser Al-Rais</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -926,7 +926,7 @@
     </div>
     <div id="canvas-loader">
         <div class="spinner"></div>
-        <div class="loader-text" id="loader-status">Loading Cas9 Ribbons...</div>
+        <div class="loader-text" id="loader-status">Loading...</div>
     </div>
     <p id="hover-hint">hover over the protein!</p>
     <main id="blog-screen" class="site-screen" aria-labelledby="blog-title">
@@ -1180,7 +1180,7 @@
             }
 
             if (!pdb) {
-                showLoader(true, "Error: Could not retrieve ribbon coordinates.");
+                showLoader(true, "oops... it's not working right now!");
                 return;
             }
 
