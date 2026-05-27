@@ -146,8 +146,9 @@
             fill: none;
             stroke: var(--connector-color);
             stroke-width: 2;
-            stroke-linecap: round;
+            stroke-linecap: butt;
             stroke-linejoin: miter;
+            stroke-miterlimit: 10;
             vector-effect: non-scaling-stroke;
             opacity: 0.74;
             transition: stroke 120ms ease, stroke-width 120ms ease, opacity 120ms ease-out;
@@ -1017,12 +1018,7 @@
         let warmingUp = true;
         let currentView = "about";
 
-        // Hide hint after 10 s
         const hintEl = document.getElementById("hover-hint");
-        setTimeout(() => {
-            hintEl.style.opacity = "0";
-            setTimeout(() => { hintEl.style.display = "none"; }, 850);
-        }, 10000);
 
         const domainHoverFactor = { ruvc: 0, rec1: 0, rec2: 0, rec3: 0, pi: 0 };
         const domainVisualFactor = { ruvc: -1, rec1: -1, rec2: -1, rec3: -1, pi: -1 };
@@ -1605,25 +1601,18 @@
         }
 
         function getChipConnectorPath(anchor, end, onLeft) {
-            const dx = end.x - anchor.x;
-            const dy = end.y - anchor.y;
-            const direction = dx === 0 ? (onLeft ? -1 : 1) : Math.sign(dx);
-            const horizontalDistance = Math.abs(dx);
+            // Two-segment sharp elbow: diagonal from anchor → elbow, then horizontal → text
+            const direction = onLeft ? 1 : -1;
             const viewportFactor = clamp(window.innerWidth / 1100, 0.42, 1);
-            const handle = clamp(horizontalDistance * 0.42, 16, 76 * viewportFactor);
-            const verticalEase = Math.min(Math.abs(dy) * 0.08, 16 * viewportFactor);
-            const c1 = {
-                x: anchor.x + direction * handle,
-                y: anchor.y + Math.sign(dy) * verticalEase
+            const elbowLen = clamp(40 * viewportFactor, 16, 40);
+            const elbow = {
+                x: end.x + direction * elbowLen,
+                y: end.y
             };
-            const c2 = {
-                x: end.x - direction * handle,
-                y: end.y - Math.sign(dy) * verticalEase
-            };
-
             return [
                 `M ${anchor.x.toFixed(1)} ${anchor.y.toFixed(1)}`,
-                `C ${c1.x.toFixed(1)} ${c1.y.toFixed(1)}, ${c2.x.toFixed(1)} ${c2.y.toFixed(1)}, ${end.x.toFixed(1)} ${end.y.toFixed(1)}`
+                `L ${elbow.x.toFixed(1)} ${elbow.y.toFixed(1)}`,
+                `L ${end.x.toFixed(1)} ${end.y.toFixed(1)}`
             ].join(" ");
         }
 
