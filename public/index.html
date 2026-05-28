@@ -1,0 +1,2947 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Naser Al-Rais</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Serif:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/3Dmol/2.0.4/3Dmol-min.js"></script>
+
+    <style>
+        :root {
+            --vitrine-bg: #0F1014;
+            --vitrine-ink: #ECEAF4;
+            --vitrine-accent: #7BCFE8;
+            --vitrine-muted: rgba(236, 234, 244, 0.64);
+            --vitrine-rule: rgba(236, 234, 244, 0.16);
+            --bg-gradient:
+                radial-gradient(circle at 48% 44%, rgba(123, 207, 232, 0.12) 0%, rgba(123, 207, 232, 0.04) 28%, rgba(15, 16, 20, 0) 58%),
+                linear-gradient(135deg, #151419 0%, var(--vitrine-bg) 58%, #0A0B0E 100%);
+            --ambient-aura: radial-gradient(circle, rgba(123, 207, 232, 0.14) 0%, rgba(91, 221, 162, 0.07) 42%, rgba(15, 16, 20, 0) 70%);
+            --connector-color: rgba(236, 234, 244, 0.68);
+            --connector-node-fill: rgba(255, 255, 255, 0.94);
+            --text-primary: var(--vitrine-ink);
+            --text-secondary: var(--vitrine-muted);
+            --hint-color: rgba(236, 234, 244, 0.46);
+            --nav-text: var(--vitrine-ink);
+            --nav-text-active: var(--vitrine-accent);
+            --nav-bg: rgba(236, 234, 244, 0);
+            --nav-bg-hover: rgba(236, 234, 244, 0);
+            --nav-bg-active: rgba(236, 234, 244, 0);
+            --nav-shadow:
+                inset 0 0 0 rgba(236, 234, 244, 0),
+                0 0 0 rgba(123, 207, 232, 0),
+                0 0 0 rgba(123, 207, 232, 0);
+            --nav-shadow-hover:
+                inset 0 0 0 rgba(236, 234, 244, 0),
+                0 0 0 rgba(123, 207, 232, 0),
+                0 0 0 rgba(123, 207, 232, 0);
+            --callout-text: var(--vitrine-ink);
+            --callout-bg:
+                linear-gradient(135deg,
+                    rgba(123, 207, 232, 0.13)  0%,
+                    rgba(236, 234, 244, 0.08) 35%,
+                    rgba(91, 221, 162, 0.08) 100%),
+                repeating-linear-gradient(0deg,
+                    rgba(236, 234, 244, 0.035) 0 1px,
+                    transparent 1px 11px),
+                radial-gradient(ellipse 80% 40% at 50% 0%,
+                    rgba(123, 207, 232, 0.14), transparent 70%),
+                rgba(15, 16, 20, 0.48);
+            --callout-bg-active:
+                linear-gradient(135deg,
+                    rgba(123, 207, 232, 0.2)  0%,
+                    rgba(236, 234, 244, 0.1) 36%,
+                    rgba(91, 221, 162, 0.12) 100%),
+                repeating-linear-gradient(0deg,
+                    rgba(236, 234, 244, 0.05) 0 1px,
+                    transparent 1px 11px),
+                radial-gradient(ellipse 90% 50% at 50% 0%,
+                    rgba(123, 207, 232, 0.22), transparent 65%),
+                rgba(15, 16, 20, 0.68);
+            --callout-shadow:
+                inset 0 1px 0 rgba(236, 234, 244, 0.16),
+                inset 0 -1px 0 rgba(123, 207, 232, 0.08),
+                0 8px 32px rgba(0, 0, 0, 0.22);
+            --callout-shadow-active:
+                inset 0 1px 0 rgba(236, 234, 244, 0.22),
+                inset 0 -1px 0 rgba(123, 207, 232, 0.16),
+                0 0 0 0.5px rgba(var(--callout-accent-rgb, 0,229,255), 0.35),
+                0 0 28px rgba(var(--callout-accent-rgb, 0,80,245), 0.18),
+                0 0 60px rgba(var(--callout-accent-rgb, 0,80,245), 0.10),
+                0 18px 50px rgba(0, 0, 0, 0.32);
+            --loader-text: var(--vitrine-muted);
+            --spinner-track: rgba(236, 234, 244, 0.12);
+            --spinner-active: var(--vitrine-accent);
+            --font-sans: 'IBM Plex Sans', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            --font-serif: 'IBM Plex Serif', Georgia, serif;
+            --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+            --font-display: var(--font-sans);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-user-drag: none;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: var(--bg-gradient);
+            font-family: var(--font-display);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 600px;
+            height: 600px;
+            transform: translate(-50%, -50%);
+            background: var(--ambient-aura);
+            filter: blur(40px);
+            z-index: 0;
+            pointer-events: none;
+            animation: auraPulse 6s ease-in-out infinite alternate;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: calc(clamp(16px, 2.5vh, 28px) + 58px);
+            z-index: 9;
+            pointer-events: none;
+            opacity: 0;
+            visibility: hidden;
+            background: linear-gradient(to bottom, rgba(15, 16, 20, 0.82), rgba(15, 16, 20, 0.62));
+            backdrop-filter: blur(10px) saturate(1.08);
+            -webkit-backdrop-filter: blur(10px) saturate(1.08);
+            box-shadow: 0 1px 0 rgba(236, 234, 244, 0.028);
+            transition: opacity 180ms ease, visibility 180ms ease;
+        }
+
+        @media (max-width: 980px) {
+            body.nav-scrim-visible::after {
+                opacity: 1;
+                visibility: visible;
+            }
+        }
+
+        @keyframes auraPulse {
+            0% { transform: translate(-50%, -50%) scale(0.95); opacity: 0.8; }
+            100% { transform: translate(-50%, -50%) scale(1.15); opacity: 1.3; }
+        }
+
+        #canvas-3d {
+            position: absolute;
+            inset: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1;
+            transform-origin: 50% 50%;
+            opacity: 1;
+            transition: opacity 180ms ease;
+        }
+
+        #canvas-3d canvas {
+            pointer-events: none !important;
+        }
+
+        #callout-lines,
+        #callouts {
+            position: absolute;
+            inset: 0;
+            width: 100vw;
+            height: 100vh;
+        }
+
+
+        #callout-lines {
+            z-index: 2;
+            overflow: visible;
+            pointer-events: none;
+            opacity: var(--protein-label-opacity, 0);
+            transition: opacity 180ms ease;
+        }
+
+        .callout-line {
+            fill: none;
+            stroke: var(--connector-color);
+            stroke-width: 2;
+            stroke-linecap: butt;
+            stroke-linejoin: miter;
+            stroke-miterlimit: 10;
+            vector-effect: non-scaling-stroke;
+            opacity: 0.74;
+            transition: stroke 120ms ease, stroke-width 120ms ease, opacity 120ms ease-out;
+        }
+
+        .callout-node {
+            fill: var(--connector-node-fill);
+            stroke: var(--connector-color);
+            stroke-width: 2.2;
+            vector-effect: non-scaling-stroke;
+            opacity: 0.74;
+            pointer-events: none;
+            transition: fill 120ms ease, stroke 120ms ease, opacity 80ms ease-out, r 120ms ease;
+        }
+
+        #callouts {
+            z-index: 3;
+            pointer-events: none;
+            opacity: var(--protein-label-opacity, 0);
+            transition: opacity 180ms ease;
+        }
+
+        #protein-reveal-wash {
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+            pointer-events: none;
+            opacity: var(--protein-wash-opacity, 0);
+            background:
+                radial-gradient(ellipse 46% 54% at 50% 50%,
+                    rgba(15, 16, 20, 0) 0%,
+                    rgba(15, 16, 20, 0) 46%,
+                    rgba(123, 207, 232, 0.1) 62%,
+                    rgba(15, 16, 20, 0.46) 100%),
+                linear-gradient(90deg,
+                    rgba(15, 16, 20, 0.54) 0%,
+                    rgba(15, 16, 20, 0) 24%,
+                    rgba(15, 16, 20, 0) 76%,
+                    rgba(15, 16, 20, 0.54) 100%);
+            transform: scale(var(--protein-wash-scale, 1.08));
+            transition:
+                opacity 220ms ease,
+                transform 220ms cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        body.protein-revealed #protein-reveal-wash {
+            opacity: 0;
+        }
+
+        body[data-view="about"]:not(.protein-loaded) #canvas-3d,
+        body[data-view="about"]:not(.protein-loaded) #protein-reveal-wash {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .site-screen {
+            position: absolute;
+            inset: 0;
+            z-index: 4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: clamp(96px, 14vh, 150px) clamp(28px, 8vw, 120px);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity 220ms ease, visibility 220ms ease;
+        }
+
+        #about-screen,
+        #blog-screen,
+        #contact-screen {
+            align-items: flex-start;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        #about-screen {
+            flex-direction: column;
+            justify-content: flex-start;
+            padding: 0;
+            scroll-behavior: smooth;
+            overscroll-behavior-y: contain;
+        }
+
+        .intro-panel {
+            position: sticky;
+            top: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 100%;
+            min-height: 100svh;
+            padding: clamp(108px, 15vh, 156px) clamp(28px, 8vw, 120px) clamp(82px, 12vh, 128px);
+            background: var(--bg-gradient);
+            opacity: var(--intro-reveal-opacity, 1);
+            transform: translateY(var(--intro-reveal-lift, 0px)) scale(var(--intro-reveal-scale, 1));
+            transform-origin: 50% 42%;
+            will-change: transform, opacity;
+        }
+
+        .intro-panel::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: -1px;
+            height: clamp(80px, 15vh, 160px);
+            background: linear-gradient(to bottom, rgba(15, 16, 20, 0), rgba(15, 16, 20, 0.92));
+            opacity: var(--intro-curtain-opacity, 0);
+            pointer-events: none;
+        }
+
+        .intro-copy {
+            width: min(1120px, 100%);
+            text-align: left;
+            color: var(--text-primary);
+        }
+
+        .intro-thesis {
+            max-width: 940px;
+            font-family: var(--font-serif);
+            font-size: clamp(2rem, 4.9vw, 4.85rem);
+            font-weight: 500;
+            line-height: 1.04;
+            letter-spacing: 0;
+        }
+
+        .highlight-shift {
+            position: relative;
+            z-index: 0;
+            display: inline-block;
+            white-space: nowrap;
+        }
+
+        .highlight-shift::before {
+            content: "";
+            position: absolute;
+            left: -0.05em;
+            right: -0.05em;
+            bottom: 0.07em;
+            height: 0.41em;
+            z-index: -1;
+            background: rgba(123, 207, 232, 0.42);
+            border-radius: 0.08em;
+            transform: translateY(0.12em) rotate(-1deg);
+        }
+
+        .intro-affiliations {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.3em 0.55em;
+            max-width: 760px;
+            margin-top: clamp(24px, 4vh, 38px);
+            font-size: clamp(1rem, 1.9vw, 1.32rem);
+            font-weight: 500;
+            line-height: 1.35;
+            color: rgba(236, 234, 244, 0.6);
+        }
+
+        .intro-affiliations strong {
+            color: var(--text-primary);
+            font-weight: 650;
+        }
+
+        .intro-dot {
+            color: rgba(123, 207, 232, 0.58);
+        }
+
+        .swipe-hint {
+            position: absolute;
+            bottom: clamp(28px, 5vh, 48px);
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            color: rgba(236, 234, 244, 0.36);
+            font-size: 0.68rem;
+            font-weight: 500;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            pointer-events: none;
+            user-select: none;
+            white-space: nowrap;
+            opacity: var(--swipe-hint-opacity, 1);
+            transition: opacity 180ms ease, transform 220ms ease;
+        }
+
+        .swipe-hint-track {
+            position: relative;
+            width: 1px;
+            height: 32px;
+            overflow: hidden;
+            background: linear-gradient(to bottom, rgba(236, 234, 244, 0.18), rgba(236, 234, 244, 0.03));
+        }
+
+        .swipe-hint-track::after {
+            content: "";
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            width: 3px;
+            height: 10px;
+            border-radius: 999px;
+            background: var(--vitrine-accent);
+            box-shadow: 0 0 14px rgba(123, 207, 232, 0.48);
+            transform: translateX(-50%);
+            animation: swipeHintTrace 2.2s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+        }
+
+        .swipe-hint-arrow {
+            width: 8px;
+            height: 8px;
+            margin-top: -10px;
+            border-right: 1.5px solid currentColor;
+            border-bottom: 1.5px solid currentColor;
+            transform: rotate(45deg);
+            animation: swipeHintBob 2.2s ease-in-out infinite;
+        }
+
+        @keyframes swipeHintBob {
+            0%, 100% { transform: rotate(45deg) translate(0, 0); opacity: 0.78; }
+            50%       { transform: rotate(45deg) translate(2px, 2px); opacity: 0.36; }
+        }
+
+        @keyframes swipeHintTrace {
+            0% {
+                transform: translate(-50%, 0);
+                opacity: 0;
+            }
+            18% {
+                opacity: 1;
+            }
+            78%, 100% {
+                transform: translate(-50%, 44px);
+                opacity: 0;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            #about-screen {
+                scroll-behavior: auto;
+            }
+
+            .swipe-hint-track::after,
+            .swipe-hint-arrow {
+                animation: none;
+            }
+        }
+
+        .protein-reveal-spacer {
+            min-height: 100svh;
+            pointer-events: none;
+        }
+
+        body[data-view="about"] #about-screen {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        body[data-view="about"] #about-screen.at-protein {
+            pointer-events: none;
+        }
+
+        body[data-view="about"] #about-screen.at-protein .intro-panel {
+            visibility: hidden;
+        }
+
+        body[data-view="about"] #about-screen.at-protein .protein-reveal-spacer {
+            pointer-events: none;
+        }
+
+        #blog-screen,
+        #contact-screen {
+            padding: clamp(86px, 13vh, 132px) clamp(22px, 7vw, 96px) clamp(72px, 12vh, 128px);
+        }
+
+        .blog-view,
+        .contact-view {
+            width: min(660px, 100%);
+            color: var(--text-primary);
+        }
+
+        body[data-blog-mode="index"] .blog-view {
+            width: min(1460px, 100%);
+        }
+
+        .blog-view h1 {
+            font-size: clamp(2.5rem, 5.4vw, 4rem);
+            font-weight: 600;
+            line-height: 1.06;
+            letter-spacing: 0;
+        }
+
+        .blog-view p {
+            font-size: clamp(1rem, 2vw, 1.22rem);
+            font-weight: 400;
+            line-height: 1.55;
+            color: var(--text-secondary);
+        }
+
+        .blog-index,
+        .blog-post {
+            display: none;
+        }
+
+        body[data-blog-mode="index"] .blog-index,
+        body[data-blog-mode="post"] .blog-post {
+            display: block;
+        }
+
+        .writing-header {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0;
+            padding-bottom: clamp(28px, 5vh, 44px);
+        }
+
+        .writing-tabs {
+            display: flex;
+            align-items: center;
+            gap: clamp(18px, 2.4vw, 34px);
+            color: var(--vitrine-muted);
+            font-size: clamp(0.96rem, 1.25vw, 1.1rem);
+            font-weight: 600;
+            line-height: 1;
+            white-space: nowrap;
+        }
+
+        .writing-tab {
+            padding-bottom: 9px;
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .writing-tab.is-active {
+            color: var(--text-primary);
+            box-shadow: 0 3px 0 var(--vitrine-accent);
+        }
+
+        .writing-count {
+            color: rgba(236, 234, 244, 0.38);
+            font-weight: 500;
+        }
+
+        .writing-subtitle {
+            margin-top: 10px;
+            color: var(--text-secondary);
+            font-size: clamp(0.88rem, 1.2vw, 1rem);
+            font-weight: 400;
+            line-height: 1.4;
+        }
+
+        .blog-list {
+            margin-top: 0;
+            border-bottom: 1px solid var(--vitrine-rule);
+        }
+
+        .blog-row {
+            display: grid;
+            grid-template-columns: minmax(130px, 0.7fr) minmax(360px, 4.8fr) minmax(80px, 0.85fr) minmax(70px, 0.55fr);
+            gap: clamp(18px, 2.5vw, 44px);
+            align-items: center;
+            padding: clamp(22px, 3.3vh, 34px) 0;
+            border-top: 1px solid var(--vitrine-rule);
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: border-color 160ms ease, transform 160ms ease;
+        }
+
+        .blog-row:hover {
+            border-color: rgba(123, 207, 232, 0.5);
+            transform: translateX(4px);
+        }
+
+        .blog-row.is-muted {
+            cursor: default;
+        }
+
+        .blog-row.is-muted:hover {
+            transform: none;
+        }
+
+        .blog-date,
+        .blog-kind,
+        .blog-readtime {
+            color: rgba(236, 234, 244, 0.54);
+            font-size: clamp(0.92rem, 1.22vw, 1.06rem);
+            font-weight: 500;
+            line-height: 1.2;
+            letter-spacing: 0.03em;
+        }
+
+        .blog-kind {
+            color: rgba(236, 234, 244, 0.72);
+        }
+
+        .blog-kind.is-link {
+            color: var(--vitrine-accent);
+        }
+
+        .blog-readtime {
+            text-align: right;
+            color: rgba(236, 234, 244, 0.42);
+        }
+
+        .blog-card-body {
+            display: block;
+            min-width: 0;
+            text-align: left;
+        }
+
+        .blog-card-title {
+            display: block;
+            color: var(--text-primary);
+            font-size: clamp(1.2rem, 2vw, 1.62rem);
+            font-weight: 650;
+            line-height: 1.15;
+        }
+
+        .blog-card-dek {
+            display: block;
+            margin-top: 8px;
+            color: rgba(236, 234, 244, 0.64);
+            font-size: clamp(0.98rem, 1.45vw, 1.22rem);
+            font-weight: 400;
+            line-height: 1.35;
+        }
+
+        .blog-back {
+            display: inline-flex;
+            align-items: center;
+            margin-bottom: 28px;
+            color: var(--text-secondary);
+            font-size: 0.98rem;
+            font-weight: 600;
+            line-height: 1.2;
+            text-decoration: none;
+        }
+
+        .blog-back:hover {
+            color: var(--text-primary);
+        }
+
+        .blog-post {
+            width: 100%;
+        }
+
+        .blog-post header {
+            width: 100%;
+        }
+
+        .blog-post h1 {
+            font-size: clamp(1.72rem, 3.8vw, 2.32rem);
+            line-height: 1.15;
+        }
+
+        .blog-post header .blog-date {
+            margin-top: 14px;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .blog-hero {
+            margin-top: 34px;
+        }
+
+        .blog-hero img {
+            display: block;
+            width: 100%;
+            border-radius: 6px;
+            aspect-ratio: 1170 / 780;
+            object-fit: cover;
+            box-shadow:
+                0 0 0 1px rgba(236, 234, 244, 0.14),
+                0 20px 54px rgba(0, 0, 0, 0.28);
+        }
+
+        .blog-hero figcaption {
+            margin-top: 10px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .blog-content {
+            width: 100%;
+            margin-top: 42px;
+            font-family: var(--font-serif);
+        }
+
+        .blog-content p {
+            width: 100%;
+            margin-top: 0;
+            color: rgba(236, 234, 244, 0.82);
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .blog-content p + p {
+            margin-top: 24px;
+        }
+
+        .blog-content a {
+            color: inherit;
+            font-weight: 600;
+            text-decoration: underline;
+            text-decoration-color: rgba(123, 207, 232, 0.5);
+            text-decoration-thickness: 1px;
+            text-underline-offset: 3px;
+        }
+
+        .blog-content a:hover {
+            text-decoration-color: currentColor;
+        }
+
+        .blog-signoff {
+            padding-top: 28px;
+            border-top: 1px solid var(--vitrine-rule);
+            color: rgba(236, 234, 244, 0.68) !important;
+            font-size: clamp(0.86rem, 1.25vw, 0.98rem) !important;
+            font-style: italic;
+        }
+
+        .icer-widget {
+            --icer-ink: rgba(236, 234, 244, 0.9);
+            --icer-muted: rgba(236, 234, 244, 0.58);
+            --icer-faint: rgba(236, 234, 244, 0.18);
+            --icer-accent: #7BCFE8;
+            --icer-band: rgba(20, 80, 40, 0.35);
+            width: 100%;
+            margin: clamp(38px, 7vh, 60px) 0;
+            padding: clamp(18px, 3.4vw, 28px);
+            border: 1px solid var(--vitrine-rule);
+            border-radius: 8px;
+            background: rgba(15, 16, 20, 0.58);
+            box-shadow: 0 18px 48px rgba(0, 0, 0, 0.22);
+            font-family: var(--font-sans);
+            color: var(--icer-ink);
+        }
+
+        .icer-widget * {
+            box-sizing: border-box;
+        }
+
+        .icer-topline,
+        .icer-slider-meta {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 18px;
+        }
+
+        .icer-topline {
+            align-items: flex-start;
+        }
+
+        .icer-label {
+            color: var(--icer-muted);
+            font-family: var(--font-mono);
+            font-size: clamp(0.66rem, 1.2vw, 0.78rem);
+            font-weight: 500;
+            letter-spacing: 0.14em;
+            line-height: 1.3;
+            text-transform: uppercase;
+        }
+
+        .icer-slider-meta .icer-label {
+            font-family: var(--font-sans);
+            font-size: 0.98rem;
+            font-weight: 500;
+            letter-spacing: 0;
+            text-transform: none;
+        }
+
+        .icer-readout {
+            color: var(--icer-ink);
+            font-family: var(--font-mono);
+            font-size: clamp(1.02rem, 2.1vw, 1.38rem);
+            font-weight: 600;
+            line-height: 1;
+            white-space: nowrap;
+            transition: color 180ms ease;
+            opacity: 0.88;
+        }
+
+        .icer-widget.is-threshold-crossed .icer-readout {
+            color: #5BDDA2;
+        }
+
+        .icer-chart {
+            display: block;
+            width: 100%;
+            height: auto;
+            margin-top: 18px;
+            overflow: visible;
+        }
+
+        .icer-axis,
+        .icer-tick {
+            stroke: var(--icer-faint);
+            stroke-width: 1;
+            vector-effect: non-scaling-stroke;
+        }
+
+        .icer-threshold-line {
+            stroke: rgba(91, 221, 162, 0.82);
+            stroke-width: 1.5;
+            vector-effect: non-scaling-stroke;
+        }
+
+        .icer-annotation-line {
+            stroke: var(--icer-muted);
+            stroke-width: 1.5;
+            stroke-dasharray: 5 7;
+            vector-effect: non-scaling-stroke;
+        }
+
+        .icer-annotation-line.is-strong {
+            stroke: rgba(236, 234, 244, 0.82);
+            stroke-width: 2;
+            stroke-dasharray: 7 6;
+        }
+
+        .icer-curve {
+            fill: none;
+            stroke: var(--icer-accent);
+            stroke-width: 3;
+            stroke-linecap: butt;
+            vector-effect: non-scaling-stroke;
+        }
+
+        .icer-dot {
+            fill: var(--icer-accent);
+            stroke: #0F1014;
+            stroke-width: 4;
+            filter: drop-shadow(0 0 9px rgba(123, 207, 232, 0.68));
+            transition: fill 180ms ease, filter 180ms ease;
+            vector-effect: non-scaling-stroke;
+        }
+
+        .icer-widget.is-threshold-crossed .icer-dot {
+            fill: #5BDDA2;
+            filter: drop-shadow(0 0 10px rgba(91, 221, 162, 0.75));
+        }
+
+        .icer-svg-label {
+            fill: var(--icer-muted);
+            font-family: var(--font-mono);
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+        }
+
+        .icer-svg-label.icer-band-label {
+            fill: rgba(236, 234, 244, 0.62);
+            text-transform: uppercase;
+        }
+
+        .icer-svg-label.icer-annotation-label {
+            fill: rgba(236, 234, 244, 0.66);
+            text-anchor: middle;
+            text-transform: uppercase;
+        }
+
+        .icer-svg-label.icer-annotation-label.is-strong {
+            fill: rgba(236, 234, 244, 0.86);
+            font-weight: 600;
+            text-anchor: end;
+        }
+
+        .icer-svg-label.icer-crossing-label {
+            fill: rgba(91, 221, 162, 0.82);
+            opacity: 1;
+            text-anchor: start;
+        }
+
+        .icer-svg-label.icer-nice-label {
+            fill: rgba(236, 234, 244, 0.78);
+            text-anchor: start;
+            text-transform: uppercase;
+        }
+
+        .icer-svg-label.icer-x-title {
+            fill: rgba(236, 234, 244, 0.5);
+            text-anchor: middle;
+            text-transform: uppercase;
+        }
+
+        .icer-svg-label.icer-y-label {
+            text-anchor: end;
+        }
+
+        .icer-svg-label.icer-x-label {
+            text-anchor: middle;
+        }
+
+        .icer-slider-wrap {
+            margin-top: 10px;
+        }
+
+        .icer-slider-align {
+            display: block;
+            box-sizing: border-box;
+            width: 100%;
+            padding-left: calc(8.889% - 9px);
+            padding-right: calc(3.889% - 9px);
+        }
+
+        .icer-slider-meta {
+            margin-bottom: 12px;
+        }
+
+        .icer-hours-readout {
+            color: var(--icer-ink);
+            font-family: var(--font-mono);
+            font-size: 0.92rem;
+            font-weight: 500;
+        }
+
+        .icer-slider-note {
+            margin-top: 7px;
+            color: rgba(236, 234, 244, 0.48);
+            font-size: 0.86rem;
+            line-height: 1.35;
+        }
+
+        .icer-slider {
+            width: 100%;
+            height: 22px;
+            margin: 0;
+            appearance: none;
+            -webkit-appearance: none;
+            background: transparent;
+            cursor: pointer;
+        }
+
+        .icer-slider::-webkit-slider-runnable-track {
+            height: 4px;
+            border-radius: 999px;
+            background: linear-gradient(90deg, var(--icer-accent) var(--icer-slider-fill, 50%), rgba(236, 234, 244, 0.16) var(--icer-slider-fill, 50%));
+        }
+
+        .icer-slider::-moz-range-track {
+            height: 4px;
+            border-radius: 999px;
+            background: rgba(236, 234, 244, 0.16);
+        }
+
+        .icer-slider::-moz-range-progress {
+            height: 4px;
+            border-radius: 999px;
+            background: var(--icer-accent);
+        }
+
+        .icer-slider::-webkit-slider-thumb {
+            width: 18px;
+            height: 18px;
+            margin-top: -7px;
+            border: 2px solid #0F1014;
+            border-radius: 50%;
+            appearance: none;
+            -webkit-appearance: none;
+            background: var(--icer-accent);
+            box-shadow: 0 0 0 5px rgba(123, 207, 232, 0.16);
+        }
+
+        .icer-slider::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            border: 2px solid #0F1014;
+            border-radius: 50%;
+            background: var(--icer-accent);
+            box-shadow: 0 0 0 5px rgba(123, 207, 232, 0.16);
+        }
+
+        .icer-caption,
+        .icer-methodology {
+            margin-top: 18px !important;
+            color: rgba(236, 234, 244, 0.78) !important;
+            font-family: var(--font-serif);
+            font-size: clamp(0.98rem, 1.35vw, 1.08rem) !important;
+            line-height: 1.55 !important;
+        }
+
+        .icer-methodology {
+            margin-top: 12px !important;
+            color: rgba(236, 234, 244, 0.56) !important;
+            font-family: var(--font-sans);
+            font-size: clamp(0.78rem, 1.05vw, 0.9rem) !important;
+            line-height: 1.5 !important;
+        }
+
+        @media (max-width: 640px) {
+            .icer-widget {
+                padding: 16px;
+                margin: 34px 0;
+            }
+
+            .icer-topline {
+                display: block;
+            }
+
+            .icer-readout {
+                display: block;
+                margin-top: 8px;
+            }
+        }
+
+        .contact-view h1 {
+            font-size: clamp(2.2rem, 4.8vw, 3.8rem);
+            font-weight: 600;
+            line-height: 1.08;
+        }
+
+        .contact-view h1 em {
+            font-style: italic;
+            font-family: var(--font-serif);
+            font-weight: 400;
+        }
+
+        .contact-note {
+            max-width: 600px;
+            margin-top: clamp(20px, 3vh, 28px);
+            color: var(--text-secondary);
+            font-size: clamp(1rem, 1.6vw, 1.15rem);
+            font-weight: 400;
+            line-height: 1.6;
+        }
+
+        .contact-divider {
+            border: none;
+            border-top: 1px solid var(--vitrine-rule);
+            margin: clamp(28px, 4vh, 44px) 0;
+        }
+
+        .contact-links {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 2px 36px;
+        }
+
+        .contact-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            color: var(--text-secondary);
+            font-size: clamp(0.90rem, 1.2vw, 1rem);
+            text-decoration: none;
+            transition: color 140ms ease;
+        }
+
+        .contact-link:hover {
+            color: var(--text-primary);
+        }
+
+        .contact-link-icon {
+            opacity: 0.55;
+        }
+
+        @media (max-width: 640px) {
+            .intro-panel {
+                padding: 104px 22px 80px;
+            }
+
+            .intro-thesis {
+                font-size: clamp(2rem, 9.7vw, 3.15rem);
+                line-height: 1.07;
+            }
+
+            .highlight-shift {
+                white-space: normal;
+            }
+
+            #blog-screen {
+                padding-top: 104px;
+            }
+
+            .writing-header {
+                display: block;
+            }
+
+            .writing-tabs {
+                margin-top: 22px;
+                gap: 16px;
+                overflow-x: auto;
+                padding-bottom: 3px;
+            }
+
+            .blog-row {
+                grid-template-columns: 1fr;
+                gap: 9px;
+                padding: 22px 0;
+            }
+
+            .blog-kind,
+            .blog-readtime {
+                text-align: left;
+            }
+        }
+
+        body[data-view="blog"]::before,
+        body[data-view="contact"]::before {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        body[data-view="blog"] #canvas-3d,
+        body[data-view="blog"] #callout-lines,
+        body[data-view="blog"] #callouts,
+        body[data-view="blog"] #canvas-loader,
+        body[data-view="blog"] #hover-hint,
+        body[data-view="blog"] #protein-reveal-wash,
+        body[data-view="contact"] #canvas-3d,
+        body[data-view="contact"] #callout-lines,
+        body[data-view="contact"] #callouts,
+        body[data-view="contact"] #canvas-loader,
+        body[data-view="contact"] #hover-hint,
+        body[data-view="contact"] #protein-reveal-wash {
+            opacity: 0 !important;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        body[data-view="blog"] #blog-screen {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        body[data-view="contact"] #contact-screen {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        .nav-btn.is-current {
+            background: transparent;
+            color: var(--nav-text);
+            box-shadow: none;
+            text-decoration: underline;
+            text-decoration-thickness: 2px;
+            text-underline-offset: 7px;
+        }
+
+        /* ── Callout boxes ───────────────────────────────────────────────────── */
+        .callout-box {
+            position: absolute;
+            --callout-pad: clamp(22px, 3vw, 34px);
+            min-height: clamp(120px, 18vh, 230px);
+            padding: var(--callout-pad);
+            border: none;
+            border-radius: 10px;
+            background: transparent;
+            backdrop-filter: blur(0) saturate(1);
+            -webkit-backdrop-filter: blur(0) saturate(1);
+            box-shadow: none;
+            opacity: 1;
+            pointer-events: none;
+            transition:
+                background 160ms ease,
+                backdrop-filter 160ms ease,
+                -webkit-backdrop-filter 160ms ease,
+                box-shadow 160ms ease,
+                border 160ms ease,
+                transform 160ms ease;
+        }
+
+        .callout-title {
+            position: absolute;
+            top: 50%;
+            left: var(--callout-pad);
+            right: auto;
+            transform: translateY(-50%);
+            z-index: 1;
+            width: max-content;
+            max-width: calc(100% - var(--callout-pad) - var(--callout-pad));
+            color: var(--callout-text);
+            font-size: clamp(1rem, 1.45vw, 1.45rem);
+            font-weight: 600;
+            line-height: 1.12;
+            letter-spacing: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            padding: 4px 7px;
+            margin: -4px -7px;
+            border-radius: 6px;
+            background: transparent;
+            box-decoration-break: clone;
+            -webkit-box-decoration-break: clone;
+            transition:
+                top 180ms cubic-bezier(0.16, 1, 0.3, 1),
+                left 180ms cubic-bezier(0.16, 1, 0.3, 1),
+                right 180ms cubic-bezier(0.16, 1, 0.3, 1),
+                transform 180ms cubic-bezier(0.16, 1, 0.3, 1),
+                color 160ms ease,
+                background 120ms ease,
+                box-shadow 120ms ease;
+        }
+
+        .callout-pi .callout-title,
+        .callout-ruvc .callout-title {
+            left: auto;
+            right: var(--callout-pad);
+            text-align: right;
+        }
+
+        .callout-title-active {
+            display: none;
+        }
+
+        .callout-box.is-over-protein:not(.is-active) .callout-title {
+            background: rgba(15, 16, 20, 0.62);
+            box-shadow:
+                0 0 0 1px rgba(236, 234, 244, 0.18),
+                0 8px 22px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(8px) saturate(1.25);
+            -webkit-backdrop-filter: blur(8px) saturate(1.25);
+        }
+
+        .callout-subtitle {
+            position: relative;
+            z-index: 1;
+            margin-top: 6px;
+            color: var(--text-secondary);
+            font-size: clamp(0.84rem, 1.05vw, 1rem);
+            font-weight: 500;
+            line-height: 1.25;
+        }
+
+        .callout-subtitle,
+        .callout-body,
+        .callout-list,
+        .profile-photo {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 150ms ease 40ms, visibility 150ms ease 40ms;
+        }
+
+        .callout-body {
+            position: relative;
+            z-index: 1;
+            margin-top: 16px;
+            font-family: var(--font-serif);
+            color: rgba(236, 234, 244, 0.78);
+            font-size: 1.1rem;
+            font-weight: 400;
+            line-height: 1.6;
+        }
+
+        .callout-ruvc .callout-body {
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .callout-rec1 .callout-body,
+        .callout-rec2 .callout-body,
+        .callout-rec3 .callout-body {
+            margin-top: 12px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .callout-list {
+            position: relative;
+            z-index: 1;
+            margin: 10px 0 0 18px;
+            color: rgba(236, 234, 244, 0.78);
+            font-size: clamp(0.94rem, 1.12vw, 1.08rem);
+            line-height: 1.34;
+        }
+
+        .callout-list li + li {
+            margin-top: 7px;
+        }
+
+        .callout-link {
+            color: inherit;
+            text-decoration: underline;
+            text-decoration-thickness: 1px;
+            text-underline-offset: 3px;
+            pointer-events: auto;
+        }
+
+        .callout-link::after {
+            content: "↗";
+            display: inline-block;
+            margin-left: 0.18em;
+            font-size: 0.72em;
+            line-height: 1;
+            transform: translateY(-0.12em);
+        }
+
+        .profile-photo {
+            position: relative;
+            z-index: 1;
+            display: block;
+            width: min(100%, 260px);
+            aspect-ratio: 1;
+            margin-top: 16px;
+            border-radius: 8px;
+            object-fit: cover;
+            object-position: center center;
+            box-shadow:
+                inset 0 1px 0 rgba(236, 234, 244, 0.18),
+                0 10px 24px rgba(0, 0, 0, 0.28);
+        }
+
+        .callout-box.is-active {
+            background: rgba(15, 16, 20, 0.55);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(236, 234, 244, 0.10);
+            border-left: 2px solid var(--vitrine-accent);
+            border-radius: 8px;
+            box-shadow: var(--callout-shadow-active);
+            transform: translateY(-1px);
+            pointer-events: auto;
+        }
+
+        .callout-box.is-active .callout-title {
+            position: relative;
+            top: auto;
+            left: auto;
+            right: auto;
+            transform: none;
+            width: 100%;
+            max-width: none;
+            text-align: left;
+            background: transparent;
+            box-shadow: none;
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+        }
+
+        .callout-box.is-active .callout-title-preview {
+            display: none;
+        }
+
+        .callout-box.is-active .callout-title-active {
+            display: inline;
+        }
+
+        .callout-box.is-active .callout-subtitle,
+        .callout-box.is-active .callout-body,
+        .callout-box.is-active .callout-list,
+        .callout-box.is-active .profile-photo {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .callout-box.is-spawning {
+            animation: calloutBoxSpawn 420ms cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* ── Callout animations ─────────────────────────────────────────────── */
+
+        @keyframes calloutBoxSpawn {
+            0% {
+                opacity: 0;
+                transform: translateY(10px) scaleX(0.72) scaleY(0.05);
+            }
+            16% {
+                opacity: 0.88;
+                transform: translateY(1px) scaleX(1.04) scaleY(0.18);
+            }
+            36% {
+                opacity: 1;
+                transform: translateY(-3px) scaleX(1.02) scaleY(1.02);
+            }
+            50% {
+                opacity: 0.9;
+                transform: translateY(-1px) translateX(-2px) scale(1.005);
+            }
+            64% {
+                opacity: 1;
+                transform: translateY(-1px) translateX(2px) scale(1.008);
+            }
+            80% {
+                transform: translateY(-1px) translateX(0) scale(0.997);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(-1px) scale(1);
+            }
+        }
+
+        .callout-pi {
+            left: clamp(48px, 6vw, 90px);
+            top: clamp(34px, 8vh, 92px);
+            width: 340px;
+            min-height: 340px;
+        }
+
+        .callout-ruvc {
+            left: clamp(18px, 3vw, 56px);
+            bottom: clamp(34px, 7vh, 76px);
+            width: 420px;
+            min-height: 300px;
+        }
+
+        .callout-rec1 {
+            right: clamp(18px, 3vw, 56px);
+            top: clamp(68px, 9vh, 110px);
+            width: 480px;
+            min-height: 200px;
+        }
+
+        .callout-rec2 {
+            right: clamp(18px, 3vw, 56px);
+            top: calc(50% - 100px);
+            width: 480px;
+            min-height: 200px;
+        }
+
+        .callout-rec3 {
+            right: clamp(18px, 3vw, 56px);
+            bottom: clamp(14px, 3vh, 34px);
+            width: 480px;
+            min-height: 200px;
+        }
+
+        @media (max-width: 900px) {
+            .callout-pi { top: 15vh; }
+            .callout-ruvc { bottom: 20vh; }
+            .callout-rec1 { top: 12vh; }
+            .callout-rec2 { top: calc(50% - 100px); }
+            .callout-rec3 { bottom: 4vh; }
+        }
+
+        #canvas-loader {
+            position: absolute;
+            inset: 0;
+            width: 100vw;
+            height: 100vh;
+            background: var(--bg-gradient);
+            z-index: 3;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--spinner-track);
+            border-top: 3px solid var(--spinner-active);
+            border-radius: 50%;
+            animation: spin 1s cubic-bezier(0.55, 0.085, 0.68, 0.53) infinite;
+        }
+
+        .loader-text {
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--loader-text);
+            animation: pulse 1.5s ease-in-out infinite;
+            white-space: pre-wrap;
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        #hover-hint {
+            position: absolute;
+            bottom: clamp(18px, 3vh, 36px);
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            font-family: var(--font-display);
+            font-size: 0.78rem;
+            font-weight: 400;
+            letter-spacing: 0.08em;
+            color: var(--hint-color);
+            pointer-events: none;
+            opacity: var(--hover-hint-opacity, 0);
+            transition: opacity 0.8s ease;
+            white-space: nowrap;
+        }
+
+        /* ── Nav buttons ─────────────────────────────────────────────────────── */
+        .nav-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            min-height: 42px;
+            padding: 10px 13px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            font-weight: 600;
+            letter-spacing: 0;
+            color: var(--nav-text);
+            text-decoration: none;
+            background: var(--nav-bg);
+            box-shadow: none;
+            transition: color 160ms ease;
+            user-select: none;
+            white-space: nowrap;
+        }
+
+        .nav-btn:hover {
+            background: transparent;
+            color: var(--nav-text);
+            box-shadow: none;
+        }
+
+        body.is-window-inactive .nav-btn:hover {
+            background: var(--nav-bg);
+            color: var(--nav-text);
+            box-shadow: none;
+        }
+
+        .nav-btn:active {
+            background: transparent;
+        }
+
+        .nav-btn svg {
+            flex-shrink: 0;
+        }
+
+        .nav-arrow {
+            display: inline-block;
+            margin-left: 0.16em;
+            font-size: 0.76em;
+            line-height: 1;
+            transform: translateY(-0.12em);
+        }
+
+        .site-name {
+            display: inline-flex;
+            align-items: center;
+            min-height: 42px;
+            padding: 10px 16px;
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            font-weight: 600;
+            line-height: 1;
+            color: var(--nav-text);
+            white-space: nowrap;
+        }
+
+        #nav-top-left {
+            position: absolute;
+            top: clamp(16px, 2.5vh, 28px);
+            left: clamp(48px, 6vw, 96px);
+            z-index: 10;
+        }
+
+        #nav-top-right {
+            position: absolute;
+            top: clamp(16px, 2.5vh, 28px);
+            right: clamp(48px, 6vw, 96px);
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        @media (max-width: 640px) {
+            .nav-btn {
+                min-height: 36px;
+                padding: 8px 7px;
+                font-size: 0.9rem;
+            }
+
+            .site-name {
+                min-height: 36px;
+                padding: 8px 0;
+                font-size: 0.9rem;
+            }
+
+            #nav-top-left {
+                left: 16px;
+            }
+
+            #nav-top-right {
+                right: 16px;
+                gap: 4px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top-left nav -->
+    <div id="nav-top-left">
+        <span class="site-name">Naser Al-Rais</span>
+    </div>
+
+    <!-- Top-right nav -->
+    <div id="nav-top-right">
+        <a class="nav-btn" href="#about" data-view-link="about">About</a>
+        <a class="nav-btn" href="#writing" data-view-link="blog">Writing</a>
+        <a class="nav-btn" href="Nas_Resume.pdf" target="_blank" rel="noopener noreferrer">CV<span class="nav-arrow">↗</span></a>
+        <a class="nav-btn" href="#contact" data-view-link="contact">Contact</a>
+    </div>
+
+    <main id="about-screen" class="site-screen" aria-labelledby="intro-title">
+        <section class="intro-panel">
+            <div class="intro-copy">
+                <h1 id="intro-title" class="intro-thesis">I'm trying to understand how <span class="highlight-shift">brain ageing</span> and cognitive decline can be <span class="highlight-shift">reversed</span></h1>
+                <p class="intro-affiliations">
+                    <span><strong>Cambridge</strong> <span class="intro-dot">·</span> Genetics, BA, final year</span>
+                    <span><strong>Now</strong> <span class="intro-dot">·</span> Church Lab, Harvard</span>
+                </p>
+            </div>
+            <div class="swipe-hint" aria-hidden="true">
+                <span>swipe down</span>
+                <div class="swipe-hint-track"></div>
+                <div class="swipe-hint-arrow"></div>
+            </div>
+        </section>
+        <section class="protein-reveal-spacer" aria-hidden="true"></section>
+    </main>
+
+    <div id="canvas-3d"></div>
+    <div id="protein-reveal-wash" aria-hidden="true"></div>
+    <svg id="callout-lines" aria-hidden="true">
+        <path class="callout-line" data-domain="ruvc"></path>
+        <path class="callout-line" data-domain="rec1"></path>
+        <path class="callout-line" data-domain="rec2"></path>
+        <path class="callout-line" data-domain="rec3"></path>
+        <path class="callout-line" data-domain="pi"></path>
+        <circle class="callout-node" data-domain="ruvc" r="0"></circle>
+        <circle class="callout-node" data-domain="rec1" r="0"></circle>
+        <circle class="callout-node" data-domain="rec2" r="0"></circle>
+        <circle class="callout-node" data-domain="rec3" r="0"></circle>
+        <circle class="callout-node" data-domain="pi" r="0"></circle>
+    </svg>
+    <div id="callouts" aria-hidden="true">
+        <div class="callout-box callout-ruvc" data-domain="ruvc">
+            <h2 class="callout-title">Ageing Biology</h2>
+            <p class="callout-body">I'm interested in the molecular biology of ageing:</p>
+            <ul class="callout-list">
+                <li>How the epigenetic landscape “ages”</li>
+                <li>How proteostatic failure drives neurodegeneration</li>
+                <li>Whether reversing these changes can meaningfully reduce disease risk</li>
+            </ul>
+        </div>
+        <div class="callout-box callout-rec1" data-domain="rec1">
+            <h2 class="callout-title">
+                <span class="callout-title-preview">Reprogramming Neurons</span>
+                <span class="callout-title-active">Soon: Church Lab, Wyss Institute</span>
+            </h2>
+            <p class="callout-subtitle">Jun - Sep 2026</p>
+            <p class="callout-body">I'm interning with the <a class="callout-link" href="https://arep.med.harvard.edu" target="_blank" rel="noopener">Church Lab</a> to rejuvenate dopaminergic neurons as a therapeutic strategy for Parkinson's. We're using partial reprogramming via transcription factors to reset the epigenome to a more youthful, resilient state.</p>
+        </div>
+        <div class="callout-box callout-rec2" data-domain="rec2">
+            <h2 class="callout-title">
+                <span class="callout-title-preview">Building Microfluidic Devices</span>
+                <span class="callout-title-active">Prev: Knowles Lab, Cambridge</span>
+            </h2>
+            <p class="callout-subtitle">Oct 2025 - April 2026</p>
+            <p class="callout-body">I was a research assistant in the <a class="callout-link" href="https://www-knowles.ch.cam.ac.uk" target="_blank" rel="noopener">Knowles Lab</a>, where I investigated disordered proteins and how small molecules tuned liquid–liquid phase separation, using microfluidic devices we built in-house.</p>
+        </div>
+        <div class="callout-box callout-rec3" data-domain="rec3">
+            <h2 class="callout-title">
+                <span class="callout-title-preview">Modelling Aggregation</span>
+                <span class="callout-title-active">Prev: Lu Lab, Harvard</span>
+            </h2>
+            <p class="callout-subtitle">Jun - Sep 2025</p>
+            <p class="callout-body">I interned at the <a class="callout-link" href="https://www.yinglu.hms.harvard.edu" target="_blank" rel="noopener">Lu Lab</a>, where I engineered a novel inducible protein aggregation model to study the toxicity and clearance of aggregates, complementing existing model systems in the field.</p>
+        </div>
+        <div class="callout-box callout-pi" data-domain="pi">
+            <h2 class="callout-title">
+                <span class="callout-title-preview">About Me</span>
+                <span class="callout-title-active">Hi - I'm Nas</span>
+            </h2>
+            <p class="callout-subtitle">Genetics @ Cambridge</p>
+            <img class="profile-photo" src="assets/naser-al-rais.jpg" alt="Naser Al-Rais">
+            <p class="callout-body">I'm a final year undergraduate at the <a class="callout-link" href="https://www.cam.ac.uk" target="_blank" rel="noopener">University of Cambridge</a> studying genetics, computational biology and neuroscience.</p>
+        </div>
+    </div>
+    <div id="canvas-loader">
+        <div class="spinner"></div>
+        <div class="loader-text" id="loader-status">Loading...</div>
+    </div>
+    <p id="hover-hint">hover over the protein!</p>
+    <main id="blog-screen" class="site-screen" aria-labelledby="blog-title">
+        <section class="blog-view">
+            <div class="blog-index">
+                <header class="writing-header">
+                    <h1 id="blog-title">Writing</h1>
+                    <p class="writing-subtitle">Things that I wanted to write about, once every few months</p>
+                </header>
+                <div class="blog-list">
+                    <a class="blog-row" href="#writing-nplb" data-blog-post-link>
+                        <span class="blog-date">May 3, 2026</span>
+                        <span class="blog-card-body">
+                            <span class="blog-card-title">What is the cost of saying no to first-generation Alzheimer's therapies?</span>
+                            <span class="blog-card-dek">On NICE, lecanemab, unpaid care, and the economics of saying no.</span>
+                        </span>
+                        <span class="blog-kind">essay</span>
+                        <span class="blog-readtime">5 min</span>
+                    </a>
+                </div>
+            </div>
+
+            <article class="blog-post" aria-labelledby="post-title">
+                <a class="blog-back" href="#writing" data-blog-index-link>&larr; Back</a>
+                <header>
+                    <h1 id="post-title">What is the cost of saying no to first-generation Alzheimer's therapies?</h1>
+                    <p class="blog-date">May 3rd, 2026</p>
+                </header>
+
+                <figure class="blog-hero">
+                    <img src="assets/brain_scans.jpeg" alt="Black and white brain scan film showing multiple scan slices">
+                    <figcaption>National Cancer Institute on Unsplash, 2021</figcaption>
+                </figure>
+
+                <div class="blog-content">
+                    <p>In January, <a href="https://www.alzheimer-europe.org/news/nice-reconsider-lecanemab-and-donanemab-following-successful-appeals" target="_blank" rel="noopener">appeal panels</a> reviewing a major NHS Alzheimer's Disease (AD) drug rejection found that NICE had unreasonably underestimated the burden that AD places on the family members who give up their jobs, their savings, and sometimes their own health to care for someone with the disease.</p>
+                    <p>The decision in question was the rejection of lecanemab and donanemab. As <a href="https://www.ddw-online.com/nice-rejects-alzheimers-drugs-for-lack-of-cost-effectiveness-35411-202506/" target="_blank" rel="noopener">reported in June 2025</a>, these are the first two medicines ever shown to slow AD, by 4 to 6 months. Far from a cure, but enough to delay the transition from mild to moderate dementia, resulting in more time driving, recognising faces, and simply being present. The headline was blunt when it said these drugs were a poor use of taxpayers' money. 7 months later, its <a href="https://www.alzheimer-europe.org/news/nice-reconsider-lecanemab-and-donanemab-following-successful-appeals" target="_blank" rel="noopener">appeal process</a> conceded that the case hadn't been properly heard.</p>
+                    <p><strong>Britain's approach to valuing AD shuts out 70,000 patients, signalling to the potential investors behind tomorrow's cures that the R&amp;D isn't worth the risk.</strong></p>
+                    <p>To be clear, NICE is not the villain. They ran 3 full appraisals of both drugs, and acknowledged the "disappointing" result. They're not looking to say no, but they're constrained by a system that undervalues medicines.</p>
+                    <p>To decide whether a drug is worth funding, NICE calculates a cost per quality-adjusted life year. But this measure only asks about the patient in the clinic. It doesn't ask about the daughter who quit her job to become a full-time carer, or the family home sold to fund care facilities. When you slow AD by even a few months, you delay when families are forced to reorganise their life around the care of their loved one, not a small burden. In fact, <a href="https://www.alzheimers.org.uk/sites/default/files/2024-05/the-annual-costs-of-dementia.pdf" target="_blank" rel="noopener">dementia costs the UK economy around £21bn/year in unpaid care alone</a>, which is roughly the entire annual budget of several NHS trusts combined.</p>
+                    <p>The <a href="https://pharmaceutical-journal.com/article/news/nice-opens-consultation-on-previously-rejected-alzheimers-treatments-donanemab-and-lecanemab" target="_blank" rel="noopener">appeal panels saw this</a>, and found that the questionnaire, EQ-5D, grossly underestimated the impact of dementia on unpaid carers, and that NICE had been given inadequate opportunity to scrutinise NHS England's own infusion cost estimates before the final decision was made.</p>
+                    <p>This matters because affordability is a valuation problem, beyond manufacturing or chemistry.</p>
+                    <figure class="icer-widget" data-icer-widget>
+                        <div class="icer-topline">
+                            <figcaption class="icer-label">FIG. 1 · CARER VALUE CREDITED VS. HOURS</figcaption>
+                            <output class="icer-readout" data-icer-readout>£0 credited / QALY</output>
+                        </div>
+                        <svg class="icer-chart" viewBox="0 0 720 360" role="img" aria-label="Interactive chart showing carer value credited to lecanemab rising as unpaid carer hours increase">
+                            <g data-icer-y-grid></g>
+                            <g data-icer-x-grid></g>
+                            <line class="icer-threshold-line" data-icer-threshold-band></line>
+                            <text class="icer-svg-label icer-nice-label" data-icer-nice-label>← NICE credited zero</text>
+                            <text class="icer-svg-label icer-crossing-label" data-icer-crossing-label>enters approval zone →</text>
+                            <text class="icer-svg-label icer-x-title" data-icer-x-title>Carer hours credited per week</text>
+                            <line class="icer-axis" data-icer-y-axis></line>
+                            <line class="icer-axis" data-icer-x-axis></line>
+                            <path class="icer-curve" data-icer-curve></path>
+                            <circle class="icer-dot" data-icer-dot r="9"></circle>
+                        </svg>
+                        <div class="icer-slider-wrap">
+                            <div class="icer-slider-meta">
+                                <label class="icer-label" for="carer-hours-slider">Hours of carer time credited by NICE</label>
+                                <output class="icer-hours-readout" data-icer-hours-readout>0 hrs/week credited</output>
+                            </div>
+                            <div class="icer-slider-align">
+                                <input id="carer-hours-slider" class="icer-slider" data-icer-slider type="range" min="0" max="40" step="0.1" value="0" aria-label="Hours of carer time credited by NICE">
+                            </div>
+                            <p class="icer-slider-note">drag to correct NICE's assumption</p>
+                        </div>
+                        <p class="icer-caption">Drag the slider to see how the societal value of lecanemab changes when unpaid carer hours are counted. At zero hours, NICE's assumption, no carer value is credited and the drug falls short of approval. At only 9 hours of care a week, lecanemab becomes cost-effective enough for approval. At 20 hours per week, typical for a family member supporting a relative with only mild AD, the credit is well above approval. 40 hours are the average care responsibilities for a person with moderate dementia, according to Alzheimer's Society data. Here, the credited value is nearly £210,000/QALY. It's this value which NICE neglected.</p>
+                        <p class="icer-methodology">Base ICER of £80,000/QALY derived from NICE EAG methodology, comparable to the EAG's £67,891/QALY base case for donanemab (GID-TA11221, 2025). QALY gain of 0.17 from Atkins et al. (2026), Alzheimer's &amp; Dementia. Carer wage fixed at UK minimum wage (£11.44/hr, 2024). The 40 hrs/week upper bound reflects Alzheimer's Society estimates of informal care burden at the mild-to-moderate transition stage — the point lecanemab is designed to delay. This is not a replication of the NICE model, but a demonstration of how sensitive the ICER is to a variable the model excluded. NICE threshold band reflects the April 2026 upward revision to £25–35k/QALY.</p>
+                    </figure>
+                    <p>Meanwhile, the drugs are available, but only for customers with deep pockets. A <a href="https://www.drchanneurology.com/donanemab-and-lecanemab" target="_blank" rel="noopener">full 18-month course</a> can set you back as much as £100,000, with <a href="https://www.nice.org.uk/news/articles/benefits-of-new-alzheimer-s-treatment-lecanemab-are-too-small-to-justify-the-cost-to-the-nhs" target="_blank" rel="noopener">no reimbursement</a> even with private insurance. For reference, around 70,000 people in England qualify for these treatments, according to the reporting. How many of those 70,000 can write a 6-figure check?</p>
+                    <p>Societal value is what a medicine is actually worth when you count patients, carers, and future generations who will take the generic. <a href="https://www.nopatientleftbehind.org/protect-american-competitiveness-from-price-controls" target="_blank" rel="noopener">Only around 10% of healthcare costs go toward drugs</a>, most of the rest is composed of doctors' appointments, procedures, and hospital stays. This relatively small fraction is an investment into future generic drugs that will reduce spending on hospitals and services. Once patents on medicines expire, <a href="https://medium.com/the-biotech-social-contract/https-medium-com-the-biotech-social-contract-kolchinsky-tbsc-6-5d40244738e5" target="_blank" rel="noopener">cheap copies flood the market, often cutting prices by 90%</a>. These are called generic drugs. The implication for AD is that hospitals and nursing homes don't go generic, their costs only rise. A drug that delays the transition to full-time care, even by months, is in the most literal sense buying society a cheaper future.</p>
+                    <p><a href="https://www.nopatientleftbehind.org/resource-materials/no-more-freeriding" target="_blank" rel="noopener">All countries outside the US contribute a large fraction of patients to global clinical trials</a>, and roughly half of the profits necessary to meet drug companies' return on investments, ultimately allowing America to enjoy lower drug prices than if it were the only country on Earth. This arrangement works because other countries, although paying less than the US, are still paying something. Unfortunately, <a href="https://www.nopatientleftbehind.org/resource-materials/no-more-freeriding" target="_blank" rel="noopener">many wealthy countries</a> (e.g. the UK, France, Germany, Japan) underpay for innovative medicines by as much as 60% below fair market value when adjusted for income.</p>
+                    <p>By blocking access to the drug after failed negotiations, the UK effectively waits out the patent period of the drug, knowing that generics will be available one day, while other countries pay a disproportionate price. The UK hence declines to participate in the pharmaceutical innovation market altogether, and alienates the internationally-funded R&amp;D that produced lecanemab and donanemab. A UK population absent from NPV calculations makes fewer drugs appear as viable investments, which weakens the economics that fund the next generation of drugs across all disease areas.</p>
+                    <p>There are currently <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12131090/" target="_blank" rel="noopener">138 dementia medicines being tested in clinical trials</a> around the world. As NICE runs its fourth appraisal, the scientists, companies, and investors of these 138 drugs, and most importantly the patients, will be watching carefully.</p>
+                    <p class="blog-signoff">I'm an undergraduate at the University of Cambridge, with research experience in neurodegeneration at Cambridge and Harvard Medical School. This piece was inspired by my fellowship with No Patient Left Behind. With thanks to Harrison Bergeron, Elena Solopova and Peter Kolchinsky for their support and guidance.</p>
+                </div>
+            </article>
+        </section>
+    </main>
+
+    <main id="contact-screen" class="site-screen" aria-labelledby="contact-title">
+        <section class="contact-view">
+            <h1 id="contact-title">the easiest way to<br>reach me is <em>email</em>.</h1>
+            <p class="contact-note">I read everything. If you want to say hi, please do! Cold emails is how nearly every interesting thing in my life happened</p>
+            <hr class="contact-divider">
+            <div class="contact-links">
+                <a class="contact-link" href="mailto:ana43@cam.ac.uk">
+                    <span class="contact-link-icon">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                    </span>
+                    <span>ana43@cam.ac.uk</span>
+                </a>
+                <a class="contact-link" href="https://linkedin.com/in/alnaseralrais" target="_blank" rel="noopener">
+                    <span class="contact-link-icon">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                    </span>
+                    <span>alnaseralrais</span>
+                </a>
+                <a class="contact-link" href="https://x.com/naseralrais" target="_blank" rel="noopener">
+                    <span class="contact-link-icon">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.735-8.835-8.168-10.664h6.15l4.259 5.632 5.524-6.433zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                    </span>
+                    <span>naseralrais</span>
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const DOMAINS = {
+            ruvc: { color: "#0A1A85", ranges: [[1, 59], [718, 775], [909, 1098]] },
+            bh:   { color: "#1C3CC8", ranges: [[60, 93]] },
+            rec1: { color: "#2A66E8", ranges: [[94, 179], [308, 507]] },
+            rec2: { color: "#3B8FE8", ranges: [[180, 307]] },
+            rec3: { color: "#1FB3C2", ranges: [[508, 717]] },
+            hnh:  { color: "#1EC9A6", ranges: [[776, 908]] },
+            pi:   { color: "#5BDDA2", ranges: [[1099, 1368]] }
+        };
+
+        const DOMAIN_BREATHING = {
+            ruvc: { phase: 0.00, amp: 0.88 },
+            bh:   { phase: 0.90, amp: 0.55 },
+            rec1: { phase: 1.80, amp: 1.1 },
+            rec2: { phase: 2.69, amp: 0.99 },
+            rec3: { phase: 3.59, amp: 0.99 },
+            hnh:  { phase: 4.49, amp: 1.21 },
+            pi:   { phase: 5.39, amp: 0.77 }
+        };
+
+        const HOVER_DOMAINS = ["ruvc", "rec1", "rec2", "rec3", "pi"];
+        const BREATH_FREQ = 0.28;
+        const TITLE_CONNECTOR_GAP = 12;
+        const titleMeasureCanvas = document.createElement("canvas");
+        const titleMeasureContext = titleMeasureCanvas.getContext("2d");
+
+        let viewer = null;
+        let proteinModel = null;
+        let initialCoords = [];
+        let animT0 = 0;
+        let lastRotX = 0;
+        let lastRotY = 0;
+        let mouseX = -1000;
+        let mouseY = -1000;
+        let pointerOnPage = false;
+        let currentHoveredKey = null;
+        let hoveredCalloutKey = null;
+        let projectionVector = null;
+        let warmingUp = true;
+        let currentView = "about";
+
+        const domainHoverFactor = { ruvc: 0, rec1: 0, rec2: 0, rec3: 0, pi: 0 };
+        const domainVisualFactor = { ruvc: -1, rec1: -1, rec2: -1, rec3: -1, pi: -1 };
+        const domainResidues = {};
+        const domainUnits = {};
+        const domainHull2D = {};
+        const domainHullPoints = {};
+        const domainColorRamp = {};
+        const domainScreenAnchor = {};
+        const calloutBoxes = {};
+        const calloutLines = {};
+        const calloutNodes = {};
+        const resiDomainMap = {};
+
+        document.addEventListener("mousemove", e => {
+            pointerOnPage = true;
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        document.addEventListener("mouseleave", clearPointerHover);
+        window.addEventListener("blur", () => {
+            document.body.classList.add("is-window-inactive");
+            clearPointerHover();
+            blurActiveControl();
+        });
+        window.addEventListener("focus", () => {
+            document.body.classList.remove("is-window-inactive");
+        });
+        document.addEventListener("visibilitychange", () => {
+            if (document.hidden) clearPointerHover();
+        });
+        window.addEventListener("hashchange", () => setView(getInitialView(), false));
+
+        document.addEventListener("DOMContentLoaded", () => {
+            initializeIcerFigures();
+            initializeViewer();
+        });
+
+        function clearPointerHover() {
+            pointerOnPage = false;
+            mouseX = -1000;
+            mouseY = -1000;
+            currentHoveredKey = null;
+            hoveredCalloutKey = null;
+        }
+
+        function blurActiveControl() {
+            if (document.activeElement instanceof HTMLElement) {
+                document.activeElement.blur();
+            }
+        }
+
+        function initializeViewer() {
+            initializeCallouts();
+            initializeNavLinks();
+            initializeNavScrim();
+            initializeIntroScroll();
+            setView(getInitialView(), false);
+            viewer = $3Dmol.createViewer(document.getElementById("canvas-3d"), {
+                defaultcolors: $3Dmol.rasmolElementColors
+            });
+            window._viewer = viewer;
+            viewer.setBackgroundColor(0xffffff, 0);
+            viewer.setViewStyle({ style: "" });
+
+            let resizeRaf = null;
+            window.addEventListener("resize", () => {
+                if (resizeRaf !== null) return;
+                resizeRaf = requestAnimationFrame(() => {
+                    resizeRaf = null;
+                    viewer.resize();
+                    updateHoverHulls();
+                    updateCalloutLines();
+                    viewer.render();
+                });
+            });
+
+            loadStructure();
+        }
+
+        function initializeNavLinks() {
+            document.querySelectorAll("[data-view-link]").forEach(link => {
+                link.addEventListener("click", e => {
+                    e.preventDefault();
+                    setView(link.dataset.viewLink);
+                    clearPointerHover();
+                    window.setTimeout(blurActiveControl, 0);
+                });
+            });
+
+            document.querySelectorAll("[data-blog-post-link]").forEach(link => {
+                link.addEventListener("click", e => {
+                    e.preventDefault();
+                    setView("blog-post");
+                    window.setTimeout(blurActiveControl, 0);
+                });
+            });
+
+            document.querySelectorAll("[data-blog-index-link]").forEach(link => {
+                link.addEventListener("click", e => {
+                    e.preventDefault();
+                    setView("blog");
+                    window.setTimeout(blurActiveControl, 0);
+                });
+            });
+
+            document.querySelectorAll(".nav-btn[href]").forEach(link => {
+                link.addEventListener("click", () => {
+                    clearPointerHover();
+                    window.setTimeout(blurActiveControl, 0);
+                });
+            });
+        }
+
+        function initializeNavScrim() {
+            const update = () => updateNavScrim();
+            document.getElementById("blog-screen")?.addEventListener("scroll", update, { passive: true });
+            document.getElementById("contact-screen")?.addEventListener("scroll", update, { passive: true });
+            window.addEventListener("resize", update, { passive: true });
+            update();
+        }
+
+        function updateNavScrim() {
+            const isTextView = currentView === "blog" || currentView === "contact";
+            const screen = currentView === "blog"
+                ? document.getElementById("blog-screen")
+                : currentView === "contact"
+                    ? document.getElementById("contact-screen")
+                    : null;
+            const shouldShow = isTextView && window.innerWidth <= 980 && (screen?.scrollTop || 0) > 8;
+            document.body.classList.toggle("nav-scrim-visible", shouldShow);
+        }
+
+        function getInitialView() {
+            if (window.location.hash === "#blog-nplb" || window.location.hash === "#writing-nplb") return "blog-post";
+            if (window.location.hash === "#blog" || window.location.hash === "#writing") return "blog";
+            if (window.location.hash === "#contact") return "contact";
+            return "about";
+        }
+
+        function setView(view, updateHash = true) {
+            const isBlogPost = view === "blog-post";
+            const nextView = view === "blog" || isBlogPost ? "blog" : view === "contact" ? "contact" : "about";
+            if (nextView === "about") {
+                resetAboutIntro();
+            } else {
+                setRevealVars(0);
+            }
+            currentView = nextView;
+            document.body.dataset.view = currentView;
+            document.body.dataset.blogMode = isBlogPost ? "post" : "index";
+            document.querySelectorAll("[data-view-link]").forEach(link => {
+                const isCurrent = link.dataset.viewLink === currentView;
+                link.classList.toggle("is-current", isCurrent);
+                link.toggleAttribute("aria-current", isCurrent);
+            });
+            if (currentView === "blog") {
+                clearPointerHover();
+            }
+            if (updateHash) {
+                history.replaceState(null, "", isBlogPost ? "#writing-nplb" : currentView === "blog" ? "#writing" : currentView === "contact" ? "#contact" : "#about");
+            }
+            document.getElementById("blog-screen").scrollTop = 0;
+            document.getElementById("contact-screen").scrollTop = 0;
+            if (currentView === "about") {
+                resetAboutIntro();
+            }
+            updateNavScrim();
+        }
+
+        function resetAboutIntro() {
+            const aboutScreen = document.getElementById("about-screen");
+            if (!aboutScreen) return;
+            introRevealTarget = 0;
+            introRevealCurrent = 0;
+            introRevealLastMs = 0;
+            setRevealVars(0, 0);
+            aboutScreen.classList.remove("at-protein");
+            aboutScreen.style.pointerEvents = "auto";
+            document.body.classList.remove("protein-revealed");
+            aboutScreen.scrollTop = 0;
+        }
+
+        let introRevealRaf = null;
+        let introRevealTarget = 0;
+        let introRevealCurrent = 0;
+        let introRevealLastMs = 0;
+        let introTouchStartY = null;
+        let proteinReady = false;
+
+        function initializeIntroScroll() {
+            const aboutScreen = document.getElementById("about-screen");
+            aboutScreen.addEventListener("scroll", scheduleIntroReveal, { passive: true });
+            window.addEventListener("wheel", e => {
+                if (currentView !== "about" || !aboutScreen.classList.contains("at-protein") || e.deltaY >= 0) return;
+                e.preventDefault();
+                returnFromProteinView(aboutScreen);
+            }, { passive: false });
+            window.addEventListener("touchstart", e => {
+                introTouchStartY = e.touches?.[0]?.clientY ?? null;
+            }, { passive: true });
+            window.addEventListener("touchmove", e => {
+                if (
+                    currentView !== "about" ||
+                    !aboutScreen.classList.contains("at-protein") ||
+                    introTouchStartY === null
+                ) return;
+
+                const touchY = e.touches?.[0]?.clientY ?? introTouchStartY;
+                if (touchY - introTouchStartY < 28) return;
+                e.preventDefault();
+                introTouchStartY = null;
+                returnFromProteinView(aboutScreen);
+            }, { passive: false });
+        }
+
+        function returnFromProteinView(aboutScreen) {
+            aboutScreen.classList.remove("at-protein");
+            aboutScreen.style.pointerEvents = "auto";
+            document.body.classList.remove("protein-revealed");
+            aboutScreen.scrollTo({ top: 0, behavior: "smooth" });
+            scheduleIntroReveal();
+        }
+
+        function scheduleIntroReveal() {
+            if (introRevealRaf) return;
+            introRevealRaf = requestAnimationFrame(updateIntroReveal);
+        }
+
+        function updateIntroReveal(now = performance.now()) {
+            const aboutScreen = document.getElementById("about-screen");
+            if (!aboutScreen) return;
+
+            introRevealRaf = null;
+            introRevealTarget = clamp(aboutScreen.scrollTop / Math.max(window.innerHeight * 0.92, 1), 0, 1);
+            const frameDeltaMs = introRevealLastMs ? Math.min(80, now - introRevealLastMs) : 16.67;
+            introRevealLastMs = now;
+
+            const revealLerp = 1 - Math.pow(0.72, frameDeltaMs / 16.67);
+            introRevealCurrent += (introRevealTarget - introRevealCurrent) * revealLerp;
+            if (Math.abs(introRevealTarget - introRevealCurrent) < 0.002) introRevealCurrent = introRevealTarget;
+
+            const eased = easeInOutCubic(introRevealCurrent);
+            setRevealVars(eased, introRevealCurrent);
+            const atProtein = introRevealCurrent >= 0.985 && introRevealTarget >= 0.985;
+            aboutScreen.classList.toggle("at-protein", atProtein);
+            aboutScreen.style.pointerEvents = atProtein ? "none" : "auto";
+            document.body.classList.toggle("protein-revealed", atProtein);
+
+            if (Math.abs(introRevealTarget - introRevealCurrent) > 0.002) {
+                introRevealRaf = requestAnimationFrame(updateIntroReveal);
+            } else {
+                introRevealLastMs = 0;
+            }
+        }
+
+        function setRevealVars(eased, raw) {
+            raw = raw !== undefined ? raw : eased;
+            // Small upward drift: 28% of screen height max (not full-height blinds)
+            const liftPx = -(raw * window.innerHeight * 0.28);
+            // Opacity leads: start fading at 12% progress, fully gone by 72%
+            const introOpacity = clamp(1 - Math.max(0, eased - 0.12) / 0.60, 0, 1);
+            const labelOpacity = smoothstep(0.66, 0.9, eased);
+            const washOpacity = smoothstep(0.16, 0.44, eased) * (1 - smoothstep(0.62, 0.88, eased)) * 0.52;
+            const swipeHintOpacity = clamp(1 - smoothstep(0.04, 0.34, raw), 0, 1);
+            const hoverHintOpacity = smoothstep(0.9, 1, eased);
+            document.documentElement.style.setProperty("--intro-reveal-opacity", introOpacity.toFixed(3));
+            document.documentElement.style.setProperty("--intro-reveal-lift", `${liftPx.toFixed(1)}px`);
+            document.documentElement.style.setProperty("--intro-reveal-scale", (1 - 0.012 * eased).toFixed(3));
+            document.documentElement.style.setProperty("--intro-curtain-opacity", clamp(eased * 1.45, 0, 1).toFixed(3));
+            document.documentElement.style.setProperty("--protein-label-opacity", labelOpacity.toFixed(3));
+            document.documentElement.style.setProperty("--protein-wash-opacity", washOpacity.toFixed(3));
+            document.documentElement.style.setProperty("--protein-wash-scale", (1.08 - 0.08 * eased).toFixed(3));
+            document.documentElement.style.setProperty("--swipe-hint-opacity", swipeHintOpacity.toFixed(3));
+            document.documentElement.style.setProperty("--hover-hint-opacity", hoverHintOpacity.toFixed(3));
+        }
+
+        function easeInOutCubic(value) {
+            return value < 0.5
+                ? 4 * value * value * value
+                : 1 - Math.pow(-2 * value + 2, 3) / 2;
+        }
+
+        function smoothstep(edge0, edge1, value) {
+            const x = clamp((value - edge0) / (edge1 - edge0), 0, 1);
+            return x * x * (3 - 2 * x);
+        }
+
+        function initializeIcerFigures() {
+            document.querySelectorAll("[data-icer-widget]").forEach(widget => {
+                const svg = widget.querySelector(".icer-chart");
+                const slider = widget.querySelector("[data-icer-slider]");
+                const readout = widget.querySelector("[data-icer-readout]");
+                const hoursReadout = widget.querySelector("[data-icer-hours-readout]");
+                const curve = widget.querySelector("[data-icer-curve]");
+                const dot = widget.querySelector("[data-icer-dot]");
+                const thresholdBand = widget.querySelector("[data-icer-threshold-band]");
+                const bandLabel = widget.querySelector("[data-icer-band-label]");
+                const transitionLine = widget.querySelector("[data-icer-transition-line]");
+                const transitionLabel = widget.querySelector("[data-icer-transition-label]");
+                const niceLabel = widget.querySelector("[data-icer-nice-label]");
+                const crossingLabel = widget.querySelector("[data-icer-crossing-label]");
+                const xTitle = widget.querySelector("[data-icer-x-title]");
+                const yGrid = widget.querySelector("[data-icer-y-grid]");
+                const xGrid = widget.querySelector("[data-icer-x-grid]");
+                const yAxis = widget.querySelector("[data-icer-y-axis]");
+                const xAxis = widget.querySelector("[data-icer-x-axis]");
+                if (!svg || !slider || !curve || !dot) return;
+
+                const chart = {
+                    left: 64,
+                    right: 692,
+                    top: 42,
+                    bottom: 306,
+                    yMin: 0,
+                    yMax: 220000,
+                    xMin: 0,
+                    xMax: 40,
+                    carerWage: 11.44,
+                    treatmentWeeks: 78,
+                    qalyGain: 0.17
+                };
+                chart.slope = (chart.carerWage * chart.treatmentWeeks) / chart.qalyGain;
+
+                // Approval threshold: the carer value that closes the NICE gap (£80k base − £35k threshold)
+                const approvalLo = 45000;
+                const hoursAtLo = approvalLo / chart.slope;
+
+                const xFor = v => chart.left + ((v - chart.xMin) / (chart.xMax - chart.xMin)) * (chart.right - chart.left);
+                const yFor = v => chart.bottom - ((v - chart.yMin) / (chart.yMax - chart.yMin)) * (chart.bottom - chart.top);
+                const creditedFor = hours => chart.slope * hours;
+                const makeSvg = tag => document.createElementNS("http://www.w3.org/2000/svg", tag);
+                const formatCurrency = value => `£${Math.round(value).toLocaleString("en-GB")}`;
+                const formatReadout = value => `£${(Math.round(value / 100) * 100).toLocaleString("en-GB")} credited / QALY`;
+
+                // Single approval threshold line
+                const thresholdY = yFor(approvalLo);
+                thresholdBand.setAttribute("x1", chart.left);
+                thresholdBand.setAttribute("x2", chart.right);
+                thresholdBand.setAttribute("y1", thresholdY);
+                thresholdBand.setAttribute("y2", thresholdY);
+
+                // "NICE credited zero" label near the origin
+                if (niceLabel) {
+                    niceLabel.setAttribute("x", chart.left + 4);
+                    niceLabel.setAttribute("y", chart.bottom - 22);
+                }
+
+                // "enters approval zone" label where curve enters the band
+                if (crossingLabel) {
+                    crossingLabel.setAttribute("x", xFor(hoursAtLo) + 8);
+                    crossingLabel.setAttribute("y", thresholdY - 8);
+                }
+
+                if (xTitle) {
+                    xTitle.setAttribute("x", (chart.left + chart.right) / 2);
+                    xTitle.setAttribute("y", chart.bottom + 54);
+                }
+
+                // Rising curve: credited value = slope × hours
+                const pathPoints = [];
+                for (let hours = chart.xMin; hours <= chart.xMax + 0.01; hours += 0.1) {
+                    const v = creditedFor(hours);
+                    const y = Math.min(chart.bottom, Math.max(chart.top, yFor(v)));
+                    pathPoints.push(`${pathPoints.length ? "L" : "M"} ${xFor(hours).toFixed(2)} ${y.toFixed(2)}`);
+                }
+                curve.setAttribute("d", pathPoints.join(" "));
+
+                yAxis.setAttribute("x1", chart.left);
+                yAxis.setAttribute("x2", chart.left);
+                yAxis.setAttribute("y1", chart.top);
+                yAxis.setAttribute("y2", chart.bottom);
+                xAxis.setAttribute("x1", chart.left);
+                xAxis.setAttribute("x2", chart.right);
+                xAxis.setAttribute("y1", chart.bottom);
+                xAxis.setAttribute("y2", chart.bottom);
+
+                // Y-axis gridlines and labels
+                [0, 45000, 100000, 150000, 200000].forEach(tick => {
+                    const y = yFor(tick);
+                    const line = makeSvg("line");
+                    line.setAttribute("class", "icer-tick");
+                    line.setAttribute("x1", chart.left);
+                    line.setAttribute("x2", chart.right);
+                    line.setAttribute("y1", y);
+                    line.setAttribute("y2", y);
+                    yGrid.appendChild(line);
+
+                    const label = makeSvg("text");
+                    label.setAttribute("class", "icer-svg-label icer-y-label");
+                    label.setAttribute("x", chart.left - 12);
+                    label.setAttribute("y", y + 4);
+                    label.textContent = tick === 0 ? "£0" : `£${Math.round(tick / 1000)}k`;
+                    yGrid.appendChild(label);
+                });
+
+                // "rejected" / "approved" area labels
+                const makeAreaLabel = (text, y, fill) => {
+                    const el = makeSvg("text");
+                    el.setAttribute("x", chart.right - 8);
+                    el.setAttribute("text-anchor", "end");
+                    el.setAttribute("y", y);
+                    el.setAttribute("fill", fill);
+                    el.setAttribute("font-family", "var(--font-mono, monospace)");
+                    el.setAttribute("font-size", "11");
+                    el.setAttribute("letter-spacing", "0.08em");
+                    el.textContent = text;
+                    yGrid.appendChild(el);
+                };
+                makeAreaLabel("REJECTED", (thresholdY + chart.bottom) / 2 + 4, "rgba(255, 100, 100, 0.55)");
+                makeAreaLabel("APPROVED", (chart.top + thresholdY) / 2 + 4, "rgba(91, 221, 162, 0.65)");
+
+                // X-axis tick marks and labels
+                [
+                    { hours: 0, label: "0 hrs" },
+                    { hours: 20, label: "20 hrs/week" },
+                    { hours: 40, label: "40 hrs/week" }
+                ].forEach(tick => {
+                    const x = xFor(tick.hours);
+                    const line = makeSvg("line");
+                    line.setAttribute("class", "icer-tick");
+                    line.setAttribute("x1", x);
+                    line.setAttribute("x2", x);
+                    line.setAttribute("y1", chart.bottom);
+                    line.setAttribute("y2", chart.bottom + 7);
+                    xGrid.appendChild(line);
+
+                    const label = makeSvg("text");
+                    label.setAttribute("class", "icer-svg-label icer-x-label");
+                    label.setAttribute("x", x);
+                    label.setAttribute("y", chart.bottom + 30);
+                    label.textContent = tick.label;
+                    xGrid.appendChild(label);
+                });
+
+                const update = () => {
+                    const hours = Number(slider.value);
+                    const credited = creditedFor(hours);
+                    const x = xFor(hours);
+                    const y = Math.min(chart.bottom, Math.max(chart.top, yFor(credited)));
+                    const inApprovalZone = credited >= approvalLo;
+                    dot.setAttribute("cx", x.toFixed(2));
+                    dot.setAttribute("cy", y.toFixed(2));
+                    if (readout) readout.textContent = formatReadout(credited);
+                    if (hoursReadout) hoursReadout.textContent = `${Number.isInteger(hours) ? hours.toFixed(0) : hours.toFixed(1)} hrs/week credited`;
+                    widget.classList.toggle("is-threshold-crossed", inApprovalZone);
+                    const fill = ((hours - chart.xMin) / (chart.xMax - chart.xMin)) * 100;
+                    slider.style.setProperty("--icer-slider-fill", `${fill.toFixed(2)}%`);
+                    svg.setAttribute("aria-label", `Interactive chart showing ${formatCurrency(credited)} per QALY carer value credited at ${hours.toFixed(1)} unpaid carer hours per week`);
+                };
+
+                slider.addEventListener("input", update);
+                update();
+            });
+        }
+
+        async function loadStructure() {
+            showLoader(true, "Loading...");
+
+            let pdb = "";
+            let ribbonOnly = false;
+            const sources = [
+                { url: "./data/4UN3-ribbons.pdb", ribbonOnly: true },
+                { url: "./data/4UN3-chainB.pdb", ribbonOnly: false },
+                { url: "./data/4UN3.pdb", ribbonOnly: false },
+                { url: "https://files.rcsb.org/download/4UN3.pdb", ribbonOnly: false }
+            ];
+
+            for (const source of sources) {
+                try {
+                    const r = await fetch(source.url);
+                    if (!r.ok) continue;
+                    pdb = await r.text();
+                    ribbonOnly = source.ribbonOnly;
+                    break;
+                } catch {
+                    // Direct file opens can block local fetches; continue to the next source.
+                }
+            }
+
+            if (!pdb) {
+                showLoader(true, "oops... it's not working right now!");
+                return;
+            }
+
+            try {
+                const ribbonPdb = ribbonOnly ? pdb : filterRibbonAtoms(pdb);
+
+                viewer.clear();
+                viewer.addModel(ribbonPdb, "pdb");
+                proteinModel = viewer.getModel();
+                projectionVector = new $3Dmol.Vector3(0, 0, 0);
+                initialCoords = proteinModel.atoms.map(a => ({ x: a.x, y: a.y, z: a.z }));
+
+                buildDomainLookups();
+                buildDomainUnits();
+                buildColorRamps();
+                resetHoverState();
+
+                viewer.zoomTo();
+                viewer.zoom(window.innerWidth < 700 ? 0.46 : 0.82);
+                viewer.rotate(90, "x");
+                warmUpInteractions();
+                viewer.render();
+                updateHoverHulls();
+                updateCalloutLines();
+                showLoader(false);
+
+                proteinReady = true;
+                document.body.classList.add("protein-loaded");
+                updateIntroReveal();
+
+                animT0 = performance.now();
+                startAnimation();
+            } catch (err) {
+                showLoader(true, "Error: " + err.message);
+            }
+        }
+
+        function buildDomainLookups() {
+            for (const key in DOMAINS) {
+                domainResidues[key] = [];
+                domainHullPoints[key] = [];
+                domainScreenAnchor[key] = { x: 0, y: 0 };
+                for (const [lo, hi] of DOMAINS[key].ranges) {
+                    for (let resi = lo; resi <= hi; resi++) {
+                        domainResidues[key].push(resi);
+                        resiDomainMap[resi] = key;
+                    }
+                }
+            }
+        }
+
+        function buildColorRamps() {
+            for (const key in DOMAINS) {
+                const base = DOMAINS[key].color;
+                const dimmed = darkenHex(base, 0.42);
+                const bright = lightenHex(base, 1.38);
+                domainColorRamp[key] = [];
+
+                for (let dimStep = 0; dimStep <= 16; dimStep++) {
+                    domainColorRamp[key][dimStep] = [];
+                    const dimColor = lerpColor(base, dimmed, dimStep / 16);
+                    for (let hoverStep = 0; hoverStep <= 16; hoverStep++) {
+                        domainColorRamp[key][dimStep][hoverStep] = lerpColor(dimColor, bright, hoverStep / 16);
+                    }
+                }
+            }
+        }
+
+        function buildDomainUnits() {
+            const atoms = proteinModel.atoms;
+            const proteinCentroid = { x: 0, y: 0, z: 0 };
+
+            for (let i = 0; i < atoms.length; i++) {
+                proteinCentroid.x += initialCoords[i].x;
+                proteinCentroid.y += initialCoords[i].y;
+                proteinCentroid.z += initialCoords[i].z;
+            }
+            proteinCentroid.x /= atoms.length || 1;
+            proteinCentroid.y /= atoms.length || 1;
+            proteinCentroid.z /= atoms.length || 1;
+
+            for (const key in DOMAINS) {
+                domainUnits[key] = {
+                    atomIndices: [],
+                    caIndices: [],
+                    centroid: { x: 0, y: 0, z: 0 },
+                    nx: 0,
+                    ny: 0,
+                    nz: 1,
+                    phase: DOMAIN_BREATHING[key].phase,
+                    amp: DOMAIN_BREATHING[key].amp
+                };
+            }
+
+            for (let i = 0; i < atoms.length; i++) {
+                const atom = atoms[i];
+                const key = resiDomainMap[atom.resi];
+                const unit = domainUnits[key];
+                if (!unit) continue;
+
+                unit.atomIndices.push(i);
+                if (atom.atom === "CA") unit.caIndices.push(i);
+                unit.centroid.x += initialCoords[i].x;
+                unit.centroid.y += initialCoords[i].y;
+                unit.centroid.z += initialCoords[i].z;
+            }
+
+            for (const key in domainUnits) {
+                const unit = domainUnits[key];
+                const count = unit.atomIndices.length || 1;
+                unit.centroid.x /= count;
+                unit.centroid.y /= count;
+                unit.centroid.z /= count;
+
+                let nx = unit.centroid.x - proteinCentroid.x;
+                let ny = unit.centroid.y - proteinCentroid.y;
+                let nz = unit.centroid.z - proteinCentroid.z;
+                const len = Math.hypot(nx, ny, nz) || 1;
+                unit.nx = nx / len;
+                unit.ny = ny / len;
+                unit.nz = nz / len;
+            }
+        }
+
+        function applyRibbonBreathing(elapsed) {
+            let meanDx = 0;
+            let meanDy = 0;
+            let meanDz = 0;
+            let totalAtoms = 0;
+
+            for (const key in domainUnits) {
+                const unit = domainUnits[key];
+                const breath = Math.sin(elapsed * BREATH_FREQ + unit.phase) * unit.amp;
+                unit.rawDx = unit.nx * breath;
+                unit.rawDy = unit.ny * breath;
+                unit.rawDz = unit.nz * breath;
+
+                const weight = unit.atomIndices.length;
+                meanDx += unit.rawDx * weight;
+                meanDy += unit.rawDy * weight;
+                meanDz += unit.rawDz * weight;
+                totalAtoms += weight;
+            }
+
+            meanDx /= totalAtoms || 1;
+            meanDy /= totalAtoms || 1;
+            meanDz /= totalAtoms || 1;
+
+            for (const key in domainUnits) {
+                const unit = domainUnits[key];
+                unit.dx = unit.rawDx - meanDx;
+                unit.dy = unit.rawDy - meanDy;
+                unit.dz = unit.rawDz - meanDz;
+                applyDomainTransform(key);
+            }
+        }
+
+        function applyDomainTransform(key) {
+            const atoms = proteinModel.atoms;
+            const unit = domainUnits[key];
+            const hover = domainHoverFactor[key] || 0;
+            const scale = 1 + hover * 0.05;
+            const cx = unit.centroid.x;
+            const cy = unit.centroid.y;
+            const cz = unit.centroid.z;
+            const dx = unit.dx || 0;
+            const dy = unit.dy || 0;
+            const dz = unit.dz || 0;
+
+            for (let i = 0; i < unit.atomIndices.length; i++) {
+                const idx = unit.atomIndices[i];
+                const c = initialCoords[idx];
+
+                atoms[idx].x = cx + (c.x - cx) * scale + dx;
+                atoms[idx].y = cy + (c.y - cy) * scale + dy;
+                atoms[idx].z = cz + (c.z - cz) * scale + dz;
+            }
+        }
+
+        function updateHoverHulls() {
+            if (!proteinModel || !projectionVector || !viewer.modelGroup?.matrixWorld || !viewer.projector || !viewer.camera) return;
+
+            const wm = viewer.modelGroup.matrixWorld;
+            const W = window.innerWidth;
+            const H = window.innerHeight;
+            const p = projectionVector;
+
+            for (const key of HOVER_DOMAINS) {
+                const pts = domainHullPoints[key];
+                const idxs = domainUnits[key]?.caIndices || [];
+                if (!pts || !idxs.length) continue;
+                let sx = 0;
+                let sy = 0;
+                let pointCount = 0;
+                for (let i = 0; i < idxs.length; i += 3) {
+                    projectAtom(proteinModel.atoms[idxs[i]], wm, W, H, p);
+                    const pair = pts[pointCount] || (pts[pointCount] = [0, 0]);
+                    pair[0] = p.x;
+                    pair[1] = p.y;
+                    sx += p.x;
+                    sy += p.y;
+                    pointCount++;
+                }
+                pts.length = pointCount;
+                if (pointCount) {
+                    domainScreenAnchor[key].x = sx / pointCount;
+                    domainScreenAnchor[key].y = sy / pointCount;
+                }
+                domainHull2D[key] = pts.length >= 3 ? convexHull2D(pts) : null;
+            }
+            updateCalloutLines();
+        }
+
+        function projectAtom(atom, matrixWorld, width, height, out) {
+            out.x = atom.x;
+            out.y = atom.y;
+            out.z = atom.z;
+            out.applyMatrix4(matrixWorld);
+            viewer.projector.projectVector(out, viewer.camera);
+            out.x = (out.x + 1) * 0.5 * width;
+            out.y = (1 - out.y) * 0.5 * height;
+        }
+
+        function getHoveredDomain() {
+            if (currentView !== "about") return null;
+            if (!pointerOnPage) return null;
+            if (hoveredCalloutKey) return hoveredCalloutKey;
+            for (const key of HOVER_DOMAINS) {
+                const hull = domainHull2D[key];
+                if (hull && pointInPolygon2D(mouseX, mouseY, hull)) return key;
+            }
+            return null;
+        }
+
+        function applyHoverStyle(force = false) {
+            let maxFactor = 0;
+            for (const key of HOVER_DOMAINS) maxFactor = Math.max(maxFactor, domainHoverFactor[key]);
+            const dimStep = Math.round(maxFactor * 16);
+
+            for (const key in DOMAINS) {
+                const hoverStep = Math.round((domainHoverFactor[key] || 0) * 16);
+                const visualChanged = domainVisualFactor[key] !== hoverStep || domainVisualFactor.__dim !== dimStep;
+                if (!force && !visualChanged) {
+                    continue;
+                }
+
+                const color = domainColorRamp[key][dimStep][hoverStep];
+                if (visualChanged) {
+                    domainVisualFactor[key] = hoverStep;
+                    updateCalloutVisual(key, color, hoverStep, dimStep);
+                }
+                viewer.setStyle(
+                    { chain: "B", resi: domainResidues[key] },
+                    { cartoon: { color, opacity: 0.98, arrows: true } }
+                );
+            }
+            domainVisualFactor.__dim = dimStep;
+            updateCalloutLines();
+        }
+
+        function initializeCallouts() {
+            document.querySelectorAll(".callout-box").forEach(box => {
+                const key = box.dataset.domain;
+                calloutBoxes[key] = box;
+                box.addEventListener("mouseenter", () => {
+                    pointerOnPage = true;
+                    hoveredCalloutKey = key;
+                });
+                box.addEventListener("mouseleave", () => {
+                    if (hoveredCalloutKey === key) hoveredCalloutKey = null;
+                });
+            });
+
+            document.querySelectorAll(".callout-line").forEach(line => {
+                calloutLines[line.dataset.domain] = line;
+            });
+
+            document.querySelectorAll(".callout-node").forEach(node => {
+                calloutNodes[node.dataset.domain] = node;
+            });
+        }
+
+        function updateCalloutVisual(key, color, hoverStep, dimStep) {
+            const box = calloutBoxes[key];
+            const line = calloutLines[key];
+            const node = calloutNodes[key];
+            const active = !warmingUp && (currentHoveredKey === key || hoverStep >= 4);
+
+            if (box) {
+                const wasActive = box.dataset.active === "true";
+                box.classList.toggle("is-active", active);
+                box.style.setProperty("--callout-accent", color);
+                // Derive an RGB triplet for the accent so CSS can use it in rgba()
+                const m = color.match(/^#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i);
+                if (m) box.style.setProperty("--callout-accent-rgb", `${parseInt(m[1],16)},${parseInt(m[2],16)},${parseInt(m[3],16)}`);
+                box.dataset.active = active ? "true" : "false";
+                if (active && !wasActive) restartSpawnAnimation(box);
+            }
+
+            if (line) {
+                line.style.stroke = getConnectorColor();
+                line.style.strokeWidth = active ? "2.8" : "2";
+                line.style.opacity = active ? "1" : "0.74";
+                line.dataset.active = active ? "true" : "false";
+            }
+
+            if (node) {
+                node.style.stroke = getConnectorColor();
+                node.style.fill = "rgba(255, 255, 255, 0.94)";
+                node.style.opacity = active ? "1" : "0.74";
+                node.setAttribute("r", active ? "7" : "4");
+            }
+        }
+
+        function getConnectorColor() {
+            return "rgba(236, 234, 244, 0.68)";
+        }
+
+        function restartSpawnAnimation(el) {
+            el.classList.remove("is-spawning");
+            void el.offsetWidth;
+            el.classList.add("is-spawning");
+            window.setTimeout(() => el.classList.remove("is-spawning"), 460);
+        }
+
+        function updateCalloutLines() {
+            for (const key of HOVER_DOMAINS) {
+                const line = calloutLines[key];
+                const node = calloutNodes[key];
+                const box = calloutBoxes[key];
+                const anchor = domainScreenAnchor[key];
+                if (!line || !box || !anchor) continue;
+
+                const title = box.querySelector(".callout-title");
+                const boxRect = box.getBoundingClientRect();
+                const titleRect = title ? getTitleTextRect(title) : boxRect;
+                const onLeft = boxRect.left + boxRect.width / 2 < window.innerWidth / 2;
+                const end = getTitleConnectionPoint(titleRect, onLeft);
+                const d = getChipConnectorPath(anchor, end, onLeft);
+
+                line.setAttribute("d", d);
+                box.classList.toggle("is-over-protein", title ? titleOverlapsProtein(titleRect) : false);
+                if (node) {
+                    node.setAttribute("cx", anchor.x.toFixed(1));
+                    node.setAttribute("cy", anchor.y.toFixed(1));
+                }
+            }
+        }
+
+        function getTitleTextRect(title) {
+            const rect = title.getBoundingClientRect();
+            if (!titleMeasureContext) return rect;
+
+            const style = getComputedStyle(title);
+            titleMeasureContext.font = `${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
+            const paddingLeft = parseFloat(style.paddingLeft) || 0;
+            const paddingRight = parseFloat(style.paddingRight) || 0;
+            const textWidth = Math.min(
+                rect.width - paddingLeft - paddingRight,
+                titleMeasureContext.measureText(getTitleLabelText(title)).width
+            );
+            const isRightAligned = style.textAlign === "right" || style.textAlign === "end";
+            const textLeft = isRightAligned
+                ? rect.right - paddingRight - textWidth
+                : rect.left + paddingLeft;
+            const textRight = isRightAligned
+                ? rect.right - paddingRight
+                : textLeft + textWidth;
+
+            return {
+                left: textLeft,
+                right: textRight,
+                top: rect.top,
+                bottom: rect.bottom,
+                height: rect.height,
+                width: textWidth
+            };
+        }
+
+        function getTitleLabelText(title) {
+            const box = title.closest(".callout-box");
+            const active = box?.classList.contains("is-active");
+            const label = title.querySelector(active ? ".callout-title-active" : ".callout-title-preview");
+            return (label || title).textContent.trim();
+        }
+
+        function getTitleConnectionPoint(rect, onLeft) {
+            return {
+                x: onLeft ? rect.right + TITLE_CONNECTOR_GAP : rect.left - TITLE_CONNECTOR_GAP,
+                y: rect.top + rect.height / 2
+            };
+        }
+
+        function titleOverlapsProtein(rect) {
+            const paddedRect = {
+                left: rect.left - 6,
+                right: rect.right + 6,
+                top: rect.top - 5,
+                bottom: rect.bottom + 5
+            };
+
+            for (const key of HOVER_DOMAINS) {
+                const hull = domainHull2D[key];
+                if (!hull || !hull.length) continue;
+                if (rectIntersectsHull(paddedRect, hull)) return true;
+            }
+            return false;
+        }
+
+        function rectIntersectsHull(rect, hull) {
+            for (const pt of hull) {
+                if (pt[0] >= rect.left && pt[0] <= rect.right && pt[1] >= rect.top && pt[1] <= rect.bottom) {
+                    return true;
+                }
+            }
+
+            const rectCenter = {
+                x: (rect.left + rect.right) / 2,
+                y: (rect.top + rect.bottom) / 2
+            };
+            return pointInPolygon2D(rectCenter.x, rectCenter.y, hull);
+        }
+
+        function getChipConnectorPath(anchor, end, onLeft) {
+            // Two-segment sharp elbow: diagonal from anchor → elbow, then horizontal → text
+            const direction = onLeft ? 1 : -1;
+            const viewportFactor = clamp(window.innerWidth / 1100, 0.42, 1);
+            const elbowLen = clamp(40 * viewportFactor, 16, 40);
+            const elbow = {
+                x: end.x + direction * elbowLen,
+                y: end.y
+            };
+            return [
+                `M ${anchor.x.toFixed(1)} ${anchor.y.toFixed(1)}`,
+                `L ${elbow.x.toFixed(1)} ${elbow.y.toFixed(1)}`,
+                `L ${end.x.toFixed(1)} ${end.y.toFixed(1)}`
+            ].join(" ");
+        }
+
+        function clamp(value, min, max) {
+            return Math.max(min, Math.min(max, value));
+        }
+
+        function syncRibbonGeometry() {
+            applyHoverStyle(true);
+        }
+
+        function resetHoverState() {
+            for (const key of HOVER_DOMAINS) {
+                domainHoverFactor[key] = 0;
+                domainVisualFactor[key] = -1;
+            }
+            domainVisualFactor.__dim = -1;
+            applyRibbonBreathing(0);
+            syncRibbonGeometry();
+        }
+
+        function warmUpInteractions() {
+            warmingUp = true;
+            for (const key of HOVER_DOMAINS) {
+                for (const hoverKey of HOVER_DOMAINS) {
+                    domainHoverFactor[hoverKey] = hoverKey === key ? 1 : 0;
+                }
+                applyRibbonBreathing(0);
+                syncRibbonGeometry();
+                viewer.render();
+                updateHoverHulls();
+                updateCalloutLines();
+            }
+
+            resetHoverState();
+            warmingUp = false;
+        }
+
+        function startAnimation() {
+            const MAX_FPS = 30;
+            const MIN_FRAME_MS = 1000 / MAX_FPS;
+            const BREATH_FRAME_MS = 100;
+            let lastFrameMs = performance.now();
+            let lastBreathMs = 0;
+            let lastProjectionMs = 0;
+
+            function tick(now) {
+                requestAnimationFrame(tick);
+
+                if (document.hidden || currentView !== "about") {
+                    lastFrameMs = now;
+                    lastBreathMs = now;
+                    lastProjectionMs = now;
+                    return;
+                }
+
+                if (now - lastFrameMs < MIN_FRAME_MS - 0.5) return;
+
+                const frameDeltaMs = Math.min(64, now - lastFrameMs);
+                lastFrameMs = now;
+                const elapsedSec = (now - animT0) * 0.001;
+
+                const rotX = Math.sin(elapsedSec * 0.3) * 3.2;
+                const rotY = Math.cos(elapsedSec * 0.25) * 3.2;
+                viewer.rotate(rotX - lastRotX, "x");
+                viewer.rotate(rotY - lastRotY, "y");
+                lastRotX = rotX;
+                lastRotY = rotY;
+
+                if (now - lastProjectionMs >= 90) {
+                    lastProjectionMs = now;
+                    updateHoverHulls();
+                }
+
+                currentHoveredKey = getHoveredDomain();
+
+                let hoverChanging = false;
+                const transformKeys = [];
+
+                for (const key of HOVER_DOMAINS) {
+                    const target = currentHoveredKey === key ? 1 : 0;
+                    const prev = domainHoverFactor[key];
+                    const easingBase = target > prev ? 0.45 : 0.86;
+                    const hoverLerp = 1 - Math.pow(easingBase, frameDeltaMs / 16.67);
+                    domainHoverFactor[key] += (target - prev) * hoverLerp;
+                    if (Math.abs(target - domainHoverFactor[key]) < 0.012) domainHoverFactor[key] = target;
+                    if (Math.abs(domainHoverFactor[key] - prev) > 0.001) {
+                        hoverChanging = true;
+                        transformKeys.push(key);
+                    }
+                }
+
+                if (hoverChanging) applyHoverStyle(false);
+
+                if (now - lastBreathMs >= BREATH_FRAME_MS) {
+                    lastBreathMs = now;
+                    applyRibbonBreathing(elapsedSec);
+                    syncRibbonGeometry();
+                } else if (hoverChanging) {
+                    for (const key of transformKeys) applyDomainTransform(key);
+                }
+
+                viewer.render();
+            }
+
+            tick(performance.now());
+        }
+
+        function convexHull2D(pts) {
+            const n = pts.length;
+            let lo = 0;
+            for (let i = 1; i < n; i++) if (pts[i][0] < pts[lo][0]) lo = i;
+
+            const hull = [];
+            let cur = lo;
+            do {
+                hull.push(pts[cur]);
+                let nxt = (cur + 1) % n;
+                for (let i = 0; i < n; i++) {
+                    const cross = (pts[nxt][0] - pts[cur][0]) * (pts[i][1] - pts[cur][1])
+                        - (pts[nxt][1] - pts[cur][1]) * (pts[i][0] - pts[cur][0]);
+                    if (cross < 0) nxt = i;
+                }
+                cur = nxt;
+            } while (cur !== lo && hull.length <= n);
+            return hull;
+        }
+
+        function pointInPolygon2D(px, py, poly) {
+            let inside = false;
+            for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) {
+                const xi = poly[i][0], yi = poly[i][1];
+                const xj = poly[j][0], yj = poly[j][1];
+                if (((yi > py) !== (yj > py)) && (px < (xj - xi) * (py - yi) / (yj - yi) + xi)) {
+                    inside = !inside;
+                }
+            }
+            return inside;
+        }
+
+        function filterRibbonAtoms(pdb) {
+            return pdb.split("\n").filter(line => {
+                if (line.startsWith("ATOM") || line.startsWith("HETATM")) {
+                    const ch = line.substring(21, 22).trim();
+                    const atom = line.substring(12, 16).trim();
+                    return ch === "B" && (atom === "N" || atom === "CA" || atom === "C" || atom === "O" || atom === "OXT");
+                }
+                if (line.startsWith("TER")) return line.substring(21, 22).trim() === "B";
+                return line.startsWith("END");
+            }).join("\n");
+        }
+
+        function darkenHex(hex, factor) {
+            const r = Math.floor(parseInt(hex.slice(1, 3), 16) * factor);
+            const g = Math.floor(parseInt(hex.slice(3, 5), 16) * factor);
+            const b = Math.floor(parseInt(hex.slice(5, 7), 16) * factor);
+            return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+        }
+
+        function lightenHex(hex, factor) {
+            const r = Math.min(255, Math.floor(parseInt(hex.slice(1, 3), 16) * factor));
+            const g = Math.min(255, Math.floor(parseInt(hex.slice(3, 5), 16) * factor));
+            const b = Math.min(255, Math.floor(parseInt(hex.slice(5, 7), 16) * factor));
+            return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+        }
+
+        function lerpColor(hex1, hex2, t) {
+            const r1 = parseInt(hex1.slice(1, 3), 16);
+            const g1 = parseInt(hex1.slice(3, 5), 16);
+            const b1 = parseInt(hex1.slice(5, 7), 16);
+            const r2 = parseInt(hex2.slice(1, 3), 16);
+            const g2 = parseInt(hex2.slice(3, 5), 16);
+            const b2 = parseInt(hex2.slice(5, 7), 16);
+            const r = Math.round(r1 + (r2 - r1) * t);
+            const g = Math.round(g1 + (g2 - g1) * t);
+            const b = Math.round(b1 + (b2 - b1) * t);
+            return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+        }
+
+        function showLoader(show, text = "") {
+            const loader = document.getElementById("canvas-loader");
+            const status = document.getElementById("loader-status");
+            if (show) {
+                status.innerText = text;
+                loader.style.display = "flex";
+                loader.style.opacity = "1";
+            } else {
+                loader.style.opacity = "0";
+                setTimeout(() => { loader.style.display = "none"; }, 600);
+            }
+        }
+    </script>
+</body>
+</html>
