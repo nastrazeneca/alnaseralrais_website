@@ -15,6 +15,10 @@ Naser Al-Rais (Nas) is a Cambridge genetics student and early-career researcher 
 - "What is the cost of saying no to first-generation Alzheimer's therapies?" (May 2026) — essay on NICE, lecanemab, unpaid care, and the economics of drug approvals.
 - Fellow, No Patient Left Behind (pharmaceutical innovation advocacy).
 
+## Full Content
+
+- Full essay text: /llms-full.txt
+
 ## Contact
 
 - Email: ana43@cam.ac.uk
