@@ -417,6 +417,7 @@
             justify-content: center;
             width: 100%;
             min-height: 100svh;
+            touch-action: pan-y;
             padding: clamp(108px, 15vh, 156px) clamp(28px, 8vw, 120px) clamp(82px, 12vh, 128px);
             background: var(--bg-gradient);
             opacity: var(--intro-reveal-opacity, 1);
@@ -2298,9 +2299,11 @@
                 returnFromProteinView(aboutScreen);
             }, { passive: false });
 
-            // Mobile: iOS Safari does not propagate touch-scroll through position:sticky
-            // children to the overflow:auto container. Detect swipe-down on the container
-            // itself and programmatically scroll to trigger the protein reveal.
+            // Mobile fallback: on browsers where position:sticky children block
+            // touch propagation to the overflow:auto container (iOS Safari), native
+            // scroll never fires. Only trigger a programmatic scroll when the native
+            // scroll hasn't moved scrollTop at all — leaving Android Chrome and other
+            // browsers that handle native scroll correctly completely unaffected.
             let fwdTouchStartY = null;
             aboutScreen.addEventListener("touchstart", e => {
                 if (e.target.closest(".callout-box")) return;
@@ -2308,6 +2311,8 @@
             }, { passive: true });
             aboutScreen.addEventListener("touchmove", e => {
                 if (aboutScreen.classList.contains("at-protein") || fwdTouchStartY === null) return;
+                // If native scroll is already working, don't interfere
+                if (aboutScreen.scrollTop > 0) { fwdTouchStartY = null; return; }
                 const touchY = e.touches?.[0]?.clientY ?? fwdTouchStartY;
                 // Positive delta = finger moved downward = user is swiping down
                 if (touchY - fwdTouchStartY < 40) return;
