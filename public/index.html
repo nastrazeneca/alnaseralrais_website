@@ -2299,31 +2299,37 @@
                 returnFromProteinView(aboutScreen);
             }, { passive: false });
 
-            // Mobile fallback: on browsers where position:sticky children block
-            // touch propagation to the overflow:auto container (iOS Safari), native
-            // scroll never fires. Only trigger a programmatic scroll when the native
-            // scroll hasn't moved scrollTop at all — leaving Android Chrome and other
-            // browsers that handle native scroll correctly completely unaffected.
+            // Mobile: the sticky intro-panel fills 100svh, so touching it does not
+            // reliably propagate as a native scroll gesture to #about-screen on any
+            // mobile browser. Take direct control: prevent default on touchmove and
+            // drive scrollTop manually so scheduleIntroReveal runs as normal.
             let fwdTouchStartY = null;
-            aboutScreen.addEventListener("touchstart", e => {
+            let fwdTouchStartScrollTop = 0;
+            const introPanel = aboutScreen.querySelector(".intro-panel");
+            introPanel.addEventListener("touchstart", e => {
                 if (e.target.closest(".callout-box")) return;
-                fwdTouchStartY = e.touches?.[0]?.clientY ?? null;
+                fwdTouchStartY = e.touches[0].clientY;
+                fwdTouchStartScrollTop = aboutScreen.scrollTop;
             }, { passive: true });
-            aboutScreen.addEventListener("touchmove", e => {
-                if (aboutScreen.classList.contains("at-protein") || fwdTouchStartY === null) return;
-                // If native scroll is already working, don't interfere
-                if (aboutScreen.scrollTop > 0) { fwdTouchStartY = null; return; }
-                const touchY = e.touches?.[0]?.clientY ?? fwdTouchStartY;
-                // Positive delta = finger moved downward = user is swiping down
-                if (touchY - fwdTouchStartY < 40) return;
+            introPanel.addEventListener("touchmove", e => {
+                if (currentView !== "about" || aboutScreen.classList.contains("at-protein") || fwdTouchStartY === null) return;
+                e.preventDefault();
+                // Finger moves up → scrollTop increases → protein reveals
+                const deltaY = fwdTouchStartY - e.touches[0].clientY;
+                aboutScreen.scrollTop = Math.max(0, fwdTouchStartScrollTop + deltaY);
+            }, { passive: false });
+            introPanel.addEventListener("touchend", () => {
+                if (fwdTouchStartY === null) return;
                 fwdTouchStartY = null;
+                // Snap: commit to full reveal or return to top
                 const maxScroll = aboutScreen.scrollHeight - aboutScreen.clientHeight;
-                if (maxScroll > 0) {
+                if (maxScroll <= 0) return;
+                const pct = aboutScreen.scrollTop / maxScroll;
+                if (pct > 0.15) {
                     aboutScreen.scrollTo({ top: maxScroll, behavior: "smooth" });
+                } else if (pct > 0) {
+                    aboutScreen.scrollTo({ top: 0, behavior: "smooth" });
                 }
-            }, { passive: true });
-            aboutScreen.addEventListener("touchend", () => {
-                fwdTouchStartY = null;
             }, { passive: true });
         }
 
