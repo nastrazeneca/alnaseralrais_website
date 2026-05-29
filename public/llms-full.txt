@@ -1,0 +1,43 @@
+# Naser Al-Rais — Full Content
+
+> Final-year undergraduate at the University of Cambridge (BA Genetics) researching how brain ageing and cognitive decline can be reversed.
+
+Naser Al-Rais (Nas) is a Cambridge genetics student and early-career researcher focused on the molecular biology of ageing, neurodegeneration, and epigenetic rejuvenation. His work spans wet-lab biophysics, computational biology, and science policy.
+
+For a structured summary, see /llms.txt.
+
+---
+
+## Essay: What is the cost of saying no to first-generation Alzheimer's therapies?
+
+**By Naser Al-Rais | May 3rd, 2026**
+
+In January, appeal panels reviewing a major NHS Alzheimer's Disease (AD) drug rejection found that NICE had unreasonably underestimated the burden that AD places on the family members who give up their jobs, their savings, and sometimes their own health to care for someone with the disease.
+
+The decision in question was the rejection of lecanemab and donanemab. As reported in June 2025, these are the first two medicines ever shown to slow AD, by 4 to 6 months. Far from a cure, but enough to delay the transition from mild to moderate dementia, resulting in more time driving, recognising faces, and simply being present. The headline was blunt when it said these drugs were a poor use of taxpayers' money. 7 months later, its appeal process conceded that the case hadn't been properly heard.
+
+Britain's approach to valuing AD shuts out 70,000 patients, signalling to the potential investors behind tomorrow's cures that the R&D isn't worth the risk.
+
+To be clear, NICE is not the villain. They ran 3 full appraisals of both drugs, and acknowledged the "disappointing" result. They're not looking to say no, but they're constrained by a system that undervalues medicines.
+
+To decide whether a drug is worth funding, NICE calculates a cost per quality-adjusted life year. But this measure only asks about the patient in the clinic. It doesn't ask about the daughter who quit her job to become a full-time carer, or the family home sold to fund care facilities. When you slow AD by even a few months, you delay when families are forced to reorganise their life around the care of their loved one, not a small burden. In fact, dementia costs the UK economy around £21bn/year in unpaid care alone, which is roughly the entire annual budget of several NHS trusts combined.
+
+The appeal panels saw this, and found that the questionnaire, EQ-5D, grossly underestimated the impact of dementia on unpaid carers, and that NICE had been given inadequate opportunity to scrutinise NHS England's own infusion cost estimates before the final decision was made.
+
+This matters because affordability is a valuation problem, beyond manufacturing or chemistry.
+
+At zero hours of carer time counted — NICE's assumption — lecanemab falls short of approval. At only 9 hours of care a week, it becomes cost-effective enough for approval. At 20 hours per week, typical for a family member supporting a relative with mild AD, the counted value is well above the approval threshold. At 40 hours — the average care burden for a person with moderate dementia according to Alzheimer's Society data — the counted value is nearly £210,000 per QALY. It is this value that NICE neglected.
+
+Base ICER of £80,000/QALY derived from NICE EAG methodology, comparable to the EAG's £67,891/QALY base case for donanemab (GID-TA11221, 2025). QALY gain of 0.17 from Atkins et al. (2026), Alzheimer's & Dementia. Carer wage fixed at UK minimum wage (£11.44/hr, 2024). The 40 hrs/week upper bound reflects Alzheimer's Society estimates of informal care burden at the mild-to-moderate transition stage — the point lecanemab is designed to delay. NICE threshold band reflects the April 2026 upward revision to £25–35k/QALY.
+
+Meanwhile, the drugs are available, but only for customers with deep pockets. A full 18-month course can cost as much as £100,000, with no reimbursement even with private insurance. Around 70,000 people in England qualify for these treatments. How many of those 70,000 can write a 6-figure check?
+
+Societal value is what a medicine is actually worth when you count patients, carers, and future generations who will take the generic. Only around 10% of healthcare costs go toward drugs; most of the rest is composed of doctors' appointments, procedures, and hospital stays. This relatively small fraction is an investment into future generic drugs that will reduce spending on hospitals and services. Once patents on medicines expire, cheap copies flood the market, often cutting prices by 90%. The implication for AD is that hospitals and nursing homes don't go generic — their costs only rise. A drug that delays the transition to full-time care, even by months, is in the most literal sense buying society a cheaper future.
+
+All countries outside the US contribute a large fraction of patients to global clinical trials, and roughly half of the profits necessary to meet drug companies' return on investments, ultimately allowing America to enjoy lower drug prices than if it were the only country on Earth. This arrangement works because other countries, although paying less than the US, are still paying something. Unfortunately, many wealthy countries — including the UK, France, Germany, and Japan — underpay for innovative medicines by as much as 60% below fair market value when adjusted for income.
+
+By blocking access to the drug after failed negotiations, the UK effectively waits out the patent period, knowing that generics will eventually arrive, while other countries pay a disproportionate price. The UK hence declines to participate in the pharmaceutical innovation market altogether, and alienates the internationally-funded R&D that produced lecanemab and donanemab. A UK population absent from NPV calculations makes fewer drugs appear as viable investments, which weakens the economics that fund the next generation of drugs across all disease areas.
+
+There are currently 138 dementia medicines being tested in clinical trials around the world. As NICE runs its fourth appraisal, the scientists, companies, and investors of these 138 drugs — and most importantly the patients — will be watching carefully.
+
+*Naser Al-Rais is an undergraduate at the University of Cambridge, with research experience in neurodegeneration at Cambridge and Harvard Medical School. This piece was inspired by his fellowship with No Patient Left Behind. With thanks to Harrison Bergeron, Elena Solopova and Peter Kolchinsky for their support and guidance.*

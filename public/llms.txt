@@ -1,0 +1,27 @@
+# Naser Al-Rais
+
+> Final-year undergraduate at the University of Cambridge (BA Genetics) researching how brain ageing and cognitive decline can be reversed.
+
+Naser Al-Rais (Nas) is a Cambridge genetics student and early-career researcher focused on the molecular biology of ageing, neurodegeneration, and epigenetic rejuvenation. His work spans wet-lab biophysics, computational biology, and science policy.
+
+## Research
+
+- **Church Lab, Wyss Institute / Harvard Medical School** (Jun–Sep 2026): Rejuvenating dopaminergic neurons as a therapeutic strategy for Parkinson's disease via partial reprogramming — resetting the epigenome to a youthful state using transcription factors.
+- **Knowles Lab, University of Cambridge** (Oct 2025–Apr 2026): Research assistant investigating disordered proteins, liquid–liquid phase separation, and the effects of small molecules; built microfluidic devices in-house.
+- **Lu Lab, Harvard Medical School** (Jun–Sep 2025): Engineered a novel inducible protein aggregation model; studied toxicity and clearance of protein aggregates.
+
+## Writing & Policy
+
+- "What is the cost of saying no to first-generation Alzheimer's therapies?" (May 2026) — essay on NICE, lecanemab, unpaid care, and the economics of drug approvals.
+- Fellow, No Patient Left Behind (pharmaceutical innovation advocacy).
+
+## Full Content
+
+- Full essay text: /llms-full.txt
+
+## Contact
+
+- Email: ana43@cam.ac.uk
+- LinkedIn: alnaseralrais
+- X / Twitter: naseralrais
+- CV available at /Nas_Resume.pdf
