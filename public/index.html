@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Naser Al-Rais</title>
     <script>
         (() => {
@@ -1813,6 +1813,17 @@
         }
 
         @media (max-width: 640px) {
+            html, body {
+                overflow-x: hidden;
+                max-width: 100%;
+            }
+
+            /* Always show nav scrim on mobile so the bar is legible when scrolling */
+            body[data-view="about"]::after {
+                opacity: 1;
+                visibility: visible;
+            }
+
             #canvas-3d,
             #protein-reveal-wash,
             #callout-lines,
@@ -1834,7 +1845,7 @@
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
-                align-items: flex-start;
+                align-items: center;
                 min-height: 100svh;
                 width: 100%;
                 padding: 104px 22px 80px;
@@ -1845,13 +1856,14 @@
             .mobile-hub-link {
                 display: block;
                 font-family: 'IBM Plex Serif', Georgia, serif;
-                font-size: clamp(2rem, 9vw, 2.8rem);
+                font-size: clamp(1.5rem, 6.5vw, 2rem);
                 font-weight: 500;
                 line-height: 1.15;
                 color: var(--text-primary);
                 text-decoration: underline;
                 text-underline-offset: 8px;
                 text-decoration-thickness: 1.5px;
+                text-align: center;
                 cursor: pointer;
             }
 
@@ -1883,12 +1895,7 @@
             }
 
             .mobile-panel-section {
-                margin-bottom: 44px;
-            }
-
-            .mobile-panel-section + .mobile-panel-section {
-                padding-top: 32px;
-                border-top: 1px solid var(--vitrine-rule);
+                margin-bottom: 32px;
             }
 
             .mobile-panel-section h2 {
@@ -1902,12 +1909,12 @@
 
             .mobile-panel-subtitle {
                 font-family: var(--font-mono);
-                font-size: 0.78rem;
+                font-size: 1rem;
                 font-weight: 400;
-                letter-spacing: 0.06em;
+                letter-spacing: 0.04em;
                 color: var(--text-secondary);
-                opacity: 0.62;
-                margin: 0 0 12px;
+                opacity: 0.7;
+                margin: 0 0 10px;
             }
 
             .mobile-panel-section p {
@@ -2075,12 +2082,11 @@
     <div id="mobile-about-detail" class="mobile-panel-screen">
         <a class="mobile-panel-back" href="#" data-mobile-panel-back>&larr; Back</a>
         <div class="mobile-panel-section">
-            <h2>Hi — I'm Nas</h2>
+            <h2>Hi, I'm Nas</h2>
             <img class="profile-photo" src="assets/naser-al-rais.jpg" alt="Naser Al-Rais">
             <p>I'm a 2nd year undergraduate at the <a class="callout-link" href="https://www.cam.ac.uk" target="_blank" rel="noopener">University of Cambridge</a> studying genetics. I also enjoy computational biology and neuroscience.</p>
         </div>
         <div class="mobile-panel-section">
-            <h2>Ageing Biology</h2>
             <p>I'm interested in the molecular biology of ageing:</p>
             <ul>
                 <li>How the epigenetic landscape "ages"</li>
