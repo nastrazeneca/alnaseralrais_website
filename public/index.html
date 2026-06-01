@@ -1797,6 +1797,148 @@
         }
 
 
+        /* ── Mobile: protein-free experience ────────────────────────────── */
+        #mobile-hub {
+            display: none;
+        }
+
+        .mobile-panel-screen {
+            position: fixed;
+            inset: 0;
+            z-index: 15;
+            display: none;
+            background: var(--bg-gradient);
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        @media (max-width: 640px) {
+            #canvas-3d,
+            #protein-reveal-wash,
+            #callout-lines,
+            #callouts,
+            #canvas-loader,
+            #hover-hint {
+                display: none !important;
+            }
+
+            .protein-reveal-spacer {
+                display: none;
+            }
+
+            #about-screen.at-protein {
+                pointer-events: auto !important;
+            }
+
+            #mobile-hub {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: flex-start;
+                min-height: 100svh;
+                width: 100%;
+                padding: 104px 22px 80px;
+                gap: 20px;
+                background: var(--bg-gradient);
+            }
+
+            .mobile-hub-link {
+                display: block;
+                font-family: 'IBM Plex Serif', Georgia, serif;
+                font-size: clamp(2rem, 9vw, 2.8rem);
+                font-weight: 500;
+                line-height: 1.15;
+                color: var(--text-primary);
+                text-decoration: underline;
+                text-underline-offset: 8px;
+                text-decoration-thickness: 1.5px;
+                cursor: pointer;
+            }
+
+            body[data-mobile-panel="about"] #mobile-about-detail,
+            body[data-mobile-panel="projects"] #mobile-projects-detail {
+                display: block;
+            }
+
+            .mobile-panel-screen {
+                padding: clamp(86px, 13vh, 110px) 22px clamp(60px, 10vh, 80px);
+            }
+
+            .mobile-panel-back {
+                display: inline-flex;
+                align-items: center;
+                margin-bottom: 36px;
+                color: var(--text-secondary);
+                font-family: var(--font-mono);
+                font-size: 0.76rem;
+                font-weight: 400;
+                letter-spacing: 0.06em;
+                line-height: 1.2;
+                text-decoration: none;
+                transition: color 140ms ease;
+            }
+
+            .mobile-panel-back:hover {
+                color: var(--text-primary);
+            }
+
+            .mobile-panel-section {
+                margin-bottom: 44px;
+            }
+
+            .mobile-panel-section + .mobile-panel-section {
+                padding-top: 32px;
+                border-top: 1px solid var(--vitrine-rule);
+            }
+
+            .mobile-panel-section h2 {
+                font-family: 'IBM Plex Serif', Georgia, serif;
+                font-size: clamp(1.3rem, 5.5vw, 1.7rem);
+                font-weight: 500;
+                line-height: 1.2;
+                color: var(--text-primary);
+                margin: 0 0 8px;
+            }
+
+            .mobile-panel-subtitle {
+                font-family: var(--font-mono);
+                font-size: 0.78rem;
+                font-weight: 400;
+                letter-spacing: 0.06em;
+                color: var(--text-secondary);
+                opacity: 0.62;
+                margin: 0 0 12px;
+            }
+
+            .mobile-panel-section p {
+                font-size: 1rem;
+                line-height: 1.55;
+                color: var(--text-secondary);
+                margin: 0 0 8px;
+            }
+
+            .mobile-panel-section ul {
+                padding-left: 1.2em;
+                margin: 0;
+                color: var(--text-secondary);
+                font-size: 1rem;
+                line-height: 1.6;
+            }
+
+            .mobile-panel-section li {
+                margin-bottom: 4px;
+            }
+
+            .mobile-panel-section .profile-photo {
+                width: 80px;
+                height: 80px;
+                min-height: unset;
+                aspect-ratio: 1;
+                border-radius: 50%;
+                margin: 12px 0;
+            }
+        }
+
         /* ── Pull quotes ─────────────────────────────────────────────────── */
         .blog-pull-quote {
             display: block;
@@ -1860,6 +2002,10 @@
             </div>
         </section>
         <section class="protein-reveal-spacer" aria-hidden="true"></section>
+        <section id="mobile-hub">
+            <a class="mobile-hub-link" href="#" data-mobile-panel-link="about">About Me</a>
+            <a class="mobile-hub-link" href="#" data-mobile-panel-link="projects">Projects</a>
+        </section>
     </main>
 
     <div id="canvas-3d"></div>
@@ -1924,6 +2070,46 @@
         <div class="loader-text" id="loader-status">Loading...</div>
     </div>
     <p id="hover-hint">hover over the protein!</p>
+
+    <!-- Mobile: About Me detail screen -->
+    <div id="mobile-about-detail" class="mobile-panel-screen">
+        <a class="mobile-panel-back" href="#" data-mobile-panel-back>&larr; Back</a>
+        <div class="mobile-panel-section">
+            <h2>Hi — I'm Nas</h2>
+            <img class="profile-photo" src="assets/naser-al-rais.jpg" alt="Naser Al-Rais">
+            <p>I'm a 2nd year undergraduate at the <a class="callout-link" href="https://www.cam.ac.uk" target="_blank" rel="noopener">University of Cambridge</a> studying genetics. I also enjoy computational biology and neuroscience.</p>
+        </div>
+        <div class="mobile-panel-section">
+            <h2>Ageing Biology</h2>
+            <p>I'm interested in the molecular biology of ageing:</p>
+            <ul>
+                <li>How the epigenetic landscape "ages"</li>
+                <li>How proteostatic failure drives neurodegeneration</li>
+                <li>Whether reversing these changes can meaningfully reduce disease risk</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Mobile: Projects detail screen -->
+    <div id="mobile-projects-detail" class="mobile-panel-screen">
+        <a class="mobile-panel-back" href="#" data-mobile-panel-back>&larr; Back</a>
+        <div class="mobile-panel-section">
+            <h2>Currently: Knowles Lab, Cambridge</h2>
+            <p class="mobile-panel-subtitle">Oct 2025 – present</p>
+            <p>I am a research assistant in the <a class="callout-link" href="https://www-knowles.ch.cam.ac.uk" target="_blank" rel="noopener">Knowles Lab</a>, where I investigate disordered proteins and how small molecules tune liquid–liquid phase separation, using microfluidic devices we build in-house.</p>
+        </div>
+        <div class="mobile-panel-section">
+            <h2>Soon: Church Lab, Wyss Institute</h2>
+            <p class="mobile-panel-subtitle">Jun – Sep 2026</p>
+            <p>I'm interning with the <a class="callout-link" href="https://arep.med.harvard.edu" target="_blank" rel="noopener">Church Lab</a> to rejuvenate dopaminergic neurons as a therapeutic strategy for Parkinson's. We're using partial reprogramming via transcription factors to reset the epigenome to a more youthful, resilient state.</p>
+        </div>
+        <div class="mobile-panel-section">
+            <h2>Prev: Lu Lab, Harvard</h2>
+            <p class="mobile-panel-subtitle">Jun – Sep 2025</p>
+            <p>I interned at the <a class="callout-link" href="https://www.yinglu.hms.harvard.edu" target="_blank" rel="noopener">Lu Lab</a>, where I engineered a novel inducible protein aggregation model to study the toxicity and clearance of aggregates, complementing existing model systems in the field.</p>
+        </div>
+    </div>
+
     <main id="blog-screen" class="site-screen" aria-labelledby="blog-title">
         <section class="blog-view">
             <div class="blog-index">
@@ -2135,6 +2321,7 @@
             initializeThemeToggle();
             initializeIcerFigures();
             initializeViewer();
+            initializeMobilePanels();
         });
 
         function clearPointerHover() {
@@ -2186,12 +2373,33 @@
             updateButton();
         }
 
+        function initializeMobilePanels() {
+            document.querySelectorAll("[data-mobile-panel-link]").forEach(link => {
+                link.addEventListener("click", e => {
+                    e.preventDefault();
+                    const panel = link.dataset.mobilePanelLink;
+                    document.body.dataset.mobilePanel = panel;
+                    const screenId = panel === "about" ? "mobile-about-detail" : "mobile-projects-detail";
+                    const screen = document.getElementById(screenId);
+                    if (screen) screen.scrollTop = 0;
+                });
+            });
+
+            document.querySelectorAll("[data-mobile-panel-back]").forEach(link => {
+                link.addEventListener("click", e => {
+                    e.preventDefault();
+                    delete document.body.dataset.mobilePanel;
+                });
+            });
+        }
+
         function initializeViewer() {
             initializeCallouts();
             initializeNavLinks();
             initializeNavScrim();
             initializeIntroScroll();
             setView(getInitialView(), false);
+            if (window.innerWidth <= 640) return;
             viewer = $3Dmol.createViewer(document.getElementById("canvas-3d"), {
                 defaultcolors: $3Dmol.rasmolElementColors
             });
