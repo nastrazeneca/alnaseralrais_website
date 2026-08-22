@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Naser Al-Rais is a Cambridge genetics undergraduate studying ageing, neurodegeneration, and cellular reprogramming.">
+    <link rel="icon" href="data:,">
+    <title>Naser Al-Rais</title>
+    <style>
+        :root {
+            color-scheme: light;
+            --background: oklch(98.5% 0 0);
+            --text: oklch(25% 0.012 255);
+            --muted: oklch(48% 0.012 255);
+            --line: oklch(87% 0.008 255);
+            --link: oklch(48% 0.14 251);
+            --link-hover: oklch(36% 0.16 251);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 16px;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        body {
+            margin: 0;
+            background: var(--background);
+            color: var(--text);
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 1rem;
+            line-height: 1.62;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            color: var(--link);
+            text-decoration-thickness: 1px;
+            text-underline-offset: 0.16em;
+        }
+
+        a:hover {
+            color: var(--link-hover);
+        }
+
+        a:focus-visible {
+            outline: 2px solid var(--link);
+            outline-offset: 3px;
+        }
+
+        .page {
+            width: min(100% - 2.5rem, 52rem);
+            margin-inline: auto;
+            padding-block: clamp(2.25rem, 7vw, 5.5rem) 3rem;
+        }
+
+        .site-header {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 1.5rem;
+            width: min(100%, 46.6rem);
+            margin-inline: auto;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .site-name {
+            color: var(--text);
+            font-size: 0.95rem;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.35rem 1.15rem;
+            font-size: 0.9rem;
+        }
+
+        .nav a {
+            color: var(--muted);
+            text-decoration: none;
+        }
+
+        .nav a:hover {
+            color: var(--text);
+            text-decoration: underline;
+            text-underline-offset: 0.2em;
+        }
+
+        main {
+            width: min(100%, 46.6rem);
+            margin-inline: auto;
+            padding-top: clamp(2.5rem, 7vw, 4.75rem);
+        }
+
+        .bio.prose {
+            display: grid;
+            grid-template-columns: 14rem minmax(0, 1fr);
+            align-items: start;
+            gap: clamp(1.75rem, 5vw, 3.6rem);
+            width: min(100%, 43rem);
+            margin-inline: auto;
+            max-width: none;
+        }
+
+        .portrait {
+            display: block;
+            width: 14rem;
+            aspect-ratio: 4 / 5;
+            object-fit: cover;
+            object-position: center top;
+            filter: saturate(0.88);
+        }
+
+        .prose {
+            max-width: 63ch;
+        }
+
+        .prose p {
+            margin: 0 0 1.15rem;
+            text-wrap: pretty;
+        }
+
+        .prose p:last-child {
+            margin-bottom: 0;
+        }
+
+        .more-about-link {
+            display: inline-block;
+            margin-top: 1.15rem;
+            color: var(--text);
+            font: inherit;
+            font-weight: 700;
+            text-decoration: underline;
+            text-decoration-thickness: 1px;
+            text-underline-offset: 0.16em;
+        }
+
+        .more-about-link:hover {
+            color: var(--link);
+        }
+
+        @media (max-width: 40rem) {
+            .page {
+                width: min(100% - 2rem, 34rem);
+                padding-top: 1.5rem;
+            }
+
+            .site-header {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 0.55rem;
+            }
+
+            main {
+                padding-top: 2.5rem;
+            }
+
+            .bio {
+                grid-template-columns: 9rem minmax(0, 1fr);
+                gap: 1.2rem;
+            }
+
+            .portrait {
+                width: 9rem;
+            }
+
+        }
+
+        @media (max-width: 34rem) {
+            .bio {
+                display: block;
+            }
+
+            .portrait {
+                width: 11rem;
+                margin: 0 0 1.5rem;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <header class="site-header">
+            <a class="site-name" href="test.html" aria-current="page">Naser Al-Rais</a>
+            <nav class="nav" aria-label="Primary navigation">
+                <a href="mailto:ana43@cam.ac.uk">Email</a>
+                <a href="https://linkedin.com/in/alnaseralrais" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            </nav>
+        </header>
+
+        <main>
+            <div class="bio prose">
+                <img class="portrait" src="assets/naser-al-rais.jpg" alt="Naser Al-Rais">
+
+                <div class="bio-copy">
+                    <p>I'm a final-year Genetics undergraduate at the <a href="https://www.cam.ac.uk" target="_blank" rel="noopener noreferrer">University of Cambridge</a>. I'm currently in the <a href="https://arep.med.harvard.edu" target="_blank" rel="noopener noreferrer">Church Lab</a> making gene therapies for neurodegenerative diseases such as Parkinson's and ALD.</p>
+
+                    <p>I've done research in protein misfolding and neurodegeneration in the <a href="https://www-knowles.ch.cam.ac.uk" target="_blank" rel="noopener noreferrer">Knowles Lab</a> at Cambridge, and the <a href="https://www.yinglu.hms.harvard.edu" target="_blank" rel="noopener noreferrer">Lu Lab</a> at Harvard.</p>
+
+                    <p>I want to make the first disease-modifying therapeutics for neurodegenerative diseases.</p>
+
+                    <a class="more-about-link" href="more-about.html">More About Me</a>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
