@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="More about Naser Al-Rais.">
+    <link rel="icon" href="data:,">
+    <title>More About Me — Naser Al-Rais</title>
+    <style>
+        :root {
+            color-scheme: light;
+            --background: oklch(98.5% 0 0);
+            --text: oklch(25% 0.012 255);
+            --muted: oklch(48% 0.012 255);
+            --line: oklch(87% 0.008 255);
+            --link: oklch(48% 0.14 251);
+            --link-hover: oklch(36% 0.16 251);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 16px;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        body {
+            margin: 0;
+            background: var(--background);
+            color: var(--text);
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 1rem;
+            line-height: 1.62;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            color: var(--link);
+            text-decoration-thickness: 1px;
+            text-underline-offset: 0.16em;
+        }
+
+        a:hover {
+            color: var(--link-hover);
+        }
+
+        a:focus-visible {
+            outline: 2px solid var(--link);
+            outline-offset: 3px;
+        }
+
+        .page {
+            width: min(100% - 2.5rem, 52rem);
+            margin-inline: auto;
+            padding-block: clamp(2.25rem, 7vw, 5.5rem) 3rem;
+        }
+
+        .site-header {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 1.5rem;
+            width: min(100%, 46.6rem);
+            margin-inline: auto;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .site-name {
+            color: var(--text);
+            font-size: 0.95rem;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.35rem 1.15rem;
+            font-size: 0.9rem;
+        }
+
+        .nav a {
+            color: var(--muted);
+            text-decoration: none;
+        }
+
+        .nav a:hover {
+            color: var(--text);
+            text-decoration: underline;
+            text-underline-offset: 0.2em;
+        }
+
+        main {
+            width: min(100%, 43rem);
+            margin-inline: auto;
+            padding-top: clamp(2.5rem, 7vw, 4.75rem);
+        }
+
+        .prose {
+            max-width: 63ch;
+        }
+
+        .prose p {
+            margin: 0 0 1.15rem;
+            text-wrap: pretty;
+        }
+
+        .prose p:last-child {
+            margin-bottom: 0;
+        }
+
+        @media (max-width: 40rem) {
+            .page {
+                width: min(100% - 2rem, 34rem);
+                padding-top: 1.5rem;
+            }
+
+            .site-header {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 0.55rem;
+            }
+
+            main {
+                padding-top: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <header class="site-header">
+            <a class="site-name" href="test.html">Naser Al-Rais</a>
+            <nav class="nav" aria-label="Primary navigation">
+                <a href="mailto:ana43@cam.ac.uk">Email</a>
+                <a href="https://linkedin.com/in/alnaseralrais" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            </nav>
+        </header>
+
+        <main class="prose">
+            <p>I was born in Baghdad, Iraq, and soon evacuated by the Red Cross to Sweden. When I was 9, my family moved again to the UK. I wanted to be stronger so I pursued lifting obsessively and made it to nationals coaching myself. Around this time, I started to love biology. A close call with my mother’s cancer made me appreciate how transformative cures can be, and I felt compelled to start finding therapeutics in the world’s largest unmet therapeutic need, neurodegeneration.</p>
+
+            <p>Cambridge gave me incredible access and the opportunity to speak with leaders in the field. These conversations led to me doing research making inducible protein aggregation models (i.e. “Parkinson’s in a dish”) at Harvard, and using protein aggregation for drug delivery depots in the Knowles Lab at Cambridge.</p>
+
+            <p>At 19, I was disappointed that we haven’t succeeded in making any disease-modifying therapeutics for Parkinson’s, Alzheimer’s, ALS and other neurodegenerative diseases, and wanted to try it myself. I raised $15k from angels and foundations to spend 3 months in George Church’s Lab working on gene therapies for Parkinson’s and adrenoleukodystrophy.</p>
+
+            <p>It’s clear in retrospect that biology is and has been the perfect venture for me to take on. It’s been a space for me to get away from challenges in my personal life, has taken me across the world, and has no conceivable ceiling for success.</p>
+
+            <p>I want to believe the information to create the first disease-modifying therapeutic for Parkinson’s, Alzheimer’s, ALS and other neurodegenerative diseases is already out there, and I’m spending my next few years trying to find it. Currently, I’m interested in learning as much as possible as fast as possible, and am thinking hard about what that means for my next steps.</p>
+        </main>
+    </div>
+</body>
+</html>
